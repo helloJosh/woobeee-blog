@@ -25,4 +25,9 @@ public class PostCategory {
     private void postConstruct() {
         createdAt = LocalDateTime.now();
     }
+
+    public PostCategory(Post post, Category category) {
+        this.post = post;
+        this.category = category;
+    }
 }

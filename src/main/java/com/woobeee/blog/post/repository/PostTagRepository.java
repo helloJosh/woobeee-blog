@@ -8,5 +8,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
  *
  * @author 김병우
  */
-public interface PostTagRepository extends JpaRepository<Long, PostTag> {
+public interface PostTagRepository extends JpaRepository<PostTag, Long> {
 }

@@ -8,5 +8,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
  *
  * @author 김병우
  */
-public interface PostCategoryRepository extends JpaRepository<Long, PostCategory> {
+public interface PostCategoryRepository extends JpaRepository<PostCategory, Long> {
 }

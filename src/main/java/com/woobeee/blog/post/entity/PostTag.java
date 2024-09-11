@@ -25,4 +25,9 @@ public class PostTag {
     private void postConstruct() {
         createdAt = LocalDateTime.now();
     }
+
+    public PostTag(Post post, Tag tag) {
+        this.post = post;
+        this.tag = tag;
+    }
 }
