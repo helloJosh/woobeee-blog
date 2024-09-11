@@ -1,6 +1,8 @@
 package com.woobeee.blog.api.exception;
 
 import com.woobeee.blog.api.Response;
+import com.woobeee.blog.post.exception.CategoryDoesNotExistException;
+import com.woobeee.blog.post.exception.TagDoesNotExistException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -33,25 +35,27 @@ public class GlobalExceptionHandler {
                 .timestamp(LocalDateTime.now())
                 .build());
     }
-//
-//    /**
-//     * 400 예외처리
-//     *
-//     * @param ex 예외
-//     * @return Response<ErrorResponse>
-//     */
-//    @ExceptionHandler(
-//            {
-//            }
-//    )
-//    @ResponseStatus(HttpStatus.BAD_REQUEST)
-//    public Response<ErrorResponse> badRequestExceptionHandler(Exception ex) {
-//        return Response.fail(400, ErrorResponse.builder()
-//                .title(ex.getMessage())
-//                .status(400)
-//                .timestamp(LocalDateTime.now())
-//                .build());
-//    }
+
+    /**
+     * 400 예외처리
+     *
+     * @param ex 예외
+     * @return Response<ErrorResponse>
+     */
+    @ExceptionHandler(
+            {
+                    TagDoesNotExistException.class,
+                    CategoryDoesNotExistException.class
+            }
+    )
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public Response<ErrorResponse> badRequestExceptionHandler(Exception ex) {
+        return Response.fail(400, ErrorResponse.builder()
+                .title(ex.getMessage())
+                .status(400)
+                .timestamp(LocalDateTime.now())
+                .build());
+    }
 //
 //    /**
 //     * 401 예외처리
