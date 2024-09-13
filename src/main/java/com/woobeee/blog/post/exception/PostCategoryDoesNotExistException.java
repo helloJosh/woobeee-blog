@@ -1,7 +1,7 @@
 package com.woobeee.blog.post.exception;
 
-public class CategoryDoesNotExistException extends RuntimeException{
-    public CategoryDoesNotExistException(String message) {
+public class PostCategoryDoesNotExistException extends RuntimeException{
+    public PostCategoryDoesNotExistException(String message) {
         super(message);
     }
 }

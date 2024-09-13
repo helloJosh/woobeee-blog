@@ -6,7 +6,7 @@ import java.util.List;
 public record PostCreateRequest(
         String title,
         String context,
-        CategoryRequest category,
+        List<CategoryRequest> categories,
         List<String> tags
 ) {
 }
