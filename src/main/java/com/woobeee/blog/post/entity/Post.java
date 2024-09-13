@@ -58,22 +58,20 @@ public class Post {
     /**
      * 포스트태그 저장 메소드.
      *
-     * @param post 게시글
      * @param tag 태그
      */
-    public void addPostTag(Post post, Tag tag){
-        PostTag postTag = new PostTag(post, tag);
+    public void addPostTag(Tag tag){
+        PostTag postTag = new PostTag(this, tag);
         this.postTags.add(postTag);
     }
 
     /**
      * 포스트태그 저장 메소드.
      *
-     * @param post 게시글
      * @param category 태그
      */
-    public void addPostCategory(Post post, Category category){
-        PostCategory postCategory = new PostCategory(post, category);
+    public void addPostCategory(Category category){
+        PostCategory postCategory = new PostCategory(this, category);
         this.postCategories.add(postCategory);
     }
 

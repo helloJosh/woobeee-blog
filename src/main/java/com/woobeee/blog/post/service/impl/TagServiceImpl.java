@@ -12,6 +12,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+/**
+ * 태그 서비스 구현체.
+ *
+ * @author 김병우
+ */
 @Service
 @Transactional
 @RequiredArgsConstructor

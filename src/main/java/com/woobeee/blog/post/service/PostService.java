@@ -9,7 +9,7 @@ import com.woobeee.blog.post.dto.PostUpdateRequest;
  * @author 김병우
  */
 public interface PostService {
-    Long create(PostCreateRequest postCreateRequest);
+    void create(PostCreateRequest postCreateRequest);
     Long delete(Long postId);
     Long update(PostUpdateRequest postUpdateRequest);
     Long read(Long postId);
