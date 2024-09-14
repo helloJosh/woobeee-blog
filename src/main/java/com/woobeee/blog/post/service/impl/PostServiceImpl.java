@@ -175,4 +175,39 @@ public class PostServiceImpl implements PostService {
 
         return post;
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<Post> readCategoryPosts(Long categoryId) {
+        Category category = categoryRepository
+                .findById(categoryId)
+                .orElseThrow(()->new CategoryDoesNotExistException(categoryId + ":카테고리 아이디가 존재하지 않습니다."));
+
+        List<PostCategory> postCategories = postCategoryRepository.findAllByCategory(category);
+
+        return postRepository.findAllByPostCategories(postCategories);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<Post> readAll() {
+        return postRepository.findAll();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<Post> readTagPosts(String tagName) {
+        Tag tag = tagRepository.findTagByName(tagName)
+                .orElseThrow(()-> new TagDoesNotExistException(tagName + ": 태그 이름이 존재하지 않습니다."));
+
+        List<PostTag> postTags = postTagRepository.findPostTagsByTag(tag);
+
+        return postRepository.findAllByPostTags(postTags);
+    }
 }

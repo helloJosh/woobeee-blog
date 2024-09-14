@@ -40,10 +40,10 @@ public class TagServiceImpl implements TagService {
      * {@inheritDoc}
      */
     @Override
-    public void delete(Long tagId) {
+    public void delete(String tagName) {
         Tag tag = tagRepository
-                .findById(tagId)
-                .orElseThrow(()->new TagDoesNotExistException(tagId + ": 태그아이디가 존재하지 않습니다."));
+                .findTagByName(tagName)
+                .orElseThrow(()->new TagDoesNotExistException(tagName + ": 태그가 존재하지 않습니다."));
 
         tagRepository.delete(tag);
     }
@@ -67,9 +67,19 @@ public class TagServiceImpl implements TagService {
      * {@inheritDoc}
      */
     @Override
-    public Tag read(Long tagId) {
+    public Tag read(String tagName) {
         return tagRepository
-                .findById(tagId)
-                .orElseThrow(()->new TagDoesNotExistException(tagId + ": 태그아이디가 존재하지 않습니다."));
+                .findTagByName(tagName)
+                .orElseThrow(()->new TagDoesNotExistException(tagName + ": 태그가 존재하지 않습니다."));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<Tag> readAll() {
+        return tagRepository.findAll();
     }
 }
+
+

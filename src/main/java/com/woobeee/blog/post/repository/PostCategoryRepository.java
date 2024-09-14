@@ -5,6 +5,7 @@ import com.woobeee.blog.post.entity.Post;
 import com.woobeee.blog.post.entity.PostCategory;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -14,4 +15,5 @@ import java.util.Optional;
  */
 public interface PostCategoryRepository extends JpaRepository<PostCategory, Long> {
     Optional<PostCategory> findPostCategoryByCategoryAndPost(Category category, Post post);
+    List<PostCategory> findAllByCategory(Category category);
 }
