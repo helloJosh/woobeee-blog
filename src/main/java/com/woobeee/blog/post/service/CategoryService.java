@@ -2,7 +2,10 @@ package com.woobeee.blog.post.service;
 
 import com.woobeee.blog.post.dto.CategoryCreateRequest;
 import com.woobeee.blog.post.dto.CategoryUpdateRequest;
+import com.woobeee.blog.post.dto.response.CategoryReadAllResponse;
 import com.woobeee.blog.post.entity.Category;
+
+import java.util.List;
 
 /**
  * 카테고리 서비스 인터페이스.
@@ -38,4 +41,12 @@ public interface CategoryService {
      * @return 카테고리
      */
     Category read(Long categoryId);
+
+
+    /**
+     * 카테고리 조회 전체 메소드.
+     *
+     * @return 카테고리
+     */
+    CategoryReadAllResponse readAll();
 }

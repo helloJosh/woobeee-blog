@@ -1,4 +1,4 @@
-package com.woobeee.blog.member.entity;
+package com.woobeee.blog.counter.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

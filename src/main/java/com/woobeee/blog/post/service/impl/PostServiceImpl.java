@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -81,6 +82,7 @@ public class PostServiceImpl implements PostService {
                 .orElseThrow(()-> new PostDoesNotExistException(postId + ": 게시글 아이디가 존재하지 않습니다."));
 
         post.setStatus(Status.NONACTIVE);
+        post.setDeletedAt(LocalDateTime.now());
         postRepository.save(post);
     }
 
@@ -152,6 +154,12 @@ public class PostServiceImpl implements PostService {
                 postTagRepository.delete(postTag);
             }
         }
+
+        post.setTitle(postUpdateRequest.title());
+        post.setContext(postUpdateRequest.context());
+        post.setUpdatedAt(LocalDateTime.now());
+
+        postRepository.save(post);
     }
 
     /**
@@ -159,8 +167,12 @@ public class PostServiceImpl implements PostService {
      */
     @Override
     public Post read(Long postId) {
-        return postRepository
+        Post post = postRepository
                 .findById(postId)
                 .orElseThrow(()-> new PostDoesNotExistException(postId + ": 게시글 아이디가 존재하지 않습니다."));
+
+        post.setCount(post.getCount() + 1);
+
+        return post;
     }
 }

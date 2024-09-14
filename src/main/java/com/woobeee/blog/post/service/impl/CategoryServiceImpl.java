@@ -3,6 +3,8 @@ package com.woobeee.blog.post.service.impl;
 import com.woobeee.blog.post.dto.CategoryCreateRequest;
 import com.woobeee.blog.post.dto.CategoryRequest;
 import com.woobeee.blog.post.dto.CategoryUpdateRequest;
+import com.woobeee.blog.post.dto.response.CategoryReadAllResponse;
+import com.woobeee.blog.post.dto.response.CategoryResponse;
 import com.woobeee.blog.post.entity.Category;
 import com.woobeee.blog.post.exception.CategoryDoesNotExistException;
 import com.woobeee.blog.post.repository.CategoryRepository;
@@ -12,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 카테고리 서비스 구현체.
@@ -80,6 +83,7 @@ public class CategoryServiceImpl implements CategoryService {
                 .orElseThrow(()->new CategoryDoesNotExistException(categoryUpdateRequest.oldCategoryName() + ":카테고리 이름이 존재하지 않습니다."));
 
         category.setName(categoryUpdateRequest.newCategoryName());
+
         categoryRepository.save(category);
     }
 
@@ -91,5 +95,33 @@ public class CategoryServiceImpl implements CategoryService {
         return categoryRepository
                 .findById(categoryId)
                 .orElseThrow(()->new CategoryDoesNotExistException(categoryId + ":카테고리 아이디가 존재하지 않습니다."));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public CategoryReadAllResponse readAll() {
+        List<Category> allCategories = categoryRepository.findCategoriesByParentIsNull();
+
+        List<CategoryResponse> rootCategories = allCategories.stream()
+                .map(this::mapToCategoryResponse)
+                .toList();
+
+        return CategoryReadAllResponse.builder()
+                .categories(rootCategories)
+                .build();
+    }
+
+    private CategoryResponse mapToCategoryResponse(Category category) {
+        List<CategoryResponse> children = category.getChildren().stream()
+                .map(this::mapToCategoryResponse)
+                .toList();
+
+        return CategoryResponse.builder()
+                .id(category.getId())
+                .name(category.getName())
+                .children(children)
+                .build();
     }
 }

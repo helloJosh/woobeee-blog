@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 
@@ -17,8 +18,9 @@ public class PostCategory {
     private Long id;
 
     private LocalDateTime createdAt;
+
+    @Setter
     private LocalDateTime updatedAt;
-    private LocalDateTime deletedAt;
 
     @ManyToOne
     private Category category;

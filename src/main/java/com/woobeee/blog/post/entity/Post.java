@@ -31,7 +31,9 @@ public class Post {
     private Long count;
 
     private LocalDateTime createdAt;
+    @Setter
     private LocalDateTime updatedAt;
+    @Setter
     private LocalDateTime deletedAt;
 
     @PostConstruct
