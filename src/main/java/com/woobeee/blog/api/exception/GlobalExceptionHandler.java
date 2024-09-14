@@ -1,6 +1,8 @@
 package com.woobeee.blog.api.exception;
 
 import com.woobeee.blog.api.Response;
+import com.woobeee.blog.post.exception.CategoryDoesNotExistException;
+import com.woobeee.blog.post.exception.TagDoesNotExistException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -42,6 +44,8 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(
             {
+                    TagDoesNotExistException.class,
+                    CategoryDoesNotExistException.class
             }
     )
     @ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -52,63 +56,63 @@ public class GlobalExceptionHandler {
                 .timestamp(LocalDateTime.now())
                 .build());
     }
-
-    /**
-     * 401 예외처리
-     *
-     * @param ex 예외
-     * @return Response<ErrorResponse>
-     */
-    @ExceptionHandler(
-            {
-            }
-    )
-    @ResponseStatus(HttpStatus.UNAUTHORIZED)
-    public Response<ErrorResponse> unauthorizedExceptionHandler(Exception ex) {
-        return Response.fail(401, ErrorResponse.builder()
-                .title(ex.getMessage())
-                .status(401)
-                .timestamp(LocalDateTime.now())
-                .build());
-    }
-
-
-    /**
-     * 404 예외처리
-     *
-     * @param ex 예외
-     * @return Response<ErrorResponse>
-     */
-    @ExceptionHandler(
-            {
-            }
-    )
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    public Response<ErrorResponse> notFoundExceptionHandler(Exception ex) {
-        return Response.fail(404, ErrorResponse.builder()
-                .title(ex.getMessage())
-                .status(404)
-                .timestamp(LocalDateTime.now())
-                .build());
-    }
-
-
-    /**
-     * 409 예외처리
-     *
-     * @param ex 예외
-     * @return Response<ErrorResponse>
-     */
-    @ExceptionHandler(
-            {
-            }
-    )
-    @ResponseStatus(HttpStatus.CONFLICT)
-    public Response<ErrorResponse> conflictExceptionHandler(Exception ex) {
-        return Response.fail(409, ErrorResponse.builder()
-                .title(ex.getMessage())
-                .status(409)
-                .timestamp(LocalDateTime.now())
-                .build());
-    }
+//
+//    /**
+//     * 401 예외처리
+//     *
+//     * @param ex 예외
+//     * @return Response<ErrorResponse>
+//     */
+//    @ExceptionHandler(
+//            {
+//            }
+//    )
+//    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+//    public Response<ErrorResponse> unauthorizedExceptionHandler(Exception ex) {
+//        return Response.fail(401, ErrorResponse.builder()
+//                .title(ex.getMessage())
+//                .status(401)
+//                .timestamp(LocalDateTime.now())
+//                .build());
+//    }
+//
+//
+//    /**
+//     * 404 예외처리
+//     *
+//     * @param ex 예외
+//     * @return Response<ErrorResponse>
+//     */
+//    @ExceptionHandler(
+//            {
+//            }
+//    )
+//    @ResponseStatus(HttpStatus.NOT_FOUND)
+//    public Response<ErrorResponse> notFoundExceptionHandler(Exception ex) {
+//        return Response.fail(404, ErrorResponse.builder()
+//                .title(ex.getMessage())
+//                .status(404)
+//                .timestamp(LocalDateTime.now())
+//                .build());
+//    }
+//
+//
+//    /**
+//     * 409 예외처리
+//     *
+//     * @param ex 예외
+//     * @return Response<ErrorResponse>
+//     */
+//    @ExceptionHandler(
+//            {
+//            }
+//    )
+//    @ResponseStatus(HttpStatus.CONFLICT)
+//    public Response<ErrorResponse> conflictExceptionHandler(Exception ex) {
+//        return Response.fail(409, ErrorResponse.builder()
+//                .title(ex.getMessage())
+//                .status(409)
+//                .timestamp(LocalDateTime.now())
+//                .build());
+//    }
 }

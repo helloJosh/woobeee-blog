@@ -1,3 +1,48 @@
 spring:
   application:
-    name: woobeee
+    name:
+      blog
+  profiles:
+    active: prod
+
+  jpa:
+    open-in-view: false
+    show-sql: true
+
+    properties:
+      hibernate:
+        format_sql: true
+        use_sql_comments: true
+        highlight_sql: true
+        auto_quote_keyword: true
+
+  datasource:
+    url: jdbc:h2:mem:testdb
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: password
+    type: org.apache.commons.dbcp2.BasicDataSource
+    dbcp2:
+      initial-size: 10
+      max-total: 10
+      max-idle: 10
+      min-idle: 10
+      test-on-borrow: true
+      validation-query: SELECT 1
+    h2:
+      console:
+        enabled: true
+
+logging:
+  level:
+    org.hibernate.orm.jdbc.bind: trace
+    org.springframework.transaction.interceptor: trace
+
+server:
+  shutdown: graceful
+
+springdoc:
+  swagger-ui:
+    url: /docs/openapi-3.0.json
+    path: /docs/swagger
+
