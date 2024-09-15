@@ -1,9 +1,11 @@
 package com.woobeee.blog.post.dto;
 
 
+import jakarta.validation.constraints.NotNull;
+
 import java.util.List;
 
 public record CategoryCreateRequest(
-        List<CategoryRequest> categories
+        @NotNull List<CategoryRequest> categories
 ) {
 }

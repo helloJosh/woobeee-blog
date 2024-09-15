@@ -1,10 +1,12 @@
 package com.woobeee.blog.post.dto;
 
+import jakarta.validation.constraints.NotNull;
+
 import java.util.List;
 
 public record CategoryRequest(
-        Long id,
-        String name,
+        @NotNull Long id,
+        @NotNull String name,
         List<CategoryRequest> children
 ) {
 }
