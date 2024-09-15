@@ -4,12 +4,14 @@ import com.woobeee.blog.member.entity.enums.Auth;
 import com.woobeee.blog.post.entity.Comment;
 import com.woobeee.blog.post.entity.enums.Status;
 import jakarta.persistence.*;
+import lombok.Getter;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Getter
 public class Member {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
