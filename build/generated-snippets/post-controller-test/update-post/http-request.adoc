@@ -1,0 +1,15 @@
+[source,http,options="nowrap"]
+----
+PUT /api/v1/blog/posts/1 HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Content-Length: 129
+Host: localhost:8080
+
+{
+  "postId" : null,
+  "title" : "Updated Title",
+  "context" : "Updated context.",
+  "categoryRequest" : null,
+  "tags" : null
+}
+----

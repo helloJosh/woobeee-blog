@@ -1,0 +1,32 @@
+|===
+|Path|Type|Description
+
+|`+categories+`
+|`+Array+`
+|카테고리 목록
+
+|`+categories[].id+`
+|`+Number+`
+|상위 카테고리 아이디
+
+|`+categories[].name+`
+|`+String+`
+|상위 카테고리 이름
+
+|`+categories[].children+`
+|`+Array+`
+|자식 카테고리
+
+|`+categories[].children[].id+`
+|`+Number+`
+|자식 카테고리 아이디
+
+|`+categories[].children[].name+`
+|`+String+`
+|자식 카테고리 이름
+
+|`+categories[].children[].children+`
+|`+Array+`
+|더 하위 자식 카테고리 (없을 수 있음)
+
+|===

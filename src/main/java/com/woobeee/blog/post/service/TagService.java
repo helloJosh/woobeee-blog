@@ -1,7 +1,7 @@
 package com.woobeee.blog.post.service;
 
-import com.woobeee.blog.post.dto.TagCreateRequest;
-import com.woobeee.blog.post.dto.TagUpdateRequest;
+import com.woobeee.blog.post.dto.request.TagCreateRequest;
+import com.woobeee.blog.post.dto.request.TagUpdateRequest;
 import com.woobeee.blog.post.entity.Tag;
 
 import java.util.List;

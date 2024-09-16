@@ -1,0 +1,12 @@
+|===
+|Path|Type|Description
+
+|`+oldCategoryName+`
+|`+String+`
+|기존 카테고리 이름
+
+|`+newCategoryName+`
+|`+String+`
+|새로운 카테고리 이름
+
+|===

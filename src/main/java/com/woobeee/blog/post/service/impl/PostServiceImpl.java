@@ -1,24 +1,20 @@
 package com.woobeee.blog.post.service.impl;
 
-import com.woobeee.blog.post.dto.CategoryRequest;
-import com.woobeee.blog.post.dto.PostCreateRequest;
-import com.woobeee.blog.post.dto.PostUpdateRequest;
+import com.woobeee.blog.post.dto.request.CategoryRequest;
+import com.woobeee.blog.post.dto.request.PostCreateRequest;
+import com.woobeee.blog.post.dto.request.PostUpdateRequest;
 import com.woobeee.blog.post.entity.*;
 import com.woobeee.blog.post.entity.enums.Status;
 import com.woobeee.blog.post.exception.*;
 import com.woobeee.blog.post.repository.*;
-import com.woobeee.blog.post.service.CategoryService;
 import com.woobeee.blog.post.service.PostService;
-import com.woobeee.blog.post.service.TagService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  * 게시글 서비스 구현체.

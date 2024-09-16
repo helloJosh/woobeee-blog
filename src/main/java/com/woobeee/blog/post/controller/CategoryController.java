@@ -1,8 +1,8 @@
 package com.woobeee.blog.post.controller;
 
 import com.woobeee.blog.api.Response;
-import com.woobeee.blog.post.dto.CategoryCreateRequest;
-import com.woobeee.blog.post.dto.CategoryUpdateRequest;
+import com.woobeee.blog.post.dto.request.CategoryCreateRequest;
+import com.woobeee.blog.post.dto.request.CategoryUpdateRequest;
 import com.woobeee.blog.post.dto.response.CategoryReadAllResponse;
 import com.woobeee.blog.post.exception.CategoryCreateFromNotValidException;
 import com.woobeee.blog.post.exception.CategoryUpdateFromNotValidException;

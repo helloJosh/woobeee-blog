@@ -1,13 +1,8 @@
 package com.woobeee.blog.post.service;
 
-import com.woobeee.blog.post.dto.CategoryUpdateRequest;
-import com.woobeee.blog.post.dto.CommentCreateRequest;
-import com.woobeee.blog.post.dto.CommentUpdateRequest;
+import com.woobeee.blog.post.dto.request.CommentCreateRequest;
+import com.woobeee.blog.post.dto.request.CommentUpdateRequest;
 import com.woobeee.blog.post.dto.response.CommentReadAllResponse;
-import com.woobeee.blog.post.entity.Category;
-import com.woobeee.blog.post.entity.Comment;
-
-import java.util.List;
 
 /**
  * 댓글 서비스 인터페이스.

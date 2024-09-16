@@ -1,0 +1,57 @@
+{
+  "operationId" : "tag-controller-test/read-tags",
+  "summary" : "태그 조회 API",
+  "description" : "태그 조회 API",
+  "privateResource" : false,
+  "deprecated" : false,
+  "request" : {
+    "path" : "/api/v1/blog/tags",
+    "method" : "GET",
+    "contentType" : null,
+    "schema" : null,
+    "headers" : [ ],
+    "pathParameters" : [ ],
+    "queryParameters" : [ ],
+    "formParameters" : [ ],
+    "requestFields" : [ ],
+    "example" : null,
+    "securityRequirements" : null
+  },
+  "response" : {
+    "status" : 200,
+    "contentType" : "application/json;charset=UTF-8",
+    "schema" : null,
+    "headers" : [ ],
+    "responseFields" : [ {
+      "attributes" : { },
+      "description" : "결과 코드",
+      "ignored" : false,
+      "path" : "header.resultCode",
+      "type" : "NUMBER",
+      "optional" : false
+    }, {
+      "attributes" : { },
+      "description" : "성공 여부",
+      "ignored" : false,
+      "path" : "header.successful",
+      "type" : "BOOLEAN",
+      "optional" : false
+    }, {
+      "attributes" : { },
+      "description" : "태그 목록",
+      "ignored" : false,
+      "path" : "body.data",
+      "type" : "ARRAY",
+      "optional" : false
+    }, {
+      "attributes" : { },
+      "description" : "태그 이름",
+      "ignored" : false,
+      "path" : "body.data[]",
+      "type" : "ARRAY",
+      "optional" : false
+    } ],
+    "example" : "{\n  \"header\" : {\n    \"resultCode\" : 200,\n    \"successful\" : true\n  },\n  \"body\" : {\n    \"data\" : [ \"Java\", \"Spring\", \"JPA\" ]\n  }\n}"
+  },
+  "tags" : [ "api" ]
+}

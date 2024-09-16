@@ -31,9 +31,11 @@ public class Member {
     private LocalDateTime updatedAt;
     private LocalDateTime deletedAt;
 
+    @Builder.Default
     @OneToMany(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.ALL,  orphanRemoval = true)
     private List<Comment> comments = new ArrayList<>();
 
+    @Builder.Default
     @OneToMany(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.ALL,  orphanRemoval = true)
     private List<Like> likes = new ArrayList<>();
 

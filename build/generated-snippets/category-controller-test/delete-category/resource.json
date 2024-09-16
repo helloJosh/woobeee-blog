@@ -1,0 +1,29 @@
+{
+  "operationId" : "category-controller-test/delete-category",
+  "summary" : "카테고리 삭제 API",
+  "description" : "카테고리 삭제 API",
+  "privateResource" : false,
+  "deprecated" : false,
+  "request" : {
+    "path" : "/api/v1/blog/categories/{categoryId}",
+    "method" : "DELETE",
+    "contentType" : null,
+    "schema" : null,
+    "headers" : [ ],
+    "pathParameters" : [ ],
+    "queryParameters" : [ ],
+    "formParameters" : [ ],
+    "requestFields" : [ ],
+    "example" : null,
+    "securityRequirements" : null
+  },
+  "response" : {
+    "status" : 200,
+    "contentType" : "application/json;charset=UTF-8",
+    "schema" : null,
+    "headers" : [ ],
+    "responseFields" : [ ],
+    "example" : "{\n  \"header\" : {\n    \"resultCode\" : 204,\n    \"successful\" : true\n  }\n}"
+  },
+  "tags" : [ "api" ]
+}

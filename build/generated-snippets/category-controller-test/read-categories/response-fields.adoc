@@ -1,0 +1,40 @@
+|===
+|Path|Type|Description
+
+|`+header.resultCode+`
+|`+Number+`
+|결과 코드
+
+|`+header.successful+`
+|`+Boolean+`
+|성공 여부
+
+|`+body.data.categories+`
+|`+Array+`
+|카테고리 목록
+
+|`+body.data.categories[].id+`
+|`+Number+`
+|카테고리 아이디
+
+|`+body.data.categories[].name+`
+|`+String+`
+|카테고리 이름
+
+|`+body.data.categories[].children+`
+|`+Array+`
+|자식 카테고리
+
+|`+body.data.categories[].children[].id+`
+|`+Number+`
+|자식 카테고리 아이디
+
+|`+body.data.categories[].children[].name+`
+|`+String+`
+|자식 카테고리 이름
+
+|`+body.data.categories[].children[].children+`
+|`+Array+`
+|더 하위 자식 카테고리 (없을 수 있음)
+
+|===

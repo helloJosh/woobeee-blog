@@ -1,0 +1,9 @@
+[source,json,options="nowrap"]
+----
+{
+  "title" : "Sample Post",
+  "context" : "This is a sample post.",
+  "categories" : null,
+  "tags" : null
+}
+----

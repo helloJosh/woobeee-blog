@@ -1,0 +1,10 @@
+[source,json,options="nowrap"]
+----
+{
+  "postId" : null,
+  "title" : "Updated Title",
+  "context" : "Updated context.",
+  "categoryRequest" : null,
+  "tags" : null
+}
+----

@@ -4,17 +4,16 @@ import com.woobeee.blog.member.entity.Member;
 import com.woobeee.blog.post.entity.enums.Status;
 import jakarta.annotation.PostConstruct;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Builder
 @Getter
+@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Comment {
     @Id
@@ -42,6 +41,7 @@ public class Comment {
     @ManyToOne
     private Comment parent;
 
+    @Builder.Default
     @OneToMany(mappedBy = "parent", fetch = FetchType.LAZY, cascade = CascadeType.ALL,  orphanRemoval = true)
     private List<Comment> children = new ArrayList<>();
 

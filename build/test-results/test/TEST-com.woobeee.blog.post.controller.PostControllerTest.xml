@@ -1,0 +1,358 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.woobeee.blog.post.controller.PostControllerTest" tests="7" skipped="0" failures="2" errors="0" timestamp="2024-09-16T07:51:24" hostname="MacBook-Air.local" time="0.809">
+  <properties/>
+  <testcase name="게시글 생성" classname="com.woobeee.blog.post.controller.PostControllerTest" time="0.354">
+    <failure message="org.springframework.restdocs.snippet.SnippetException: The following parts of the payload were not documented:&#10;{&#10;  &quot;categories&quot; : null,&#10;  &quot;tags&quot; : null&#10;}" type="org.springframework.restdocs.snippet.SnippetException">org.springframework.restdocs.snippet.SnippetException: The following parts of the payload were not documented:
+{
+  &quot;categories&quot; : null,
+  &quot;tags&quot; : null
+}
+	at app//org.springframework.restdocs.payload.AbstractFieldsSnippet.validateFieldDocumentation(AbstractFieldsSnippet.java:218)
+	at app//org.springframework.restdocs.payload.AbstractFieldsSnippet.createModel(AbstractFieldsSnippet.java:160)
+	at app//org.springframework.restdocs.snippet.TemplatedSnippet.document(TemplatedSnippet.java:78)
+	at app//org.springframework.restdocs.generate.RestDocumentationGenerator.handle(RestDocumentationGenerator.java:191)
+	at app//org.springframework.restdocs.mockmvc.RestDocumentationResultHandler.handle(RestDocumentationResultHandler.java:52)
+	at app//org.springframework.test.web.servlet.MockMvc$1.andDo(MockMvc.java:219)
+	at app//com.woobeee.blog.post.controller.PostControllerTest.savePost(PostControllerTest.java:78)
+	at java.base@21.0.2/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base@21.0.2/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at java.base@21.0.2/java.util.ArrayList.forEach(ArrayList.java:1596)
+</failure>
+  </testcase>
+  <testcase name="전체 게시글 조회" classname="com.woobeee.blog.post.controller.PostControllerTest" time="0.29"/>
+  <testcase name="카테고리별 게시글 조회" classname="com.woobeee.blog.post.controller.PostControllerTest" time="0.035"/>
+  <testcase name="게시글 조회" classname="com.woobeee.blog.post.controller.PostControllerTest" time="0.034"/>
+  <testcase name="게시글 수정" classname="com.woobeee.blog.post.controller.PostControllerTest" time="0.028">
+    <failure message="org.springframework.restdocs.snippet.SnippetException: The following parts of the payload were not documented:&#10;{&#10;  &quot;postId&quot; : null,&#10;  &quot;categoryRequest&quot; : null,&#10;  &quot;tags&quot; : null&#10;}" type="org.springframework.restdocs.snippet.SnippetException">org.springframework.restdocs.snippet.SnippetException: The following parts of the payload were not documented:
+{
+  &quot;postId&quot; : null,
+  &quot;categoryRequest&quot; : null,
+  &quot;tags&quot; : null
+}
+	at app//org.springframework.restdocs.payload.AbstractFieldsSnippet.validateFieldDocumentation(AbstractFieldsSnippet.java:218)
+	at app//org.springframework.restdocs.payload.AbstractFieldsSnippet.createModel(AbstractFieldsSnippet.java:160)
+	at app//org.springframework.restdocs.snippet.TemplatedSnippet.document(TemplatedSnippet.java:78)
+	at app//org.springframework.restdocs.generate.RestDocumentationGenerator.handle(RestDocumentationGenerator.java:191)
+	at app//org.springframework.restdocs.mockmvc.RestDocumentationResultHandler.handle(RestDocumentationResultHandler.java:52)
+	at app//org.springframework.test.web.servlet.MockMvc$1.andDo(MockMvc.java:219)
+	at app//com.woobeee.blog.post.controller.PostControllerTest.updatePost(PostControllerTest.java:131)
+	at java.base@21.0.2/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base@21.0.2/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at java.base@21.0.2/java.util.ArrayList.forEach(ArrayList.java:1596)
+</failure>
+  </testcase>
+  <testcase name="게시글 삭제" classname="com.woobeee.blog.post.controller.PostControllerTest" time="0.022"/>
+  <testcase name="태그별 게시글 조회" classname="com.woobeee.blog.post.controller.PostControllerTest" time="0.039"/>
+  <system-out><![CDATA[16:51:22.502 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.woobeee.blog.post.controller.PostControllerTest]: PostControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+16:51:22.586 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.woobeee.blog.WoobeeeApplication for test class com.woobeee.blog.post.controller.PostControllerTest
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.3.2)
+
+2024-09-16T16:51:22.832+09:00  INFO 52842 --- [blog] [    Test worker] c.w.b.p.controller.PostControllerTest    : Starting PostControllerTest using Java 21.0.2 with PID 52842 (started by administrator in /Users/administrator/Documents/nhn/3runner/git-repository/woobeee)
+2024-09-16T16:51:22.833+09:00  INFO 52842 --- [blog] [    Test worker] c.w.b.p.controller.PostControllerTest    : The following 1 profile is active: "prod"
+2024-09-16T16:51:23.855+09:00  INFO 52842 --- [blog] [    Test worker] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page template: index
+2024-09-16T16:51:24.163+09:00  WARN 52842 --- [blog] [    Test worker] .s.s.UserDetailsServiceAutoConfiguration : 
+
+Using generated security password: dbed78c7-54ce-48d9-b3d5-7393232f615c
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2024-09-16T16:51:24.186+09:00  INFO 52842 --- [blog] [    Test worker] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2024-09-16T16:51:24.334+09:00  INFO 52842 --- [blog] [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2024-09-16T16:51:24.334+09:00  INFO 52842 --- [blog] [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2024-09-16T16:51:24.335+09:00  INFO 52842 --- [blog] [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2024-09-16T16:51:24.353+09:00  INFO 52842 --- [blog] [    Test worker] c.w.b.p.controller.PostControllerTest    : Started PostControllerTest in 1.727 seconds (process running for 2.408)
+2024-09-16T16:51:24.372+09:00  INFO 52842 --- [blog] [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2024-09-16T16:51:24.373+09:00  INFO 52842 --- [blog] [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2024-09-16T16:51:24.373+09:00  INFO 52842 --- [blog] [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 0 ms
+
+MockHttpServletRequest:
+      HTTP Method = POST
+      Request URI = /api/v1/blog/posts
+       Parameters = {}
+          Headers = [Content-Type:"application/json;charset=UTF-8", Content-Length:"88"]
+             Body = {"title":"Sample Post","context":"This is a sample post.","categories":null,"tags":null}
+    Session Attrs = {}
+
+Handler:
+             Type = com.woobeee.blog.post.controller.PostController
+           Method = com.woobeee.blog.post.controller.PostController#savePost(PostCreateRequest, BindingResult)
+
+Async:
+    Async started = false
+     Async result = null
+
+Resolved Exception:
+             Type = null
+
+ModelAndView:
+        View name = null
+             View = null
+            Model = null
+
+FlashMap:
+       Attributes = null
+
+MockHttpServletResponse:
+           Status = 200
+    Error message = null
+          Headers = [Content-Type:"application/json;charset=UTF-8"]
+     Content type = application/json;charset=UTF-8
+             Body = {"header":{"resultCode":200,"successful":true}}
+    Forwarded URL = null
+   Redirected URL = null
+          Cookies = []
+2024-09-16T16:51:24.718+09:00  INFO 52842 --- [blog] [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2024-09-16T16:51:24.718+09:00  INFO 52842 --- [blog] [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2024-09-16T16:51:24.718+09:00  INFO 52842 --- [blog] [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 0 ms
+
+MockHttpServletRequest:
+      HTTP Method = GET
+      Request URI = /api/v1/blog/posts
+       Parameters = {}
+          Headers = [Content-Type:"application/json;charset=UTF-8"]
+             Body = null
+    Session Attrs = {}
+
+Handler:
+             Type = com.woobeee.blog.post.controller.PostController
+           Method = com.woobeee.blog.post.controller.PostController#readAllPost()
+
+Async:
+    Async started = false
+     Async result = null
+
+Resolved Exception:
+             Type = null
+
+ModelAndView:
+        View name = null
+             View = null
+            Model = null
+
+FlashMap:
+       Attributes = null
+
+MockHttpServletResponse:
+           Status = 200
+    Error message = null
+          Headers = [Content-Type:"application/json;charset=UTF-8"]
+     Content type = application/json;charset=UTF-8
+             Body = {"header":{"resultCode":200,"successful":true},"body":{"data":[{"title":"Sample Post","context":"This is a sample post.","status":"ACTIVE","count":0,"createdAt":"2024-09-16T16:51:24.719053","updatedAt":"2024-09-16T16:51:24.71906","deletedAt":null}]}}
+    Forwarded URL = null
+   Redirected URL = null
+          Cookies = []
+2024-09-16T16:51:25.007+09:00  INFO 52842 --- [blog] [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2024-09-16T16:51:25.008+09:00  INFO 52842 --- [blog] [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2024-09-16T16:51:25.008+09:00  INFO 52842 --- [blog] [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 0 ms
+
+MockHttpServletRequest:
+      HTTP Method = GET
+      Request URI = /api/v1/blog/categories/1/posts
+       Parameters = {}
+          Headers = [Content-Type:"application/json;charset=UTF-8"]
+             Body = null
+    Session Attrs = {}
+
+Handler:
+             Type = com.woobeee.blog.post.controller.PostController
+           Method = com.woobeee.blog.post.controller.PostController#readCategoryPost(Long)
+
+Async:
+    Async started = false
+     Async result = null
+
+Resolved Exception:
+             Type = null
+
+ModelAndView:
+        View name = null
+             View = null
+            Model = null
+
+FlashMap:
+       Attributes = null
+
+MockHttpServletResponse:
+           Status = 200
+    Error message = null
+          Headers = [Content-Type:"application/json;charset=UTF-8"]
+     Content type = application/json;charset=UTF-8
+             Body = {"header":{"resultCode":200,"successful":true},"body":{"data":[{"title":"Sample Post","context":"This is a sample post.","status":"ACTIVE","count":0,"createdAt":"2024-09-16T16:51:25.009054","updatedAt":"2024-09-16T16:51:25.00906","deletedAt":null}]}}
+    Forwarded URL = null
+   Redirected URL = null
+          Cookies = []
+2024-09-16T16:51:25.043+09:00  INFO 52842 --- [blog] [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2024-09-16T16:51:25.043+09:00  INFO 52842 --- [blog] [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2024-09-16T16:51:25.044+09:00  INFO 52842 --- [blog] [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 0 ms
+
+MockHttpServletRequest:
+      HTTP Method = GET
+      Request URI = /api/v1/blog/posts/1
+       Parameters = {}
+          Headers = [Content-Type:"application/json;charset=UTF-8"]
+             Body = null
+    Session Attrs = {}
+
+Handler:
+             Type = com.woobeee.blog.post.controller.PostController
+           Method = com.woobeee.blog.post.controller.PostController#readPost(Long)
+
+Async:
+    Async started = false
+     Async result = null
+
+Resolved Exception:
+             Type = null
+
+ModelAndView:
+        View name = null
+             View = null
+            Model = null
+
+FlashMap:
+       Attributes = null
+
+MockHttpServletResponse:
+           Status = 200
+    Error message = null
+          Headers = [Content-Type:"application/json;charset=UTF-8"]
+     Content type = application/json;charset=UTF-8
+             Body = {"header":{"resultCode":200,"successful":true},"body":{"data":{"title":"Sample Post","context":"This is a sample post.","status":"ACTIVE","count":0,"createdAt":"2024-09-16T16:51:25.044805","updatedAt":"2024-09-16T16:51:25.04481","deletedAt":null}}}
+    Forwarded URL = null
+   Redirected URL = null
+          Cookies = []
+2024-09-16T16:51:25.078+09:00  INFO 52842 --- [blog] [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2024-09-16T16:51:25.079+09:00  INFO 52842 --- [blog] [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2024-09-16T16:51:25.079+09:00  INFO 52842 --- [blog] [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 0 ms
+
+MockHttpServletRequest:
+      HTTP Method = PUT
+      Request URI = /api/v1/blog/posts/1
+       Parameters = {}
+          Headers = [Content-Type:"application/json;charset=UTF-8", Content-Length:"103"]
+             Body = {"postId":null,"title":"Updated Title","context":"Updated context.","categoryRequest":null,"tags":null}
+    Session Attrs = {}
+
+Handler:
+             Type = com.woobeee.blog.post.controller.PostController
+           Method = com.woobeee.blog.post.controller.PostController#updatePost(Long, PostUpdateRequest, BindingResult)
+
+Async:
+    Async started = false
+     Async result = null
+
+Resolved Exception:
+             Type = null
+
+ModelAndView:
+        View name = null
+             View = null
+            Model = null
+
+FlashMap:
+       Attributes = null
+
+MockHttpServletResponse:
+           Status = 200
+    Error message = null
+          Headers = [Content-Type:"application/json;charset=UTF-8"]
+     Content type = application/json;charset=UTF-8
+             Body = {"header":{"resultCode":200,"successful":true}}
+    Forwarded URL = null
+   Redirected URL = null
+          Cookies = []
+2024-09-16T16:51:25.106+09:00  INFO 52842 --- [blog] [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2024-09-16T16:51:25.107+09:00  INFO 52842 --- [blog] [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2024-09-16T16:51:25.108+09:00  INFO 52842 --- [blog] [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+
+MockHttpServletRequest:
+      HTTP Method = DELETE
+      Request URI = /api/v1/blog/posts/1
+       Parameters = {}
+          Headers = []
+             Body = null
+    Session Attrs = {}
+
+Handler:
+             Type = com.woobeee.blog.post.controller.PostController
+           Method = com.woobeee.blog.post.controller.PostController#deletePost(Long)
+
+Async:
+    Async started = false
+     Async result = null
+
+Resolved Exception:
+             Type = null
+
+ModelAndView:
+        View name = null
+             View = null
+            Model = null
+
+FlashMap:
+       Attributes = null
+
+MockHttpServletResponse:
+           Status = 200
+    Error message = null
+          Headers = [Content-Type:"application/json;charset=UTF-8"]
+     Content type = application/json;charset=UTF-8
+             Body = {"header":{"resultCode":204,"successful":true}}
+    Forwarded URL = null
+   Redirected URL = null
+          Cookies = []
+2024-09-16T16:51:25.131+09:00  INFO 52842 --- [blog] [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2024-09-16T16:51:25.131+09:00  INFO 52842 --- [blog] [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2024-09-16T16:51:25.132+09:00  INFO 52842 --- [blog] [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+
+MockHttpServletRequest:
+      HTTP Method = GET
+      Request URI = /api/v1/blog/tags/Java/posts
+       Parameters = {}
+          Headers = [Content-Type:"application/json;charset=UTF-8"]
+             Body = null
+    Session Attrs = {}
+
+Handler:
+             Type = com.woobeee.blog.post.controller.PostController
+           Method = com.woobeee.blog.post.controller.PostController#readTagPost(String)
+
+Async:
+    Async started = false
+     Async result = null
+
+Resolved Exception:
+             Type = null
+
+ModelAndView:
+        View name = null
+             View = null
+            Model = null
+
+FlashMap:
+       Attributes = null
+
+MockHttpServletResponse:
+           Status = 200
+    Error message = null
+          Headers = [Content-Type:"application/json;charset=UTF-8"]
+     Content type = application/json;charset=UTF-8
+             Body = {"header":{"resultCode":200,"successful":true},"body":{"data":[{"title":"Sample Post","context":"This is a sample post.","status":"ACTIVE","count":0,"createdAt":"2024-09-16T16:51:25.132305","updatedAt":"2024-09-16T16:51:25.132397","deletedAt":null}]}}
+    Forwarded URL = null
+   Redirected URL = null
+          Cookies = []
+]]></system-out>
+  <system-err><![CDATA[WARNING: A Java agent has been loaded dynamically (/Users/administrator/.gradle/caches/modules-2/files-2.1/net.bytebuddy/byte-buddy-agent/1.14.18/417558ea01fe9f0e8a94af28b9469d281c4e3984/byte-buddy-agent-1.14.18.jar)
+WARNING: If a serviceability tool is in use, please run with -XX:+EnableDynamicAgentLoading to hide this warning
+WARNING: If a serviceability tool is not in use, please run with -Djdk.instrument.traceUsage for more information
+WARNING: Dynamic loading of agents will be disallowed by default in a future release
+]]></system-err>
+</testsuite>

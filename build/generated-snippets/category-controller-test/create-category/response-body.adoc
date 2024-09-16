@@ -1,0 +1,9 @@
+[source,json,options="nowrap"]
+----
+{
+  "header" : {
+    "resultCode" : 201,
+    "successful" : true
+  }
+}
+----
