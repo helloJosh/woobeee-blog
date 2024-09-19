@@ -3,8 +3,8 @@
 $ echo '{
   "title" : "Sample Post",
   "context" : "This is a sample post.",
-  "categories" : null,
-  "tags" : null
+  "categories" : [ ],
+  "tags" : [ ]
 }' | http POST 'http://localhost:8080/api/v1/blog/posts' \
     'Content-Type:application/json;charset=UTF-8'
 ----

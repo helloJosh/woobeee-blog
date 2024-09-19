@@ -1,9 +1,11 @@
 package com.woobeee.blog.post.controller;
 
 import com.woobeee.blog.BaseDocumentTest;
-import com.woobeee.blog.api.Response;
+import com.woobeee.blog.post.dto.request.CategoryCreateRequest;
+import com.woobeee.blog.post.dto.request.CategoryRequest;
 import com.woobeee.blog.post.dto.request.PostCreateRequest;
 import com.woobeee.blog.post.dto.request.PostUpdateRequest;
+import com.woobeee.blog.post.dto.response.CategoryReadAllResponse;
 import com.woobeee.blog.post.dto.response.PostReadResponse;
 import com.woobeee.blog.post.entity.Post;
 import com.woobeee.blog.post.entity.enums.Status;
@@ -18,6 +20,7 @@ import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 import org.springframework.restdocs.payload.JsonFieldType;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper.document;
@@ -37,12 +40,17 @@ class PostControllerTest extends BaseDocumentTest {
     private PostCreateRequest postCreateRequest;
     private PostReadResponse postReadResponse;
     private Post post;
+    private CategoryCreateRequest request;
+    private CategoryReadAllResponse response;
+    private List<String> tags;
 
     @BeforeEach
     void setUp() {
         postCreateRequest = PostCreateRequest.builder()
                 .title("Sample Post")
                 .context("This is a sample post.")
+                .categories(new ArrayList<>())
+                .tags(new ArrayList<>())
                 .build();
 
         post = Post.builder()
@@ -64,6 +72,8 @@ class PostControllerTest extends BaseDocumentTest {
                 .updatedAt(post.getUpdatedAt())
                 .deletedAt(post.getDeletedAt())
                 .build();
+
+        tags = List.of("Java", "Spring", "JPA");
     }
 
     @DisplayName("게시글 생성")
@@ -79,7 +89,9 @@ class PostControllerTest extends BaseDocumentTest {
                         "게시글 생성 API",
                         requestFields(
                                 fieldWithPath("title").type(JsonFieldType.STRING).description("게시글 제목"),
-                                fieldWithPath("context").type(JsonFieldType.STRING).description("게시글 내용")
+                                fieldWithPath("context").type(JsonFieldType.STRING).description("게시글 내용"),
+                                fieldWithPath("categories").type(JsonFieldType.ARRAY).description("게시글 카테고리"),
+                                fieldWithPath("tags").type(JsonFieldType.ARRAY).description("게시글 태그")
                         ),
                         responseFields(
                                 fieldWithPath("header.resultCode").type(JsonFieldType.NUMBER).description("결과 코드"),
@@ -118,8 +130,13 @@ class PostControllerTest extends BaseDocumentTest {
     void updatePost() throws Exception {
         Long postId = 1L;
         PostUpdateRequest postUpdateRequest = PostUpdateRequest.builder()
+                .postId(postId)
                 .title("Updated Title")
                 .context("Updated context.")
+                .categories(
+                        List.of(CategoryRequest.builder().id(1L).name("SPRING").children(null).build())
+                )
+                .tags(List.of("Java", "Spring"))
                 .build();
 
         doNothing().when(postService).update(postUpdateRequest);
@@ -131,8 +148,14 @@ class PostControllerTest extends BaseDocumentTest {
                 .andDo(document(snippetPath,
                         "게시글 수정 API",
                         requestFields(
+                                fieldWithPath("postId").type(JsonFieldType.NUMBER).description("게시글 아이디"),
                                 fieldWithPath("title").type(JsonFieldType.STRING).description("게시글 제목"),
-                                fieldWithPath("context").type(JsonFieldType.STRING).description("게시글 내용")
+                                fieldWithPath("context").type(JsonFieldType.STRING).description("게시글 내용"),
+                                fieldWithPath("categories").type(JsonFieldType.ARRAY).description("게시글 카테고리"),
+                                fieldWithPath("categories[].id").type(JsonFieldType.NUMBER).description("게시글 카테고리 아이디"),
+                                fieldWithPath("categories[].name").type(JsonFieldType.STRING).description("게시글 카테고리 이름"),
+                                fieldWithPath("categories[].children").type(JsonFieldType.NULL).description("게시글 자식 카테고리"),
+                                fieldWithPath("tags").type(JsonFieldType.ARRAY).description("게시글 태그")
                         ),
                         responseFields(
                                 fieldWithPath("header.resultCode").type(JsonFieldType.NUMBER).description("결과 코드"),

@@ -2,13 +2,13 @@
 ----
 POST /api/v1/blog/posts HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 109
+Content-Length: 107
 Host: localhost:8080
 
 {
   "title" : "Sample Post",
   "context" : "This is a sample post.",
-  "categories" : null,
-  "tags" : null
+  "categories" : [ ],
+  "tags" : [ ]
 }
 ----

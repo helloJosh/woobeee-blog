@@ -1,0 +1,36 @@
+|===
+|Path|Type|Description
+
+|`+postId+`
+|`+Number+`
+|게시글 아이디
+
+|`+title+`
+|`+String+`
+|게시글 제목
+
+|`+context+`
+|`+String+`
+|게시글 내용
+
+|`+categories+`
+|`+Array+`
+|게시글 카테고리
+
+|`+categories[].id+`
+|`+Number+`
+|게시글 카테고리 아이디
+
+|`+categories[].name+`
+|`+String+`
+|게시글 카테고리 이름
+
+|`+categories[].children+`
+|`+Null+`
+|게시글 자식 카테고리
+
+|`+tags+`
+|`+Array+`
+|게시글 태그
+
+|===

@@ -1,50 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.woobeee.blog.post.controller.PostControllerTest" tests="7" skipped="0" failures="2" errors="0" timestamp="2024-09-16T07:51:24" hostname="MacBook-Air.local" time="0.809">
+<testsuite name="com.woobeee.blog.post.controller.PostControllerTest" tests="7" skipped="0" failures="0" errors="0" timestamp="2024-09-19T14:21:55" hostname="MacBook-Air.local" time="1.037">
   <properties/>
-  <testcase name="게시글 생성" classname="com.woobeee.blog.post.controller.PostControllerTest" time="0.354">
-    <failure message="org.springframework.restdocs.snippet.SnippetException: The following parts of the payload were not documented:&#10;{&#10;  &quot;categories&quot; : null,&#10;  &quot;tags&quot; : null&#10;}" type="org.springframework.restdocs.snippet.SnippetException">org.springframework.restdocs.snippet.SnippetException: The following parts of the payload were not documented:
-{
-  &quot;categories&quot; : null,
-  &quot;tags&quot; : null
-}
-	at app//org.springframework.restdocs.payload.AbstractFieldsSnippet.validateFieldDocumentation(AbstractFieldsSnippet.java:218)
-	at app//org.springframework.restdocs.payload.AbstractFieldsSnippet.createModel(AbstractFieldsSnippet.java:160)
-	at app//org.springframework.restdocs.snippet.TemplatedSnippet.document(TemplatedSnippet.java:78)
-	at app//org.springframework.restdocs.generate.RestDocumentationGenerator.handle(RestDocumentationGenerator.java:191)
-	at app//org.springframework.restdocs.mockmvc.RestDocumentationResultHandler.handle(RestDocumentationResultHandler.java:52)
-	at app//org.springframework.test.web.servlet.MockMvc$1.andDo(MockMvc.java:219)
-	at app//com.woobeee.blog.post.controller.PostControllerTest.savePost(PostControllerTest.java:78)
-	at java.base@21.0.2/java.lang.reflect.Method.invoke(Method.java:580)
-	at java.base@21.0.2/java.util.ArrayList.forEach(ArrayList.java:1596)
-	at java.base@21.0.2/java.util.ArrayList.forEach(ArrayList.java:1596)
-</failure>
-  </testcase>
-  <testcase name="전체 게시글 조회" classname="com.woobeee.blog.post.controller.PostControllerTest" time="0.29"/>
-  <testcase name="카테고리별 게시글 조회" classname="com.woobeee.blog.post.controller.PostControllerTest" time="0.035"/>
-  <testcase name="게시글 조회" classname="com.woobeee.blog.post.controller.PostControllerTest" time="0.034"/>
-  <testcase name="게시글 수정" classname="com.woobeee.blog.post.controller.PostControllerTest" time="0.028">
-    <failure message="org.springframework.restdocs.snippet.SnippetException: The following parts of the payload were not documented:&#10;{&#10;  &quot;postId&quot; : null,&#10;  &quot;categoryRequest&quot; : null,&#10;  &quot;tags&quot; : null&#10;}" type="org.springframework.restdocs.snippet.SnippetException">org.springframework.restdocs.snippet.SnippetException: The following parts of the payload were not documented:
-{
-  &quot;postId&quot; : null,
-  &quot;categoryRequest&quot; : null,
-  &quot;tags&quot; : null
-}
-	at app//org.springframework.restdocs.payload.AbstractFieldsSnippet.validateFieldDocumentation(AbstractFieldsSnippet.java:218)
-	at app//org.springframework.restdocs.payload.AbstractFieldsSnippet.createModel(AbstractFieldsSnippet.java:160)
-	at app//org.springframework.restdocs.snippet.TemplatedSnippet.document(TemplatedSnippet.java:78)
-	at app//org.springframework.restdocs.generate.RestDocumentationGenerator.handle(RestDocumentationGenerator.java:191)
-	at app//org.springframework.restdocs.mockmvc.RestDocumentationResultHandler.handle(RestDocumentationResultHandler.java:52)
-	at app//org.springframework.test.web.servlet.MockMvc$1.andDo(MockMvc.java:219)
-	at app//com.woobeee.blog.post.controller.PostControllerTest.updatePost(PostControllerTest.java:131)
-	at java.base@21.0.2/java.lang.reflect.Method.invoke(Method.java:580)
-	at java.base@21.0.2/java.util.ArrayList.forEach(ArrayList.java:1596)
-	at java.base@21.0.2/java.util.ArrayList.forEach(ArrayList.java:1596)
-</failure>
-  </testcase>
-  <testcase name="게시글 삭제" classname="com.woobeee.blog.post.controller.PostControllerTest" time="0.022"/>
-  <testcase name="태그별 게시글 조회" classname="com.woobeee.blog.post.controller.PostControllerTest" time="0.039"/>
-  <system-out><![CDATA[16:51:22.502 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.woobeee.blog.post.controller.PostControllerTest]: PostControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-16:51:22.586 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.woobeee.blog.WoobeeeApplication for test class com.woobeee.blog.post.controller.PostControllerTest
+  <testcase name="게시글 생성" classname="com.woobeee.blog.post.controller.PostControllerTest" time="0.693"/>
+  <testcase name="전체 게시글 조회" classname="com.woobeee.blog.post.controller.PostControllerTest" time="0.177"/>
+  <testcase name="카테고리별 게시글 조회" classname="com.woobeee.blog.post.controller.PostControllerTest" time="0.029"/>
+  <testcase name="게시글 조회" classname="com.woobeee.blog.post.controller.PostControllerTest" time="0.028"/>
+  <testcase name="게시글 수정" classname="com.woobeee.blog.post.controller.PostControllerTest" time="0.05"/>
+  <testcase name="게시글 삭제" classname="com.woobeee.blog.post.controller.PostControllerTest" time="0.02"/>
+  <testcase name="태그별 게시글 조회" classname="com.woobeee.blog.post.controller.PostControllerTest" time="0.032"/>
+  <system-out><![CDATA[23:21:52.984 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.woobeee.blog.post.controller.PostControllerTest]: PostControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+23:21:53.096 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.woobeee.blog.WoobeeeApplication for test class com.woobeee.blog.post.controller.PostControllerTest
 
   .   ____          _            __ _ _
  /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
@@ -55,30 +20,30 @@
 
  :: Spring Boot ::                (v3.3.2)
 
-2024-09-16T16:51:22.832+09:00  INFO 52842 --- [blog] [    Test worker] c.w.b.p.controller.PostControllerTest    : Starting PostControllerTest using Java 21.0.2 with PID 52842 (started by administrator in /Users/administrator/Documents/nhn/3runner/git-repository/woobeee)
-2024-09-16T16:51:22.833+09:00  INFO 52842 --- [blog] [    Test worker] c.w.b.p.controller.PostControllerTest    : The following 1 profile is active: "prod"
-2024-09-16T16:51:23.855+09:00  INFO 52842 --- [blog] [    Test worker] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page template: index
-2024-09-16T16:51:24.163+09:00  WARN 52842 --- [blog] [    Test worker] .s.s.UserDetailsServiceAutoConfiguration : 
+2024-09-19T23:21:53.403+09:00  INFO 77220 --- [blog] [    Test worker] c.w.b.p.controller.PostControllerTest    : Starting PostControllerTest using Java 21.0.2 with PID 77220 (started by administrator in /Users/administrator/Documents/nhn/3runner/git-repository/woobeee)
+2024-09-19T23:21:53.404+09:00  INFO 77220 --- [blog] [    Test worker] c.w.b.p.controller.PostControllerTest    : The following 1 profile is active: "prod"
+2024-09-19T23:21:54.726+09:00  INFO 77220 --- [blog] [    Test worker] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page template: index
+2024-09-19T23:21:55.272+09:00  WARN 77220 --- [blog] [    Test worker] .s.s.UserDetailsServiceAutoConfiguration : 
 
-Using generated security password: dbed78c7-54ce-48d9-b3d5-7393232f615c
+Using generated security password: 4d48cf7c-3c87-44a4-886d-69358b1ef055
 
 This generated password is for development use only. Your security configuration must be updated before running your application in production.
 
-2024-09-16T16:51:24.186+09:00  INFO 52842 --- [blog] [    Test worker] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
-2024-09-16T16:51:24.334+09:00  INFO 52842 --- [blog] [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
-2024-09-16T16:51:24.334+09:00  INFO 52842 --- [blog] [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
-2024-09-16T16:51:24.335+09:00  INFO 52842 --- [blog] [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
-2024-09-16T16:51:24.353+09:00  INFO 52842 --- [blog] [    Test worker] c.w.b.p.controller.PostControllerTest    : Started PostControllerTest in 1.727 seconds (process running for 2.408)
-2024-09-16T16:51:24.372+09:00  INFO 52842 --- [blog] [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
-2024-09-16T16:51:24.373+09:00  INFO 52842 --- [blog] [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
-2024-09-16T16:51:24.373+09:00  INFO 52842 --- [blog] [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 0 ms
+2024-09-19T23:21:55.301+09:00  INFO 77220 --- [blog] [    Test worker] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2024-09-19T23:21:55.433+09:00  INFO 77220 --- [blog] [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2024-09-19T23:21:55.433+09:00  INFO 77220 --- [blog] [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2024-09-19T23:21:55.434+09:00  INFO 77220 --- [blog] [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2024-09-19T23:21:55.450+09:00  INFO 77220 --- [blog] [    Test worker] c.w.b.p.controller.PostControllerTest    : Started PostControllerTest in 2.299 seconds (process running for 3.171)
+2024-09-19T23:21:55.469+09:00  INFO 77220 --- [blog] [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2024-09-19T23:21:55.469+09:00  INFO 77220 --- [blog] [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2024-09-19T23:21:55.470+09:00  INFO 77220 --- [blog] [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
 
 MockHttpServletRequest:
       HTTP Method = POST
       Request URI = /api/v1/blog/posts
        Parameters = {}
-          Headers = [Content-Type:"application/json;charset=UTF-8", Content-Length:"88"]
-             Body = {"title":"Sample Post","context":"This is a sample post.","categories":null,"tags":null}
+          Headers = [Content-Type:"application/json;charset=UTF-8", Content-Length:"84"]
+             Body = {"title":"Sample Post","context":"This is a sample post.","categories":[],"tags":[]}
     Session Attrs = {}
 
 Handler:
@@ -109,9 +74,9 @@ MockHttpServletResponse:
     Forwarded URL = null
    Redirected URL = null
           Cookies = []
-2024-09-16T16:51:24.718+09:00  INFO 52842 --- [blog] [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
-2024-09-16T16:51:24.718+09:00  INFO 52842 --- [blog] [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
-2024-09-16T16:51:24.718+09:00  INFO 52842 --- [blog] [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 0 ms
+2024-09-19T23:21:56.155+09:00  INFO 77220 --- [blog] [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2024-09-19T23:21:56.156+09:00  INFO 77220 --- [blog] [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2024-09-19T23:21:56.157+09:00  INFO 77220 --- [blog] [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
 
 MockHttpServletRequest:
       HTTP Method = GET
@@ -145,13 +110,13 @@ MockHttpServletResponse:
     Error message = null
           Headers = [Content-Type:"application/json;charset=UTF-8"]
      Content type = application/json;charset=UTF-8
-             Body = {"header":{"resultCode":200,"successful":true},"body":{"data":[{"title":"Sample Post","context":"This is a sample post.","status":"ACTIVE","count":0,"createdAt":"2024-09-16T16:51:24.719053","updatedAt":"2024-09-16T16:51:24.71906","deletedAt":null}]}}
+             Body = {"header":{"resultCode":200,"successful":true},"body":{"data":[{"title":"Sample Post","context":"This is a sample post.","status":"ACTIVE","count":0,"createdAt":"2024-09-19T23:21:56.157411","updatedAt":"2024-09-19T23:21:56.157418","deletedAt":null}]}}
     Forwarded URL = null
    Redirected URL = null
           Cookies = []
-2024-09-16T16:51:25.007+09:00  INFO 52842 --- [blog] [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
-2024-09-16T16:51:25.008+09:00  INFO 52842 --- [blog] [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
-2024-09-16T16:51:25.008+09:00  INFO 52842 --- [blog] [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 0 ms
+2024-09-19T23:21:56.332+09:00  INFO 77220 --- [blog] [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2024-09-19T23:21:56.332+09:00  INFO 77220 --- [blog] [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2024-09-19T23:21:56.332+09:00  INFO 77220 --- [blog] [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 0 ms
 
 MockHttpServletRequest:
       HTTP Method = GET
@@ -185,13 +150,13 @@ MockHttpServletResponse:
     Error message = null
           Headers = [Content-Type:"application/json;charset=UTF-8"]
      Content type = application/json;charset=UTF-8
-             Body = {"header":{"resultCode":200,"successful":true},"body":{"data":[{"title":"Sample Post","context":"This is a sample post.","status":"ACTIVE","count":0,"createdAt":"2024-09-16T16:51:25.009054","updatedAt":"2024-09-16T16:51:25.00906","deletedAt":null}]}}
+             Body = {"header":{"resultCode":200,"successful":true},"body":{"data":[{"title":"Sample Post","context":"This is a sample post.","status":"ACTIVE","count":0,"createdAt":"2024-09-19T23:21:56.332886","updatedAt":"2024-09-19T23:21:56.332892","deletedAt":null}]}}
     Forwarded URL = null
    Redirected URL = null
           Cookies = []
-2024-09-16T16:51:25.043+09:00  INFO 52842 --- [blog] [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
-2024-09-16T16:51:25.043+09:00  INFO 52842 --- [blog] [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
-2024-09-16T16:51:25.044+09:00  INFO 52842 --- [blog] [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 0 ms
+2024-09-19T23:21:56.362+09:00  INFO 77220 --- [blog] [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2024-09-19T23:21:56.362+09:00  INFO 77220 --- [blog] [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2024-09-19T23:21:56.363+09:00  INFO 77220 --- [blog] [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
 
 MockHttpServletRequest:
       HTTP Method = GET
@@ -225,20 +190,20 @@ MockHttpServletResponse:
     Error message = null
           Headers = [Content-Type:"application/json;charset=UTF-8"]
      Content type = application/json;charset=UTF-8
-             Body = {"header":{"resultCode":200,"successful":true},"body":{"data":{"title":"Sample Post","context":"This is a sample post.","status":"ACTIVE","count":0,"createdAt":"2024-09-16T16:51:25.044805","updatedAt":"2024-09-16T16:51:25.04481","deletedAt":null}}}
+             Body = {"header":{"resultCode":200,"successful":true},"body":{"data":{"title":"Sample Post","context":"This is a sample post.","status":"ACTIVE","count":0,"createdAt":"2024-09-19T23:21:56.363514","updatedAt":"2024-09-19T23:21:56.363519","deletedAt":null}}}
     Forwarded URL = null
    Redirected URL = null
           Cookies = []
-2024-09-16T16:51:25.078+09:00  INFO 52842 --- [blog] [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
-2024-09-16T16:51:25.079+09:00  INFO 52842 --- [blog] [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
-2024-09-16T16:51:25.079+09:00  INFO 52842 --- [blog] [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 0 ms
+2024-09-19T23:21:56.391+09:00  INFO 77220 --- [blog] [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2024-09-19T23:21:56.392+09:00  INFO 77220 --- [blog] [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2024-09-19T23:21:56.392+09:00  INFO 77220 --- [blog] [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 0 ms
 
 MockHttpServletRequest:
       HTTP Method = PUT
       Request URI = /api/v1/blog/posts/1
        Parameters = {}
-          Headers = [Content-Type:"application/json;charset=UTF-8", Content-Length:"103"]
-             Body = {"postId":null,"title":"Updated Title","context":"Updated context.","categoryRequest":null,"tags":null}
+          Headers = [Content-Type:"application/json;charset=UTF-8", Content-Length:"146"]
+             Body = {"postId":1,"title":"Updated Title","context":"Updated context.","categories":[{"id":1,"name":"SPRING","children":null}],"tags":["Java","Spring"]}
     Session Attrs = {}
 
 Handler:
@@ -269,9 +234,9 @@ MockHttpServletResponse:
     Forwarded URL = null
    Redirected URL = null
           Cookies = []
-2024-09-16T16:51:25.106+09:00  INFO 52842 --- [blog] [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
-2024-09-16T16:51:25.107+09:00  INFO 52842 --- [blog] [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
-2024-09-16T16:51:25.108+09:00  INFO 52842 --- [blog] [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2024-09-19T23:21:56.443+09:00  INFO 77220 --- [blog] [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2024-09-19T23:21:56.443+09:00  INFO 77220 --- [blog] [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2024-09-19T23:21:56.444+09:00  INFO 77220 --- [blog] [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
 
 MockHttpServletRequest:
       HTTP Method = DELETE
@@ -309,9 +274,9 @@ MockHttpServletResponse:
     Forwarded URL = null
    Redirected URL = null
           Cookies = []
-2024-09-16T16:51:25.131+09:00  INFO 52842 --- [blog] [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
-2024-09-16T16:51:25.131+09:00  INFO 52842 --- [blog] [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
-2024-09-16T16:51:25.132+09:00  INFO 52842 --- [blog] [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2024-09-19T23:21:56.463+09:00  INFO 77220 --- [blog] [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2024-09-19T23:21:56.463+09:00  INFO 77220 --- [blog] [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2024-09-19T23:21:56.463+09:00  INFO 77220 --- [blog] [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 0 ms
 
 MockHttpServletRequest:
       HTTP Method = GET
@@ -345,7 +310,7 @@ MockHttpServletResponse:
     Error message = null
           Headers = [Content-Type:"application/json;charset=UTF-8"]
      Content type = application/json;charset=UTF-8
-             Body = {"header":{"resultCode":200,"successful":true},"body":{"data":[{"title":"Sample Post","context":"This is a sample post.","status":"ACTIVE","count":0,"createdAt":"2024-09-16T16:51:25.132305","updatedAt":"2024-09-16T16:51:25.132397","deletedAt":null}]}}
+             Body = {"header":{"resultCode":200,"successful":true},"body":{"data":[{"title":"Sample Post","context":"This is a sample post.","status":"ACTIVE","count":0,"createdAt":"2024-09-19T23:21:56.463654","updatedAt":"2024-09-19T23:21:56.463659","deletedAt":null}]}}
     Forwarded URL = null
    Redirected URL = null
           Cookies = []

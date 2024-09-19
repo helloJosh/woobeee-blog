@@ -3,7 +3,7 @@
 {
   "title" : "Sample Post",
   "context" : "This is a sample post.",
-  "categories" : null,
-  "tags" : null
+  "categories" : [ ],
+  "tags" : [ ]
 }
 ----

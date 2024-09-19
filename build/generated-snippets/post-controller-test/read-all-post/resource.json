@@ -93,7 +93,7 @@
       "type" : "STRING",
       "optional" : true
     } ],
-    "example" : "{\n  \"header\" : {\n    \"resultCode\" : 200,\n    \"successful\" : true\n  },\n  \"body\" : {\n    \"data\" : [ {\n      \"title\" : \"Sample Post\",\n      \"context\" : \"This is a sample post.\",\n      \"status\" : \"ACTIVE\",\n      \"count\" : 0,\n      \"createdAt\" : \"2024-09-16T16:51:24.719053\",\n      \"updatedAt\" : \"2024-09-16T16:51:24.71906\",\n      \"deletedAt\" : null\n    } ]\n  }\n}"
+    "example" : "{\n  \"header\" : {\n    \"resultCode\" : 200,\n    \"successful\" : true\n  },\n  \"body\" : {\n    \"data\" : [ {\n      \"title\" : \"Sample Post\",\n      \"context\" : \"This is a sample post.\",\n      \"status\" : \"ACTIVE\",\n      \"count\" : 0,\n      \"createdAt\" : \"2024-09-19T23:21:56.157411\",\n      \"updatedAt\" : \"2024-09-19T23:21:56.157418\",\n      \"deletedAt\" : null\n    } ]\n  }\n}"
   },
   "tags" : [ "api" ]
 }

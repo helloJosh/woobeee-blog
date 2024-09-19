@@ -99,7 +99,7 @@ public class PostServiceImpl implements PostService {
 
         List<Category> newCategories = new ArrayList<>();
 
-        for (CategoryRequest categoryRequest : postUpdateRequest.categoryRequest()) {
+        for (CategoryRequest categoryRequest : postUpdateRequest.categories()) {
             Category category = categoryRepository
                     .findCategoryByName(categoryRequest.name())
                     .orElseThrow(()->new CategoryDoesNotExistException(categoryRequest.name() + ": 카테고리 이름이 존재하지 않습니다."));
