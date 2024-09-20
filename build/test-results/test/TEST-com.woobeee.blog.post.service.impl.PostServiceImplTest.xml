@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.woobeee.blog.post.service.impl.PostServiceImplTest" tests="12" skipped="0" failures="0" errors="0" timestamp="2024-09-20T13:24:10" hostname="MacBook-Air.local" time="1.022">
+  <properties/>
+  <testcase name="게시글 찾기 오류 테스트" classname="com.woobeee.blog.post.service.impl.PostServiceImplTest" time="0.965"/>
+  <testcase name="게시글 조회 성공 테스트" classname="com.woobeee.blog.post.service.impl.PostServiceImplTest" time="0.005"/>
+  <testcase name="게시글 수정 실패 테스트" classname="com.woobeee.blog.post.service.impl.PostServiceImplTest" time="0.005"/>
+  <testcase name="게시글 조회 찾기 오류 테스트" classname="com.woobeee.blog.post.service.impl.PostServiceImplTest" time="0.003"/>
+  <testcase name="게시글 태그 조회 오류 테스트" classname="com.woobeee.blog.post.service.impl.PostServiceImplTest" time="0.003"/>
+  <testcase name="게시글 수정 성공 테스트" classname="com.woobeee.blog.post.service.impl.PostServiceImplTest" time="0.009"/>
+  <testcase name="게시글 태그 조회 성공 테스트" classname="com.woobeee.blog.post.service.impl.PostServiceImplTest" time="0.003"/>
+  <testcase name="게시글 삭제 성공 테스트" classname="com.woobeee.blog.post.service.impl.PostServiceImplTest" time="0.002"/>
+  <testcase name="카테고리 게시글 조회 실패 테스트" classname="com.woobeee.blog.post.service.impl.PostServiceImplTest" time="0.003"/>
+  <testcase name="게시글 전체 조회 테스트" classname="com.woobeee.blog.post.service.impl.PostServiceImplTest" time="0.002"/>
+  <testcase name="카테고리 게시글 조회 성공 테스트" classname="com.woobeee.blog.post.service.impl.PostServiceImplTest" time="0.002"/>
+  <testcase name="게시글 생성 성공 테스트" classname="com.woobeee.blog.post.service.impl.PostServiceImplTest" time="0.009"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[WARNING: A Java agent has been loaded dynamically (/Users/administrator/.gradle/caches/modules-2/files-2.1/net.bytebuddy/byte-buddy-agent/1.14.18/417558ea01fe9f0e8a94af28b9469d281c4e3984/byte-buddy-agent-1.14.18.jar)
+WARNING: If a serviceability tool is in use, please run with -XX:+EnableDynamicAgentLoading to hide this warning
+WARNING: If a serviceability tool is not in use, please run with -Djdk.instrument.traceUsage for more information
+WARNING: Dynamic loading of agents will be disallowed by default in a future release
+]]></system-err>
+</testsuite>

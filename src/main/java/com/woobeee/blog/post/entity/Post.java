@@ -66,6 +66,14 @@ public class Post {
         this.title = title;
         this.context = context;
         this.count = count;
+        this.createdAt = LocalDateTime.now();
+        this.status = Status.ACTIVE;
+
+        this.postTags = new ArrayList<>();
+        this.postCategories = new ArrayList<>();
+        this.comments = new ArrayList<>();
+        this.likes = new ArrayList<>();
+        this.images = new ArrayList<>();
     }
 
     /**
