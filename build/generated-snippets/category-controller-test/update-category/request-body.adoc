@@ -1,0 +1,7 @@
+[source,json,options="nowrap"]
+----
+{
+  "oldCategoryName" : "OLD_NAME",
+  "newCategoryName" : "NEW_NAME"
+}
+----

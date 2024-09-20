@@ -1,0 +1,20 @@
+|===
+|Path|Type|Description
+
+|`+postId+`
+|`+Number+`
+|게시글 ID
+
+|`+memberId+`
+|`+Number+`
+|회원 ID
+
+|`+context+`
+|`+String+`
+|댓글 내용
+
+|`+parentCommentId+`
+|`+Null+`
+|부모 댓글 ID
+
+|===

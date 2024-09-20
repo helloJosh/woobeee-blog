@@ -3,9 +3,8 @@ package com.woobeee.blog.post.service.impl;
 import com.woobeee.blog.member.entity.Member;
 import com.woobeee.blog.member.exception.MemberDoesNotExistException;
 import com.woobeee.blog.member.repository.MemberRepository;
-import com.woobeee.blog.post.dto.CategoryUpdateRequest;
-import com.woobeee.blog.post.dto.CommentCreateRequest;
-import com.woobeee.blog.post.dto.CommentUpdateRequest;
+import com.woobeee.blog.post.dto.request.CommentCreateRequest;
+import com.woobeee.blog.post.dto.request.CommentUpdateRequest;
 import com.woobeee.blog.post.dto.response.CommentReadAllResponse;
 import com.woobeee.blog.post.dto.response.CommentResponse;
 import com.woobeee.blog.post.entity.Comment;
@@ -47,6 +46,7 @@ public class CommentServiceImpl implements CommentService {
                 .orElseThrow(
                         () -> new PostDoesNotExistException(commentCreateRequest.postId() + ": 게시글이 존재하지 않습니다.")
                 );
+
         Member member = memberRepository
                 .findById(commentCreateRequest.memberId())
                 .orElseThrow(
@@ -124,6 +124,14 @@ public class CommentServiceImpl implements CommentService {
     }
 
     private CommentResponse mapToCommentResponse(Comment comment) {
+        if (comment.getChildren() == null) {
+            return CommentResponse.builder()
+                    .id(comment.getId())
+                    .context(comment.getContext())
+                    .children(null)
+                    .build();
+        }
+
         List<CommentResponse> children = comment.getChildren().stream()
                 .map(this::mapToCommentResponse)
                 .toList();

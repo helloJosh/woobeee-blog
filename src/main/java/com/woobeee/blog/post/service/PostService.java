@@ -1,7 +1,7 @@
 package com.woobeee.blog.post.service;
 
-import com.woobeee.blog.post.dto.PostCreateRequest;
-import com.woobeee.blog.post.dto.PostUpdateRequest;
+import com.woobeee.blog.post.dto.request.PostCreateRequest;
+import com.woobeee.blog.post.dto.request.PostUpdateRequest;
 import com.woobeee.blog.post.entity.Post;
 
 import java.util.List;

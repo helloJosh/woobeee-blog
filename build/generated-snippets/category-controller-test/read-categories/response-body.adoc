@@ -1,0 +1,38 @@
+[source,json,options="nowrap"]
+----
+{
+  "header" : {
+    "resultCode" : 200,
+    "successful" : true
+  },
+  "body" : {
+    "data" : {
+      "categories" : [ {
+        "id" : 5,
+        "name" : "SPRING",
+        "children" : [ {
+          "id" : 1,
+          "name" : "SPRING-MVC",
+          "children" : [ ]
+        }, {
+          "id" : 2,
+          "name" : "SPRING-CORE",
+          "children" : [ ]
+        } ]
+      }, {
+        "id" : 6,
+        "name" : "DATABASE",
+        "children" : [ {
+          "id" : 3,
+          "name" : "MYSQL",
+          "children" : [ ]
+        }, {
+          "id" : 4,
+          "name" : "JPA",
+          "children" : [ ]
+        } ]
+      } ]
+    }
+  }
+}
+----

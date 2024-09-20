@@ -1,0 +1,35 @@
+[source,http,options="nowrap"]
+----
+POST /api/v1/blog/categories HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Content-Length: 450
+Host: localhost:8080
+
+{
+  "categories" : [ {
+    "id" : 5,
+    "name" : "SPRING",
+    "children" : [ {
+      "id" : 1,
+      "name" : "SPRING-MVC",
+      "children" : [ ]
+    }, {
+      "id" : 2,
+      "name" : "SPRING-CORE",
+      "children" : [ ]
+    } ]
+  }, {
+    "id" : 6,
+    "name" : "DATABASE",
+    "children" : [ {
+      "id" : 3,
+      "name" : "MYSQL",
+      "children" : [ ]
+    }, {
+      "id" : 4,
+      "name" : "JPA",
+      "children" : [ ]
+    } ]
+  } ]
+}
+----

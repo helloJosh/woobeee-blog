@@ -1,0 +1,99 @@
+{
+  "operationId" : "post-controller-test/update-post",
+  "summary" : "게시글 수정 API",
+  "description" : "게시글 수정 API",
+  "privateResource" : false,
+  "deprecated" : false,
+  "request" : {
+    "path" : "/api/v1/blog/posts/{postId}",
+    "method" : "PUT",
+    "contentType" : "application/json;charset=UTF-8",
+    "schema" : null,
+    "headers" : [ ],
+    "pathParameters" : [ ],
+    "queryParameters" : [ ],
+    "formParameters" : [ ],
+    "requestFields" : [ {
+      "attributes" : { },
+      "description" : "게시글 아이디",
+      "ignored" : false,
+      "path" : "postId",
+      "type" : "NUMBER",
+      "optional" : false
+    }, {
+      "attributes" : { },
+      "description" : "게시글 제목",
+      "ignored" : false,
+      "path" : "title",
+      "type" : "STRING",
+      "optional" : false
+    }, {
+      "attributes" : { },
+      "description" : "게시글 내용",
+      "ignored" : false,
+      "path" : "context",
+      "type" : "STRING",
+      "optional" : false
+    }, {
+      "attributes" : { },
+      "description" : "게시글 카테고리",
+      "ignored" : false,
+      "path" : "categories",
+      "type" : "ARRAY",
+      "optional" : false
+    }, {
+      "attributes" : { },
+      "description" : "게시글 카테고리 아이디",
+      "ignored" : false,
+      "path" : "categories[].id",
+      "type" : "NUMBER",
+      "optional" : false
+    }, {
+      "attributes" : { },
+      "description" : "게시글 카테고리 이름",
+      "ignored" : false,
+      "path" : "categories[].name",
+      "type" : "STRING",
+      "optional" : false
+    }, {
+      "attributes" : { },
+      "description" : "게시글 자식 카테고리",
+      "ignored" : false,
+      "path" : "categories[].children",
+      "type" : "NULL",
+      "optional" : false
+    }, {
+      "attributes" : { },
+      "description" : "게시글 태그",
+      "ignored" : false,
+      "path" : "tags",
+      "type" : "ARRAY",
+      "optional" : false
+    } ],
+    "example" : "{\n  \"postId\" : 1,\n  \"title\" : \"Updated Title\",\n  \"context\" : \"Updated context.\",\n  \"categories\" : [ {\n    \"id\" : 1,\n    \"name\" : \"SPRING\",\n    \"children\" : null\n  } ],\n  \"tags\" : [ \"Java\", \"Spring\" ]\n}",
+    "securityRequirements" : null
+  },
+  "response" : {
+    "status" : 200,
+    "contentType" : "application/json;charset=UTF-8",
+    "schema" : null,
+    "headers" : [ ],
+    "responseFields" : [ {
+      "attributes" : { },
+      "description" : "결과 코드",
+      "ignored" : false,
+      "path" : "header.resultCode",
+      "type" : "NUMBER",
+      "optional" : false
+    }, {
+      "attributes" : { },
+      "description" : "성공 여부",
+      "ignored" : false,
+      "path" : "header.successful",
+      "type" : "BOOLEAN",
+      "optional" : false
+    } ],
+    "example" : "{\n  \"header\" : {\n    \"resultCode\" : 200,\n    \"successful\" : true\n  }\n}"
+  },
+  "tags" : [ "api" ]
+}

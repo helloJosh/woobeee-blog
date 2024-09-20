@@ -1,0 +1,20 @@
+|===
+|Path|Type|Description
+
+|`+header.resultCode+`
+|`+Number+`
+|결과 코드
+
+|`+header.successful+`
+|`+Boolean+`
+|성공 여부
+
+|`+body.data+`
+|`+Array+`
+|태그 목록
+
+|`+body.data[]+`
+|`+Array+`
+|태그 이름
+
+|===

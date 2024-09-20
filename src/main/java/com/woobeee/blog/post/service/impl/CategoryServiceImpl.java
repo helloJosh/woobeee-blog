@@ -1,8 +1,8 @@
 package com.woobeee.blog.post.service.impl;
 
-import com.woobeee.blog.post.dto.CategoryCreateRequest;
-import com.woobeee.blog.post.dto.CategoryRequest;
-import com.woobeee.blog.post.dto.CategoryUpdateRequest;
+import com.woobeee.blog.post.dto.request.CategoryCreateRequest;
+import com.woobeee.blog.post.dto.request.CategoryRequest;
+import com.woobeee.blog.post.dto.request.CategoryUpdateRequest;
 import com.woobeee.blog.post.dto.response.CategoryReadAllResponse;
 import com.woobeee.blog.post.dto.response.CategoryResponse;
 import com.woobeee.blog.post.entity.Category;
@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * 카테고리 서비스 구현체.
@@ -113,15 +112,29 @@ public class CategoryServiceImpl implements CategoryService {
                 .build();
     }
 
+    /**
+     * 카테고리 조회 재귀 메서드.
+     *
+     * @param category 카테고리
+     * @return 카테고리 조회 응답
+     */
     private CategoryResponse mapToCategoryResponse(Category category) {
-        List<CategoryResponse> children = category.getChildren().stream()
-                .map(this::mapToCategoryResponse)
-                .toList();
+        if(category.getChildren() == null) {
+            return CategoryResponse.builder()
+                    .id(category.getId())
+                    .name(category.getName())
+                    .children(List.of())
+                    .build();
+        } else {
+            List<CategoryResponse> children = category.getChildren().stream()
+                    .map(this::mapToCategoryResponse)
+                    .toList();
 
-        return CategoryResponse.builder()
-                .id(category.getId())
-                .name(category.getName())
-                .children(children)
-                .build();
+            return CategoryResponse.builder()
+                    .id(category.getId())
+                    .name(category.getName())
+                    .children(children)
+                    .build();
+        }
     }
 }

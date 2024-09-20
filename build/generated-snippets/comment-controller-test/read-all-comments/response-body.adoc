@@ -1,0 +1,19 @@
+[source,json,options="nowrap"]
+----
+{
+  "header" : {
+    "resultCode" : 200,
+    "successful" : true
+  },
+  "body" : {
+    "data" : {
+      "postId" : 1,
+      "commentResponses" : [ {
+        "id" : 1,
+        "context" : "test comment",
+        "children" : null
+      } ]
+    }
+  }
+}
+----

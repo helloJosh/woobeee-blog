@@ -1,0 +1,32 @@
+|===
+|Path|Type|Description
+
+|`+header.resultCode+`
+|`+Number+`
+|결과 코드
+
+|`+header.successful+`
+|`+Boolean+`
+|성공 여부
+
+|`+body.data.postId+`
+|`+Number+`
+|게시글 아이디
+
+|`+body.data.commentResponses+`
+|`+Array+`
+|댓글 목록
+
+|`+body.data.commentResponses[].id+`
+|`+Number+`
+|댓글 목록
+
+|`+body.data.commentResponses[].context+`
+|`+String+`
+|댓글 목록
+
+|`+body.data.commentResponses[].children+`
+|`+Null+`
+|댓글 목록
+
+|===

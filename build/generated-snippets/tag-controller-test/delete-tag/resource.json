@@ -1,0 +1,43 @@
+{
+  "operationId" : "tag-controller-test/delete-tag",
+  "summary" : "태그 삭제 API",
+  "description" : "태그 삭제 API",
+  "privateResource" : false,
+  "deprecated" : false,
+  "request" : {
+    "path" : "/api/v1/blog/tags/{tagName}",
+    "method" : "DELETE",
+    "contentType" : null,
+    "schema" : null,
+    "headers" : [ ],
+    "pathParameters" : [ ],
+    "queryParameters" : [ ],
+    "formParameters" : [ ],
+    "requestFields" : [ ],
+    "example" : null,
+    "securityRequirements" : null
+  },
+  "response" : {
+    "status" : 200,
+    "contentType" : "application/json;charset=UTF-8",
+    "schema" : null,
+    "headers" : [ ],
+    "responseFields" : [ {
+      "attributes" : { },
+      "description" : "결과 코드",
+      "ignored" : false,
+      "path" : "header.resultCode",
+      "type" : "NUMBER",
+      "optional" : false
+    }, {
+      "attributes" : { },
+      "description" : "성공 여부",
+      "ignored" : false,
+      "path" : "header.successful",
+      "type" : "BOOLEAN",
+      "optional" : false
+    } ],
+    "example" : "{\n  \"header\" : {\n    \"resultCode\" : 200,\n    \"successful\" : true\n  }\n}"
+  },
+  "tags" : [ "api" ]
+}

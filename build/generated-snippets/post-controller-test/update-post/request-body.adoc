@@ -1,0 +1,14 @@
+[source,json,options="nowrap"]
+----
+{
+  "postId" : 1,
+  "title" : "Updated Title",
+  "context" : "Updated context.",
+  "categories" : [ {
+    "id" : 1,
+    "name" : "SPRING",
+    "children" : null
+  } ],
+  "tags" : [ "Java", "Spring" ]
+}
+----

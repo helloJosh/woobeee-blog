@@ -1,8 +1,8 @@
 package com.woobeee.blog.post.controller;
 
 import com.woobeee.blog.api.Response;
-import com.woobeee.blog.post.dto.CommentCreateRequest;
-import com.woobeee.blog.post.dto.CommentUpdateRequest;
+import com.woobeee.blog.post.dto.request.CommentCreateRequest;
+import com.woobeee.blog.post.dto.request.CommentUpdateRequest;
 import com.woobeee.blog.post.dto.response.CommentReadAllResponse;
 import com.woobeee.blog.post.exception.CommentCreateFromNotValidException;
 import com.woobeee.blog.post.exception.CommentUpdateFromNotValidException;

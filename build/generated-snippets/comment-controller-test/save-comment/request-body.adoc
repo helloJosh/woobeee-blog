@@ -1,0 +1,9 @@
+[source,json,options="nowrap"]
+----
+{
+  "parentCommentId" : null,
+  "postId" : 1,
+  "memberId" : 1,
+  "context" : ""
+}
+----

@@ -1,0 +1,43 @@
+{
+  "operationId" : "category-controller-test/update-category",
+  "summary" : "카테고리 수정 API",
+  "description" : "카테고리 수정 API",
+  "privateResource" : false,
+  "deprecated" : false,
+  "request" : {
+    "path" : "/api/v1/blog/categories/{categoryId}",
+    "method" : "PUT",
+    "contentType" : "application/json;charset=UTF-8",
+    "schema" : null,
+    "headers" : [ ],
+    "pathParameters" : [ ],
+    "queryParameters" : [ ],
+    "formParameters" : [ ],
+    "requestFields" : [ {
+      "attributes" : { },
+      "description" : "기존 카테고리 이름",
+      "ignored" : false,
+      "path" : "oldCategoryName",
+      "type" : "STRING",
+      "optional" : false
+    }, {
+      "attributes" : { },
+      "description" : "새로운 카테고리 이름",
+      "ignored" : false,
+      "path" : "newCategoryName",
+      "type" : "STRING",
+      "optional" : false
+    } ],
+    "example" : "{\n  \"oldCategoryName\" : \"OLD_NAME\",\n  \"newCategoryName\" : \"NEW_NAME\"\n}",
+    "securityRequirements" : null
+  },
+  "response" : {
+    "status" : 200,
+    "contentType" : "application/json;charset=UTF-8",
+    "schema" : null,
+    "headers" : [ ],
+    "responseFields" : [ ],
+    "example" : "{\n  \"header\" : {\n    \"resultCode\" : 200,\n    \"successful\" : true\n  }\n}"
+  },
+  "tags" : [ "api" ]
+}

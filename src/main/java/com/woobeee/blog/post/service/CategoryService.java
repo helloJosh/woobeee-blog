@@ -1,11 +1,9 @@
 package com.woobeee.blog.post.service;
 
-import com.woobeee.blog.post.dto.CategoryCreateRequest;
-import com.woobeee.blog.post.dto.CategoryUpdateRequest;
+import com.woobeee.blog.post.dto.request.CategoryCreateRequest;
+import com.woobeee.blog.post.dto.request.CategoryUpdateRequest;
 import com.woobeee.blog.post.dto.response.CategoryReadAllResponse;
 import com.woobeee.blog.post.entity.Category;
-
-import java.util.List;
 
 /**
  * 카테고리 서비스 인터페이스.

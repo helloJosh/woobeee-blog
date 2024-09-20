@@ -1,0 +1,20 @@
+|===
+|Path|Type|Description
+
+|`+title+`
+|`+String+`
+|게시글 제목
+
+|`+context+`
+|`+String+`
+|게시글 내용
+
+|`+categories+`
+|`+Array+`
+|게시글 카테고리
+
+|`+tags+`
+|`+Array+`
+|게시글 태그
+
+|===

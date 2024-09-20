@@ -1,0 +1,44 @@
+|===
+|Path|Type|Description
+
+|`+header.resultCode+`
+|`+Number+`
+|결과 코드
+
+|`+header.successful+`
+|`+Boolean+`
+|성공 여부
+
+|`+body.data+`
+|`+Array+`
+|게시글 목록
+
+|`+body.data[].title+`
+|`+String+`
+|게시글 제목
+
+|`+body.data[].context+`
+|`+String+`
+|게시글 내용
+
+|`+body.data[].status+`
+|`+String+`
+|게시글 상태
+
+|`+body.data[].count+`
+|`+Number+`
+|조회수
+
+|`+body.data[].createdAt+`
+|`+String+`
+|생성일
+
+|`+body.data[].updatedAt+`
+|`+String+`
+|수정일
+
+|`+body.data[].deletedAt+`
+|`+String+`
+|삭제일
+
+|===

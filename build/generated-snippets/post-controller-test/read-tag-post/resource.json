@@ -1,0 +1,99 @@
+{
+  "operationId" : "post-controller-test/read-tag-post",
+  "summary" : "태그별 게시글 조회 API",
+  "description" : "태그별 게시글 조회 API",
+  "privateResource" : false,
+  "deprecated" : false,
+  "request" : {
+    "path" : "/api/v1/blog/tags/{tagName}/posts",
+    "method" : "GET",
+    "contentType" : null,
+    "schema" : null,
+    "headers" : [ ],
+    "pathParameters" : [ ],
+    "queryParameters" : [ ],
+    "formParameters" : [ ],
+    "requestFields" : [ ],
+    "example" : null,
+    "securityRequirements" : null
+  },
+  "response" : {
+    "status" : 200,
+    "contentType" : "application/json;charset=UTF-8",
+    "schema" : null,
+    "headers" : [ ],
+    "responseFields" : [ {
+      "attributes" : { },
+      "description" : "결과 코드",
+      "ignored" : false,
+      "path" : "header.resultCode",
+      "type" : "NUMBER",
+      "optional" : false
+    }, {
+      "attributes" : { },
+      "description" : "성공 여부",
+      "ignored" : false,
+      "path" : "header.successful",
+      "type" : "BOOLEAN",
+      "optional" : false
+    }, {
+      "attributes" : { },
+      "description" : "게시글 목록",
+      "ignored" : false,
+      "path" : "body.data",
+      "type" : "ARRAY",
+      "optional" : false
+    }, {
+      "attributes" : { },
+      "description" : "게시글 제목",
+      "ignored" : false,
+      "path" : "body.data[].title",
+      "type" : "STRING",
+      "optional" : false
+    }, {
+      "attributes" : { },
+      "description" : "게시글 내용",
+      "ignored" : false,
+      "path" : "body.data[].context",
+      "type" : "STRING",
+      "optional" : false
+    }, {
+      "attributes" : { },
+      "description" : "게시글 상태",
+      "ignored" : false,
+      "path" : "body.data[].status",
+      "type" : "STRING",
+      "optional" : false
+    }, {
+      "attributes" : { },
+      "description" : "조회수",
+      "ignored" : false,
+      "path" : "body.data[].count",
+      "type" : "NUMBER",
+      "optional" : false
+    }, {
+      "attributes" : { },
+      "description" : "생성일",
+      "ignored" : false,
+      "path" : "body.data[].createdAt",
+      "type" : "STRING",
+      "optional" : false
+    }, {
+      "attributes" : { },
+      "description" : "수정일",
+      "ignored" : false,
+      "path" : "body.data[].updatedAt",
+      "type" : "STRING",
+      "optional" : false
+    }, {
+      "attributes" : { },
+      "description" : "삭제일",
+      "ignored" : false,
+      "path" : "body.data[].deletedAt",
+      "type" : "STRING",
+      "optional" : true
+    } ],
+    "example" : "{\n  \"header\" : {\n    \"resultCode\" : 200,\n    \"successful\" : true\n  },\n  \"body\" : {\n    \"data\" : [ {\n      \"title\" : \"Sample Post\",\n      \"context\" : \"This is a sample post.\",\n      \"status\" : \"ACTIVE\",\n      \"count\" : 0,\n      \"createdAt\" : \"2024-09-19T23:21:56.463654\",\n      \"updatedAt\" : \"2024-09-19T23:21:56.463659\",\n      \"deletedAt\" : null\n    } ]\n  }\n}"
+  },
+  "tags" : [ "api" ]
+}

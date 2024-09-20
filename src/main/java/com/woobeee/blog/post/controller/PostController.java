@@ -1,15 +1,12 @@
 package com.woobeee.blog.post.controller;
 
 import com.woobeee.blog.api.Response;
-import com.woobeee.blog.post.dto.CategoryCreateRequest;
-import com.woobeee.blog.post.dto.PostCreateRequest;
-import com.woobeee.blog.post.dto.PostUpdateRequest;
+import com.woobeee.blog.post.dto.request.PostCreateRequest;
+import com.woobeee.blog.post.dto.request.PostUpdateRequest;
 import com.woobeee.blog.post.dto.response.PostReadResponse;
 import com.woobeee.blog.post.entity.Post;
-import com.woobeee.blog.post.exception.CategoryCreateFromNotValidException;
 import com.woobeee.blog.post.exception.PostCreateFromNotValidException;
 import com.woobeee.blog.post.exception.PostUpdateFromNotValidException;
-import com.woobeee.blog.post.service.CategoryService;
 import com.woobeee.blog.post.service.PostService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
