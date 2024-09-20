@@ -1,0 +1,12 @@
+|===
+|Path|Type|Description
+
+|`+header.resultCode+`
+|`+Number+`
+|결과 코드
+
+|`+header.successful+`
+|`+Boolean+`
+|성공 여부
+
+|===

@@ -46,6 +46,7 @@ public class CommentServiceImpl implements CommentService {
                 .orElseThrow(
                         () -> new PostDoesNotExistException(commentCreateRequest.postId() + ": 게시글이 존재하지 않습니다.")
                 );
+
         Member member = memberRepository
                 .findById(commentCreateRequest.memberId())
                 .orElseThrow(
@@ -123,6 +124,14 @@ public class CommentServiceImpl implements CommentService {
     }
 
     private CommentResponse mapToCommentResponse(Comment comment) {
+        if (comment.getChildren() == null) {
+            return CommentResponse.builder()
+                    .id(comment.getId())
+                    .context(comment.getContext())
+                    .children(null)
+                    .build();
+        }
+
         List<CommentResponse> children = comment.getChildren().stream()
                 .map(this::mapToCommentResponse)
                 .toList();

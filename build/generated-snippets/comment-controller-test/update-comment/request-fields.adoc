@@ -1,0 +1,16 @@
+|===
+|Path|Type|Description
+
+|`+commentId+`
+|`+Number+`
+|댓글 ID
+
+|`+oldContext+`
+|`+String+`
+|이전 댓글 내용
+
+|`+newContext+`
+|`+String+`
+|새로운 댓글 내용
+
+|===

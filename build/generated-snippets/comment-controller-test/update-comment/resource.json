@@ -1,0 +1,64 @@
+{
+  "operationId" : "comment-controller-test/update-comment",
+  "summary" : "댓글 수정 API",
+  "description" : "댓글 수정 API",
+  "privateResource" : false,
+  "deprecated" : false,
+  "request" : {
+    "path" : "/api/v1/blog/posts/{postId}/comments/{commentId}",
+    "method" : "PUT",
+    "contentType" : "application/json;charset=UTF-8",
+    "schema" : null,
+    "headers" : [ ],
+    "pathParameters" : [ ],
+    "queryParameters" : [ ],
+    "formParameters" : [ ],
+    "requestFields" : [ {
+      "attributes" : { },
+      "description" : "댓글 ID",
+      "ignored" : false,
+      "path" : "commentId",
+      "type" : "NUMBER",
+      "optional" : false
+    }, {
+      "attributes" : { },
+      "description" : "이전 댓글 내용",
+      "ignored" : false,
+      "path" : "oldContext",
+      "type" : "STRING",
+      "optional" : false
+    }, {
+      "attributes" : { },
+      "description" : "새로운 댓글 내용",
+      "ignored" : false,
+      "path" : "newContext",
+      "type" : "STRING",
+      "optional" : false
+    } ],
+    "example" : "{\n  \"commentId\" : 1,\n  \"oldContext\" : \"oldComment\",\n  \"newContext\" : \"newComment\"\n}",
+    "securityRequirements" : null
+  },
+  "response" : {
+    "status" : 200,
+    "contentType" : "application/json;charset=UTF-8",
+    "schema" : null,
+    "headers" : [ ],
+    "responseFields" : [ {
+      "attributes" : { },
+      "description" : "결과 코드",
+      "ignored" : false,
+      "path" : "header.resultCode",
+      "type" : "NUMBER",
+      "optional" : false
+    }, {
+      "attributes" : { },
+      "description" : "성공 여부",
+      "ignored" : false,
+      "path" : "header.successful",
+      "type" : "BOOLEAN",
+      "optional" : false
+    } ],
+    "example" : "{\n  \"header\" : {\n    \"resultCode\" : 200,\n    \"successful\" : true\n  }\n}"
+  },
+  "tags" : [ "api" ]
+}
