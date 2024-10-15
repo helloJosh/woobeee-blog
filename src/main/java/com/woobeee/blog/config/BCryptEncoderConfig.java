@@ -1,4 +1,4 @@
-package com.woobeee.blog.auth.config;
+package com.woobeee.blog.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -1,7 +1,6 @@
 package com.woobeee.blog.member.controller;
 
 import com.woobeee.blog.api.Response;
-import com.woobeee.blog.auth.service.AuthenticationService;
 import com.woobeee.blog.member.dto.LoginRequest;
 import com.woobeee.blog.member.dto.LoginResponse;
 import com.woobeee.blog.member.dto.MemberRequest;
@@ -28,7 +27,6 @@ import java.util.Map;
 @RequestMapping("/api/v1")
 public class MemberController {
     private final MemberService memberService;
-    private final AuthenticationService authenticationService;
 
     /**
      * 회원가입
@@ -59,12 +57,9 @@ public class MemberController {
      * @return Response
      */
     @GetMapping("/members")
-    public Response<MemberResponse> readMember(
-            @RequestHeader("Access-Token") String accessToken,
-            @RequestHeader("Refresh-Token") String refreshToken) {
-        String loginId = authenticationService.validateToken(accessToken, refreshToken);
+    public Response<MemberResponse> readMember() {
 
-        return Response.success(memberService.findMember(loginId));
+        return Response.success();
     }
 
     /**
@@ -76,26 +71,12 @@ public class MemberController {
     @PostMapping("/members/login")
     public Response<LoginResponse> login(
             @RequestBody @Valid LoginRequest loginRequest,
-            BindingResult bindingResult,
-            HttpServletResponse response) {
+            BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             throw new LoginRequestFormException(bindingResult.getFieldError().toString());
         }
 
-        Map<String, String> tokenMap = authenticationService.login(
-                loginRequest.loginId(),
-                loginRequest.password()
-        );
-
-        response.setHeader("Access-Token", tokenMap.get("AccessToken"));
-        response.setHeader("Refresh-Token", tokenMap.get("RefreshToken"));
-
-        LoginResponse postLoginResponse = LoginResponse.builder()
-                .accessToken(tokenMap.get("AccessToken"))
-                .refreshToken(tokenMap.get("RefreshToken"))
-                .build();
-
-        return Response.success(postLoginResponse);
+        return Response.success();
     }
 
 }
