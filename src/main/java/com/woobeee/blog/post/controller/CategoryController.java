@@ -47,6 +47,8 @@ public class CategoryController {
             throw new CategoryUpdateFromNotValidException("카테고리 폼이 유효하지 않습니다.");
         }
 
+
+
         categoryService.update(categoryUpdateRequest);
 
         return Response.success();

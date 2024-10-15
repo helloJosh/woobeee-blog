@@ -1,7 +1,7 @@
 spring:
   application:
     name:
-      blog
+      woobeee-blog
   profiles:
     active: prod
 
@@ -40,6 +40,7 @@ logging:
 
 server:
   shutdown: graceful
+  port: 8081
 
 springdoc:
   swagger-ui:
