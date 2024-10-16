@@ -48,21 +48,6 @@ public class MemberController {
     }
 
     /**
-     * 회원 정보 조회
-     *
-     * eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0VXNlciIsImlhdCI6MTcyNDI0NjkxNSwiZXhwIjo3MTI0MjQ2OTE1fQ.ZDA54NLIsUYoYdOVc8q7UqOFsq8uDEb2KMsBOaQsDcY
-     * 만료 2195년
-     * eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0VXNlciIsImlhdCI6MTcyNDI0NjkxNSwiZXhwIjoxODMxNjQyNDY5MTV9.dxt-wjPErgx8gez84Ga2XjL6aG_mjDxVS_sNQtU3cas
-     * 만료 7774년
-     * @return Response
-     */
-    @GetMapping("/members")
-    public Response<MemberResponse> readMember() {
-
-        return Response.success();
-    }
-
-    /**
      * 로그인
      *
      * @param loginRequest 로그인 요청 데이터
@@ -76,7 +61,7 @@ public class MemberController {
             throw new LoginRequestFormException(bindingResult.getFieldError().toString());
         }
 
-        return Response.success();
+        return Response.success(memberService.login(loginRequest));
     }
 
 }
