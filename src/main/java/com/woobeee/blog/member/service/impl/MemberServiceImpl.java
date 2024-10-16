@@ -1,9 +1,13 @@
 package com.woobeee.blog.member.service.impl;
 
+import com.woobeee.blog.member.dto.LoginRequest;
+import com.woobeee.blog.member.dto.LoginResponse;
 import com.woobeee.blog.member.dto.MemberRequest;
 import com.woobeee.blog.member.dto.MemberResponse;
 import com.woobeee.blog.member.entity.Member;
 import com.woobeee.blog.member.exception.DuplicatedLoginIdException;
+import com.woobeee.blog.member.exception.LoginPasswordDoesNotMatchException;
+import com.woobeee.blog.member.exception.LoginRequestFormException;
 import com.woobeee.blog.member.exception.MemberNotFoundException;
 import com.woobeee.blog.member.repository.MemberRepository;
 import com.woobeee.blog.member.service.MemberService;
@@ -62,5 +66,22 @@ public class MemberServiceImpl implements MemberService {
                 .status(member.getStatus())
                 .auth(member.getAuth())
                 .build();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public LoginResponse login(LoginRequest loginRequest) {
+        Member member = memberRepository.findMemberByLoginId(loginRequest.loginId())
+                .orElseThrow(()-> new MemberNotFoundException(loginRequest.loginId() + "에 해당하는 맴버가 없습니다."));
+
+        if (passwordEncoder.matches(loginRequest.password(), member.getPassword())) {
+            return LoginResponse.builder()
+                    .loginId(loginRequest.loginId())
+                    .password(member.getPassword()).build();
+        } else {
+            throw new LoginPasswordDoesNotMatchException("비밀번호가 틀렸습니다");
+        }
     }
 }

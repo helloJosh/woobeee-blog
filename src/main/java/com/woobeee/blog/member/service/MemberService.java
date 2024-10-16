@@ -1,5 +1,7 @@
 package com.woobeee.blog.member.service;
 
+import com.woobeee.blog.member.dto.LoginRequest;
+import com.woobeee.blog.member.dto.LoginResponse;
 import com.woobeee.blog.member.dto.MemberRequest;
 import com.woobeee.blog.member.dto.MemberResponse;
 import com.woobeee.blog.member.exception.DuplicatedLoginIdException;
@@ -25,4 +27,13 @@ public interface MemberService {
      * @return 맴버 응답 레코드
      */
     MemberResponse findMember(String loginId);
+
+
+    /**
+     * 맴버 읽기.
+     *
+     * @param loginRequest 로그인 아이디
+     * @return 맴버 응답 레코드
+     */
+    LoginResponse login(LoginRequest loginRequest);
 }
