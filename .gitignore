@@ -1,0 +1,61 @@
+HELP.md
+target/
+.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+### VS Code ###
+.vscode/
+
+
+# Node 의존성
+front/node_modules/
+
+# 빌드 결과물
+front/.next/
+front/out/
+
+# 환경변수 파일
+front/.env
+front/.env.local
+front/.env.development.local
+front/.env.test.local
+front/.env.production.local
+
+# OS/IDE 생성 파일
+front/.DS_Store
+front/*.log
+front/*.iml
+front/.idea/
+front/.vscode/
+
+# 패키지 매니저 캐시
+front/npm-debug.log*
+front/yarn-debug.log*
+front/yarn-error.log*
+front/pnpm-debug.log*
