@@ -143,7 +143,6 @@ export default function Sidebar({ categories, selectedCategory, isOpen, width, o
         style={{ width: `${width}px` }}
       >
         <div className="p-4">
-          <h2 className="font-semibold text-lg mb-4">카테고리</h2>
           <Button
             variant={pathname === "/blog" || pathname === "/" ? "secondary" : "ghost"}
             className="w-full justify-start mb-2"

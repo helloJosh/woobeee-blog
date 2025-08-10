@@ -56,11 +56,13 @@ const mockComments: Comment[] = [
   },
 ]
 
-export const mockPosts: Post[] = [
-  {
-    id: "1",
-    title: "React 18의 새로운 기능들",
-    content: `# React 18의 새로운 기능들
+// 더 많은 샘플 데이터 생성 (무한 스크롤 테스트용)
+const generateMorePosts = (): Post[] => {
+  const basePosts = [
+    {
+      id: "1",
+      title: "React 18의 새로운 기능들",
+      content: `# React 18의 새로운 기능들
 
 React 18이 출시되면서 많은 새로운 기능들이 추가되었습니다.
 
@@ -87,17 +89,17 @@ function handleClick() {
 
 ## 마무리
 React 18은 성능과 개발자 경험을 크게 향상시킨 버전입니다. 점진적으로 도입해보시기 바랍니다.`,
-    category: "프론트엔드",
-    categoryId: "frontend",
-    views: 1250,
-    likes: 42,
-    createdAt: new Date(2024, 0, 15, 10, 0),
-    comments: mockComments,
-  },
-  {
-    id: "2",
-    title: "Node.js 성능 최적화 팁",
-    content: `# Node.js 성능 최적화 팁
+      category: "프론트엔드",
+      categoryId: "frontend",
+      views: 1250,
+      likes: 42,
+      createdAt: new Date(2024, 0, 15, 10, 0),
+      comments: mockComments,
+    },
+    {
+      id: "2",
+      title: "Node.js 성능 최적화 팁",
+      content: `# Node.js 성능 최적화 팁
 
 Node.js 애플리케이션의 성능을 향상시키는 방법들을 알아보겠습니다.
 
@@ -131,17 +133,17 @@ const [user, posts, comments] = await Promise.all([
 Redis나 메모리 캐시를 활용하여 반복적인 연산을 줄입니다.
 
 성능 최적화는 지속적인 모니터링과 개선이 필요합니다.`,
-    category: "백엔드",
-    categoryId: "backend",
-    views: 890,
-    likes: 28,
-    createdAt: new Date(2024, 0, 14, 16, 30),
-    comments: [],
-  },
-  {
-    id: "3",
-    title: "제주도 3박 4일 여행 후기",
-    content: `# 제주도 3박 4일 여행 후기
+      category: "백엔드",
+      categoryId: "backend",
+      views: 890,
+      likes: 28,
+      createdAt: new Date(2024, 0, 14, 16, 30),
+      comments: [],
+    },
+    {
+      id: "3",
+      title: "제주도 3박 4일 여행 후기",
+      content: `# 제주도 3박 4일 여행 후기
 
 오랜만에 제주도에 다녀왔습니다. 정말 좋은 추억을 만들고 왔어요!
 
@@ -167,96 +169,62 @@ Redis나 메모리 캐시를 활용하여 반복적인 연산을 줄입니다.
 - **공항**: 아쉬운 마음으로 출발
 
 제주도는 언제 가도 좋은 것 같아요. 다음에는 더 오래 머물고 싶네요!`,
-    category: "여행",
-    categoryId: "travel",
-    views: 2100,
-    likes: 67,
-    createdAt: new Date(2024, 0, 13, 20, 15),
-    comments: [
-      {
-        id: "4",
-        author: "여행러버",
-        content: "저도 제주도 가고 싶어지네요! 좋은 정보 감사합니다.",
-        createdAt: new Date(2024, 0, 14, 8, 30),
-        replies: [],
-      },
-    ],
-  },
-  {
-    id: "4",
-    title: "클린 코드 리뷰",
-    content: `# 클린 코드 - 로버트 C. 마틴
+      category: "여행",
+      categoryId: "travel",
+      views: 2100,
+      likes: 67,
+      createdAt: new Date(2024, 0, 13, 20, 15),
+      comments: [
+        {
+          id: "4",
+          author: "여행러버",
+          content: "저도 제주도 가고 싶어지네요! 좋은 정보 감사합니다.",
+          createdAt: new Date(2024, 0, 14, 8, 30),
+          replies: [],
+        },
+      ],
+    },
+  ]
 
-개발자라면 한 번은 읽어봐야 할 필독서를 리뷰해보겠습니다.
+  // 추가 포스트 생성 (무한 스크롤 테스트용)
+  const additionalPosts: Post[] = []
+  const categories = ["frontend", "backend", "mobile", "diary", "travel", "book", "movie"]
+  const categoryNames = ["프론트엔드", "백엔드", "모바일", "일기", "여행", "도서", "영화"]
 
-## 책 소개
-- **저자**: 로버트 C. 마틴 (Uncle Bob)
-- **출간**: 2008년
-- **페이지**: 464페이지
+  for (let i = 4; i <= 50; i++) {
+    const categoryIndex = Math.floor(Math.random() * categories.length)
+    const randomViews = Math.floor(Math.random() * 5000) + 100
+    const randomLikes = Math.floor(Math.random() * 100) + 1
+    const randomDate = new Date(2024, 0, Math.floor(Math.random() * 30) + 1, Math.floor(Math.random() * 24))
 
-## 주요 내용
+    additionalPosts.push({
+      id: i.toString(),
+      title: `샘플 글 제목 ${i} - ${categoryNames[categoryIndex]} 관련`,
+      content: `# 샘플 글 ${i}
 
-### 1. 의미 있는 이름
-변수, 함수, 클래스의 이름을 명확하게 짓는 방법
+이것은 무한 스크롤 테스트를 위한 샘플 글입니다.
 
-### 2. 함수
-- 작게 만들어라
-- 한 가지만 해라
-- 서술적인 이름을 사용해라
+## 내용
 
-### 3. 주석
-좋은 코드는 주석이 필요 없다. 코드 자체가 문서가 되어야 한다.
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
 
-### 4. 형식 맞추기
-일관된 코딩 스타일의 중요성
+### 세부 내용
 
-## 개인적인 생각
-이 책을 읽고 나서 코드를 작성하는 방식이 완전히 바뀌었습니다. 
-특히 함수를 작게 만들고 의미 있는 이름을 짓는 습관이 생겼어요.
+Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 
-## 평점: ⭐⭐⭐⭐⭐
+## 마무리
 
-모든 개발자에게 추천하는 책입니다!`,
-    category: "도서",
-    categoryId: "book",
-    views: 756,
-    likes: 34,
-    createdAt: new Date(2024, 0, 12, 14, 0),
-    comments: [],
-  },
-  {
-    id: "5",
-    title: "오늘의 일기 - 새로운 프로젝트 시작",
-    content: `# 새로운 프로젝트 시작
+이 글은 ${i}번째 샘플 글입니다.`,
+      category: categoryNames[categoryIndex],
+      categoryId: categories[categoryIndex],
+      views: randomViews,
+      likes: randomLikes,
+      createdAt: randomDate,
+      comments: [],
+    })
+  }
 
-오늘부터 새로운 프로젝트를 시작하게 되었다.
+  return [...basePosts, ...additionalPosts]
+}
 
-## 프로젝트 개요
-- **기간**: 3개월
-- **팀원**: 5명
-- **기술스택**: React, Node.js, MongoDB
-
-## 오늘 한 일
-1. 프로젝트 킥오프 미팅
-2. 요구사항 분석
-3. 기술스택 논의
-4. 일정 계획 수립
-
-## 느낀 점
-새로운 도전이 시작되어서 설레면서도 긴장된다. 
-팀원들과 좋은 시너지를 내서 성공적인 프로젝트를 만들고 싶다.
-
-## 내일 할 일
-- [ ] 프로젝트 환경 설정
-- [ ] 데이터베이스 설계
-- [ ] UI/UX 디자인 검토
-
-화이팅! 💪`,
-    category: "일기",
-    categoryId: "diary",
-    views: 423,
-    likes: 12,
-    createdAt: new Date(2024, 0, 11, 22, 30),
-    comments: [],
-  },
-]
+export const mockPosts: Post[] = generateMorePosts()
