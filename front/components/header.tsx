@@ -2,13 +2,15 @@
 
 import type React from "react"
 
-import { Search, Menu, Home, Sun, Moon, Github, Mail } from "lucide-react"
+import { Search, Menu, Home, Sun, Moon, Github, Mail, LogIn } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { useTheme } from "next-themes"
 import { useState, useEffect } from "react"
 import { useRouter, usePathname, useSearchParams } from "next/navigation"
 import Link from "next/link"
+import UserMenu from "@/components/auth/user-menu"
+import { useAuth } from "@/hooks/use-auth" // Updated import
 
 interface HeaderProps {
   onToggleSidebar: () => void
@@ -40,6 +42,7 @@ export default function Header({ onToggleSidebar, sidebarWidth }: HeaderProps) {
   const pathname = usePathname()
   const searchParams = useSearchParams()
   const debouncedSearchQuery = useDebounce(searchQuery, 300)
+  const { user, loading } = useAuth() // Updated usage
 
   useEffect(() => {
     setMounted(true)
@@ -65,49 +68,63 @@ export default function Header({ onToggleSidebar, sidebarWidth }: HeaderProps) {
   }
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="flex h-16 items-center px-4">
-        <div className="flex items-center gap-4">
-          <Button variant="ghost" size="icon" onClick={onToggleSidebar} className="md:hidden">
-            <Menu className="h-5 w-5" />
-          </Button>
+      <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+        <div className="flex h-16 items-center px-4">
+          <div className="flex items-center gap-4">
+            <Button variant="ghost" size="icon" onClick={onToggleSidebar} className="md:hidden">
+              <Menu className="h-5 w-5" />
+            </Button>
 
-          <Button variant="ghost" asChild className="flex items-center gap-2 font-semibold">
-            <Link href="/blog">
-              <Home className="h-5 w-5" />
-              <span className="hidden sm:inline">HOME</span>
-            </Link>
-          </Button>
+            <Button variant="ghost" asChild className="flex items-center gap-2 font-semibold">
+              <Link href="/blog">
+                <Home className="h-5 w-5" />
+                <span className="hidden sm:inline">HOME</span>
+              </Link>
+            </Button>
+          </div>
+
+          <div className="flex-1 flex items-center justify-end gap-4">
+            <form onSubmit={handleSearchSubmit} className="relative max-w-sm w-full">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+              <Input
+                  placeholder="검색..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="pl-10"
+              />
+            </form>
+
+            <Button variant="ghost" size="icon" onClick={() => setTheme(theme === "dark" ? "light" : "dark")}>
+              {theme === "dark" ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
+            </Button>
+
+            <Button variant="ghost" size="icon" asChild>
+              <a href="https://github.com" target="_blank" rel="noopener noreferrer">
+                <Github className="h-5 w-5" />
+              </a>
+            </Button>
+
+            <Button variant="ghost" size="icon" asChild>
+              <a href="mailto:contact@example.com">
+                <Mail className="h-5 w-5" />
+              </a>
+            </Button>
+
+            {/* 로그인/사용자 메뉴 */}
+            {loading ? (
+                <div className="h-8 w-8 rounded-full bg-muted animate-pulse" />
+            ) : user ? (
+                <UserMenu />
+            ) : (
+                <Button variant="ghost" asChild className="flex items-center gap-2">
+                  <Link href="/login">
+                    <LogIn className="h-4 w-4" />
+                    <span className="hidden sm:inline">로그인</span>
+                  </Link>
+                </Button>
+            )}
+          </div>
         </div>
-
-        <div className="flex-1 flex items-center justify-end gap-4">
-          <form onSubmit={handleSearchSubmit} className="relative max-w-sm w-full">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-            <Input
-              placeholder="검색..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-10"
-            />
-          </form>
-
-          <Button variant="ghost" size="icon" onClick={() => setTheme(theme === "dark" ? "light" : "dark")}>
-            {theme === "dark" ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
-          </Button>
-
-          <Button variant="ghost" size="icon" asChild>
-            <a href="https://github.com/helloJosh" target="_blank" rel="noopener noreferrer">
-              <Github className="h-5 w-5" />
-            </a>
-          </Button>
-
-          <Button variant="ghost" size="icon" asChild>
-            <a href="mailto:kimjoshua135@gmail.com">
-              <Mail className="h-5 w-5" />
-            </a>
-          </Button>
-        </div>
-      </div>
-    </header>
+      </header>
   )
 }
