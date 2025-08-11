@@ -9,6 +9,8 @@
     <packaging>pom</packaging>
     <modules>
         <module>back</module>
+        <module>auth</module>
+        <module>gateway</module>
         <!--React :front</module>-->
     </modules>
 
@@ -25,11 +27,6 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <optional>true</optional>
-        </dependency>
-        <!-- Open Feign -->
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-openfeign</artifactId>
         </dependency>
     </dependencies>
 

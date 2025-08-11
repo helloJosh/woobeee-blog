@@ -1,4 +1,5 @@
 package com.woobeee.back.entity.enums;
 
-public enum Auth {
+public enum AuthType {
+    GUEST, MEMBER, ADMIN
 }

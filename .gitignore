@@ -50,7 +50,6 @@ front/.env.production.local
 # OS/IDE 생성 파일
 front/.DS_Store
 front/*.log
-front/*.iml
 front/.idea/
 front/.vscode/
 

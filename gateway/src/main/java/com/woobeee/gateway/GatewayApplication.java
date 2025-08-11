@@ -1,12 +1,13 @@
-package com.woobeee.back;
+package com.woobeee.gateway;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class BackApplication {
+public class GatewayApplication {
+
     public static void main(String[] args) {
-        SpringApplication.run(BackApplication.class, args);
+        SpringApplication.run(GatewayApplication.class, args);
     }
 
 }
