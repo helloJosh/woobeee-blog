@@ -1,0 +1,29 @@
+services:
+  postgres-management:
+    image: postgres:latest
+    container_name: management-postgres
+    restart: always
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin!23
+      POSTGRES_DB: postgres
+      TZ: Asia/Seoul
+    volumes:
+      - .docker-volumes/postgres/management-data:/var/lib/postgresql/data
+      - .docker-volumes/postgres/init:/docker-entrypoint-initdb.d
+
+  redis:
+    image: redis:latest
+    container_name: redis
+    restart: always
+    ports:
+      - 9379:9379
+    volumes:
+      - .docker-volumes/redis/data:/data
+    command: [ "redis-server", "--appendonly", "yes" , "--requirepass", "admin!23" ]
+
+
+
+##minio server --address ":30000" --console-address ":30001" ~/minio-data
