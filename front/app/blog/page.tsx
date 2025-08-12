@@ -27,15 +27,6 @@ export default function BlogPage() {
 
   return (
       <div className="space-y-4">
-        {/* 설정 버튼 */}
-        {/*<div className="flex justify-end">*/}
-        {/*  <InfiniteScrollSettings*/}
-        {/*      enableInfiniteScroll={enableInfiniteScroll}*/}
-        {/*      onToggleInfiniteScroll={setEnableInfiniteScroll}*/}
-        {/*      itemsPerPage={itemsPerPage}*/}
-        {/*      onItemsPerPageChange={setItemsPerPage}*/}
-        {/*  />*/}
-        {/*</div>*/}
 
         <PostList
             posts={filteredPosts}

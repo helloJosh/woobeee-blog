@@ -106,7 +106,7 @@ export default function Sidebar({ categories, selectedCategory, isOpen, width, o
           <Button
             variant={selected ? "secondary" : "ghost"}
             className={`flex-1 justify-start gap-2 h-auto py-2 px-2 ${level > 0 ? `ml-${level * 4}` : ""} ${
-              !hasChildren ? "ml-8" : ""
+              !hasChildren ? "ml-1" : ""
             }`}
             asChild
           >
@@ -163,9 +163,9 @@ export default function Sidebar({ categories, selectedCategory, isOpen, width, o
           }`}
           onMouseDown={handleMouseDown}
         >
-          <div className="absolute top-1/2 right-0 transform -translate-y-1/2 translate-x-1/2">
-            <GripVertical className="h-4 w-4 text-muted-foreground" />
-          </div>
+          {/*<div className="absolute top-1/2 right-0 transform -translate-y-1/2 translate-x-1/2">*/}
+          {/*  <GripVertical className="h-4 w-4 text-muted-foreground" />*/}
+          {/*</div>*/}
         </div>
       </aside>
 
