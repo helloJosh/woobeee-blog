@@ -2,15 +2,8 @@ spring:
   application:
     name: back
 
-
-jasypt:
-  encryptor:
-    password: ${JASYPT_ENCRYPTOR_PASSWORD}
-    algorithm: PBEWITHHMACSHA512ANDAES_256
-    iv-generator-classname: org.jasypt.iv.RandomIvGenerator
-    key-obtention-iterations: 200000
-    string-output-type: base64
-
-sample:
-  username: ENC(MLAHyxFpmlC4BekEmVQTOnMuONMG+ekjf2L5JEG4Ez581lWFELfsFgGcBVQiiwFv)
-  password: ENC(gX0IOj5t9VQl2lGA2gFa2142qqUZVM7Y8WEFiBn0bTTf/16SqITFm1jEsVGeN+Tx)
+  config:
+    import: optional:configserver:${CONFIG_URI}
+  cloud:
+    config:
+      profile: local

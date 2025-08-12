@@ -58,3 +58,6 @@ front/npm-debug.log*
 front/yarn-debug.log*
 front/yarn-error.log*
 front/pnpm-debug.log*
+
+# docker-compose
+docker-copose.yml

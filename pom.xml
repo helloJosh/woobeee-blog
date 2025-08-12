@@ -28,6 +28,11 @@
             <artifactId>lombok</artifactId>
             <optional>true</optional>
         </dependency>
+        <!-- config client -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-config</artifactId>
+        </dependency>
     </dependencies>
 
     <dependencyManagement>
@@ -48,6 +53,7 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
+
 
         </dependencies>
     </dependencyManagement>

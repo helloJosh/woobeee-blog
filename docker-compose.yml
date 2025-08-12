@@ -1,13 +1,13 @@
 services:
   postgres-management:
     image: postgres:latest
-    container_name: management-postgres
+    container_name: blog-db
     restart: always
     ports:
-      - 5432:5432
+      - 9432:5432
     environment:
-      POSTGRES_USER: admin
-      POSTGRES_PASSWORD: admin!23
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: 123456789
       POSTGRES_DB: postgres
       TZ: Asia/Seoul
     volumes:
@@ -22,7 +22,7 @@ services:
       - 9379:9379
     volumes:
       - .docker-volumes/redis/data:/data
-    command: [ "redis-server", "--appendonly", "yes" , "--requirepass", "admin!23" ]
+    command: [ "redis-server", "--appendonly", "yes" , "--requirepass", "root!23" ]
 
 
 
