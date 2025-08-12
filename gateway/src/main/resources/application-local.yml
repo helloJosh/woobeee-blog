@@ -1,0 +1,36 @@
+spring:
+  config:
+    activate:
+      on-profile: prod
+
+  cloud:
+    gateway:
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins:
+              - "http://localhost"
+              - "http://localhost:8000"
+              - "http://localhost:8080"
+              - "http://localhost:8081"
+              - "http://10.15.139.21"
+      routes:
+        - id: minerreport-backend
+          uri: http://110.165.17.239:8001
+          predicates:
+            - Path=/api/**
+
+        - id: minerreport-backend-docs
+          uri: http://110.165.17.239:8001
+          predicates:
+            Path=/docs/**
+
+        - id: minerreport-backend-datamart
+          uri: http://110.165.17.239:8002
+          predicates:
+            - Path=/v1/api/**
+
+        - id: minerreport-backend-datamart-docs
+          uri: http://110.165.17.239:8002
+          predicates:
+            Path=/data-mart-docs/**
