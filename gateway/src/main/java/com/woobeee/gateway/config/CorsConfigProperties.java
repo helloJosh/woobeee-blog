@@ -11,7 +11,7 @@ import java.util.Map;
 @Getter
 @Setter
 @Component
-@ConfigurationProperties(prefix = "spring.cloud.gateway.globalcors")
+@ConfigurationProperties(prefix = "spring.cloud.gateway.server.webflux.globalcors")
 public class CorsConfigProperties {
 
     private Map<String, CorsMapping> corsConfigurations;

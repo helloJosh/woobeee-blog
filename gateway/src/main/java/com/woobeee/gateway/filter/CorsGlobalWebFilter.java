@@ -1,5 +1,6 @@
-package com.woobeee.gateway.config;
+package com.woobeee.gateway.filter;
 
+import com.woobeee.gateway.config.CorsConfigProperties;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
@@ -11,7 +12,7 @@ import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
 @Slf4j
 @Configuration
 @RequiredArgsConstructor
-public class CorsGlobalConfig {
+public class CorsGlobalWebFilter {
     private final CorsConfigProperties corsConfigProperties;
 
     @Bean
