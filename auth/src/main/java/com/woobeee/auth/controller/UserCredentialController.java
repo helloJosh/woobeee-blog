@@ -1,7 +1,7 @@
 package com.woobeee.auth.controller;
 
 
-import com.woobeee.auth.support.ApiResponse;
+import com.woobeee.auth.dto.response.ApiResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.GetMapping;

@@ -1,8 +1,7 @@
 package com.woobeee.auth.service;
 
-import com.woobeee.auth.dto.PostLoginRequest;
-import com.woobeee.auth.dto.PostSignInRequest;
-import com.woobeee.auth.entity.UserCredential;
+import com.woobeee.auth.dto.request.PostLoginRequest;
+import com.woobeee.auth.dto.request.PostSignInRequest;
 
 /**
  * User Auth Service layer

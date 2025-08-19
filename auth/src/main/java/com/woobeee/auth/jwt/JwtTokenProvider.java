@@ -1,4 +1,4 @@
-package com.woobeee.auth.support;
+package com.woobeee.auth.jwt;
 
 import com.woobeee.auth.entity.enums.AuthType;
 import com.woobeee.auth.exception.JwtExpiredException;
@@ -6,7 +6,6 @@ import com.woobeee.auth.exception.JwtNotValidException;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;

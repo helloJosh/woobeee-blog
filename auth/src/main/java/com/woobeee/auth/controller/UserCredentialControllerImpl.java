@@ -1,6 +1,6 @@
 package com.woobeee.auth.controller;
 
-import com.woobeee.auth.support.ApiResponse;
+import com.woobeee.auth.dto.response.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;

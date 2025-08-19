@@ -1,4 +1,4 @@
-package com.woobeee.auth.support;
+package com.woobeee.auth.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;

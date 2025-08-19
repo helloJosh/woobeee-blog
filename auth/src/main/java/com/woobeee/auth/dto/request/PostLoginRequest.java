@@ -1,14 +1,13 @@
-package com.woobeee.auth.dto;
+package com.woobeee.auth.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-public class PostSignInRequest {
+@NoArgsConstructor
+public class PostLoginRequest {
     private String loginId;
     private String password;
-    private String nickname;
 }
