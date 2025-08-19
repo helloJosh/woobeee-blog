@@ -1,6 +1,6 @@
-package com.woobeee.back.entity;
+package com.woobeee.auth.entity;
 
-import com.woobeee.back.entity.enums.AuthType;
+import com.woobeee.auth.entity.enums.AuthType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

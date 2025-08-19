@@ -29,7 +29,7 @@ public class UserInfo {
     @UuidGenerator
     private UUID id;
 
-    private String name;
+    private String nickname;
 
     @CreationTimestamp
     @Builder.Default

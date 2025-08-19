@@ -1,4 +1,4 @@
-package com.woobeee.back.entity;
+package com.woobeee.auth.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -20,7 +20,7 @@ public class UserAuth {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     @MapsId(value = "userId")
-    private UserInfo userInfo;
+    private UserCredential userCredential;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "auth_id")

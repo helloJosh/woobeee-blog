@@ -1,8 +1,6 @@
-package com.woobeee.back.entity;
+package com.woobeee.auth.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -12,6 +10,8 @@ import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.annotations.UuidGenerator;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -29,7 +29,7 @@ public class UserCredential {
     @UuidGenerator
     private UUID id;
 
-    private String email;
+    private String loginId;
 
     /**
      * This parameter could be
@@ -44,4 +44,7 @@ public class UserCredential {
 
     @UpdateTimestamp
     private LocalDateTime updatedAt;
+
+    @OneToMany(mappedBy = "userCredential", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<UserAuth> userAuths = new ArrayList<>();
 }

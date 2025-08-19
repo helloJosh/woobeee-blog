@@ -62,3 +62,4 @@ front/pnpm-debug.log*
 # docker-compose
 docker-copose.yml
 .docker-volumes
+kafka_server_jaas.conf

@@ -24,6 +24,39 @@ services:
       - .docker-volumes/redis/data:/data
     command: [ "redis-server", "--appendonly", "yes" , "--requirepass", "root!23" ]
 
+  kafka:
+    image: confluentinc/cp-kafka:7.6.0 # Kafka 3.6.0 포함
+    container_name: kafka-kraft
+    ports:
+      - "9092:9092"
+      - "9093:9093"
+    environment:
+      KAFKA_KRAFT_MODE: "true"
+      KAFKA_PROCESS_ROLES: "broker,controller"
+      KAFKA_NODE_ID: "1"
+      KAFKA_CLUSTER_ID: "kraft-cluster-01"
+      KAFKA_CONTROLLER_QUORUM_VOTERS: "1@kafka-kraft:9093"
+      KAFKA_CONTROLLER_LISTENER_NAMES: "CONTROLLER"
+      KAFKA_LISTENERS: "PLAINTEXT://kafka-kraft:9092,CONTROLLER://kafka-kraft:9093"
+      KAFKA_ADVERTISED_LISTENERS: "PLAINTEXT://kafka-kraft:9092"
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: "CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT"
+      KAFKA_LOG_DIRS: "/tmp/kraft-combined-logs"
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
+    volumes:
+      - kraft-data:/tmp/kraft-combined-logs
 
+  kafka-ui:
+    image: provectuslabs/kafka-ui:latest
+    container_name: kafka-ui
+    ports:
+      - "8080:8080"
+    depends_on:
+      - kafka
+    environment:
+      KAFKA_CLUSTERS_0_NAME: local-kraft
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka-kraft:9092
+
+volumes:
+  kraft-data:
 
 ##minio server --address ":30000" --console-address ":30001" ~/minio-data
