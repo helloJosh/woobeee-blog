@@ -8,4 +8,5 @@ import java.util.List;
 
 public interface AuthRepository extends JpaRepository<Auth, Long> {
     List<Auth> findAllByAuthTypeIn(List<AuthType> authTypes);
+    boolean existsByAuthType(AuthType authType);
 }

@@ -15,6 +15,7 @@ import com.woobeee.auth.repository.AuthRepository;
 import com.woobeee.auth.repository.UserAuthRepository;
 import com.woobeee.auth.repository.UserCredentialRepository;
 import com.woobeee.auth.jwt.JwtTokenProvider;
+import jakarta.annotation.PostConstruct;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.apache.catalina.User;
@@ -106,4 +107,5 @@ public class UserCredentialServiceImpl implements UserCredentialService{
     public void signOut() {
 
     }
+
 }
