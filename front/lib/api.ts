@@ -142,9 +142,9 @@ export const authAPI = {
 
     // Google OAuth 로그인
     googleLogin: async (googleToken: string) => {
-        const response = await apiRequest("/auth/google", {
+        const response = await apiRequest("/api/auth/login", {
             method: "POST",
-            body: JSON.stringify({ token: googleToken }),
+            body: JSON.stringify({ idToken: googleToken }),
         })
 
         if (!response.ok) {

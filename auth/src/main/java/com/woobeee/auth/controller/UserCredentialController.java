@@ -1,6 +1,7 @@
 package com.woobeee.auth.controller;
 
 
+import com.woobeee.auth.dto.request.OauthTokenRequest;
 import com.woobeee.auth.dto.response.ApiResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -14,20 +15,19 @@ public interface UserCredentialController {
     @Operation(
             summary = "로그인 API"
     )
-    @GetMapping("/login")
-    ApiResponse<Void> login();
+    @PostMapping("/login")
+    ApiResponse<String> login(OauthTokenRequest request);
+
+    @Operation(
+            summary = "로그아웃 API"
+    )
+    @PostMapping("/signIn")
+    ApiResponse<String> signIn(OauthTokenRequest request);
 
     @Operation(
             summary = "로그아웃 API"
     )
     @GetMapping("/logout")
     ApiResponse<Void> logout();
-
-
-    @Operation(
-            summary = "로그아웃 API"
-    )
-    @PostMapping("/signIn")
-    ApiResponse<Void> signIn();
 
 }

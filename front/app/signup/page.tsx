@@ -44,16 +44,16 @@ export default function SignupPage() {
                 </Button>
 
                 {/* 이메일 회원가입 폼 */}
-                <RegisterForm />
+                {/*<RegisterForm />*/}
 
-                <div className="relative">
-                    <div className="absolute inset-0 flex items-center">
-                        <Separator className="w-full" />
-                    </div>
-                    <div className="relative flex justify-center text-xs uppercase">
-                        <span className="bg-background px-2 text-muted-foreground">또는</span>
-                    </div>
-                </div>
+                {/*<div className="relative">*/}
+                {/*    <div className="absolute inset-0 flex items-center">*/}
+                {/*        <Separator className="w-full" />*/}
+                {/*    </div>*/}
+                {/*    <div className="relative flex justify-center text-xs uppercase">*/}
+                {/*        <span className="bg-background px-2 text-muted-foreground">또는</span>*/}
+                {/*    </div>*/}
+                {/*</div>*/}
 
                 {/* Google 회원가입 */}
                 <GoogleAuthButton mode="signup" className="w-full" />

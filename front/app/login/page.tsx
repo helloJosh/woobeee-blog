@@ -44,16 +44,15 @@ export default function LoginPage() {
                 </Button>
 
                 {/* 이메일 로그인 폼 */}
-                <LoginForm />
-
-                <div className="relative">
-                    <div className="absolute inset-0 flex items-center">
-                        <Separator className="w-full" />
-                    </div>
-                    <div className="relative flex justify-center text-xs uppercase">
-                        <span className="bg-background px-2 text-muted-foreground">또는</span>
-                    </div>
-                </div>
+                {/*<LoginForm />*/}
+                {/*<div className="relative">*/}
+                {/*    <div className="absolute inset-0 flex items-center">*/}
+                {/*        <Separator className="w-full" />*/}
+                {/*    </div>*/}
+                {/*    <div className="relative flex justify-center text-xs uppercase">*/}
+                {/*        <span className="bg-background px-2 text-muted-foreground">또는</span>*/}
+                {/*    </div>*/}
+                {/*</div>*/}
 
                 {/* Google 로그인 */}
                 <GoogleAuthButton mode="signin" className="w-full" />

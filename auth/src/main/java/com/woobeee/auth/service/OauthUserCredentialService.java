@@ -1,6 +1,6 @@
 package com.woobeee.auth.service;
 
 public interface OauthUserCredentialService {
-    String logIn();
-    String signIn();
+    String signIn(String idTokenString);
+    String logIn(String idTokenString);
 }

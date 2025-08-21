@@ -15,4 +15,6 @@ import java.util.UUID;
  */
 public interface UserCredentialRepository extends JpaRepository<UserCredential, UUID> {
     Optional<UserCredential> findUserCredentialByLoginId(String loginId);
+
+    Boolean existsByLoginId(String loginId);
 }
