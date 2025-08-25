@@ -19,10 +19,10 @@ import java.util.UUID;
 public class KafkaConfig {
     @Value("${spring.kafka.bootstrap-servers}")
     private String bootstrapServers;
-//    @Value("${spring.kafka.username}")
-//    private String username;
-//    @Value("${spring.kafka.password}")
-//    private String password;
+    @Value("${spring.kafka.username}")
+    private String username;
+    @Value("${spring.kafka.password}")
+    private String password;
 
     @Bean
     public ConsumerFactory<String, String> consumerFactory() {
@@ -34,9 +34,9 @@ public class KafkaConfig {
 
         config.put("security.protocol", "SASL_PLAINTEXT");
         config.put("sasl.mechanism", "PLAIN");
-//        config.put(SaslConfigs.SASL_JAAS_CONFIG,
-//                String.format("org.apache.kafka.common.security.plain.PlainLoginModule required username=\"%s\" password=\"%s\";",
-//                        username, password));
+        config.put(SaslConfigs.SASL_JAAS_CONFIG,
+                String.format("org.apache.kafka.common.security.plain.PlainLoginModule required username=\"%s\" password=\"%s\";",
+                        username, password));
         return new DefaultKafkaConsumerFactory<>(config);
     }
 
@@ -56,9 +56,9 @@ public class KafkaConfig {
 
         config.put("security.protocol", "SASL_PLAINTEXT");
         config.put("sasl.mechanism", "PLAIN");
-//        config.put(SaslConfigs.SASL_JAAS_CONFIG,
-//                String.format("org.apache.kafka.common.security.plain.PlainLoginModule required username=\"%s\" password=\"%s\";",
-//                        username, password));
+        config.put(SaslConfigs.SASL_JAAS_CONFIG,
+                String.format("org.apache.kafka.common.security.plain.PlainLoginModule required username=\"%s\" password=\"%s\";",
+                        username, password));
         return new DefaultKafkaProducerFactory<>(config);
     }
 

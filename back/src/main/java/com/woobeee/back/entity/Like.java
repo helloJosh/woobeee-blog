@@ -19,15 +19,17 @@ public class Like {
     @EmbeddedId
     private LikeId id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    @MapsId(value = "userId")
-    private UserInfo userInfo;
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "user_id")
+//    @MapsId(value = "userId")
+//    private UserInfo userInfo;
+//    private UUID userId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "post_id")
-    @MapsId(value = "postId")
-    private Post post;
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "post_id")
+//    @MapsId(value = "postId")
+//    private Post post;
+//    private Long postId;
 
     @CreationTimestamp
     private LocalDateTime createdAt = LocalDateTime.now();

@@ -36,14 +36,17 @@ public class Comment {
     @JoinColumn(name = "user_info_id")
     private UserInfo userInfo;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "post_id")
-    private Post post;
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "post_id")
+//    private Post post;
+    private Long postId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "parent_id")
-    private Comment parent;
+    private Long parentId;
 
-    @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL)
-    private List<Comment> children = new ArrayList<>();
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "parent_id")
+//    private Comment parent;
+//
+//    @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL)
+//    private List<Comment> children = new ArrayList<>();
 }

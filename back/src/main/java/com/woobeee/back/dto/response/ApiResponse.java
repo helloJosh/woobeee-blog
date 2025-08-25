@@ -1,4 +1,4 @@
-package com.woobeee.back.support;
+package com.woobeee.back.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;

@@ -22,7 +22,9 @@ public class Category {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name;
+    private String nameKo;
+
+    private String nameEn;
 
     @CreationTimestamp
     @Builder.Default
@@ -31,10 +33,11 @@ public class Category {
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "parent_id")
-    private Category parent;
-
-    @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL)
-    private List<Category> children = new ArrayList<>();
+    private Long parentId;
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "parent_id")
+//    private Category parent;
+//
+//    @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL)
+//    private List<Category> children = new ArrayList<>();
 }

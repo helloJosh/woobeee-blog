@@ -25,11 +25,9 @@ public class UserInfo {
      * Later the database will be seperated
      */
     @Id
-    @GeneratedValue
-    @UuidGenerator
     private UUID id;
 
-    private String nickname;
+    private String loginId;
 
     @CreationTimestamp
     @Builder.Default
@@ -37,4 +35,9 @@ public class UserInfo {
 
     @UpdateTimestamp
     private LocalDateTime updatedAt;
+
+    public UserInfo(String loginId, UUID id) {
+        this.loginId = loginId;
+        this.id = id;
+    }
 }

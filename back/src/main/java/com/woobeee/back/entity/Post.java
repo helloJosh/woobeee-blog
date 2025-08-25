@@ -20,10 +20,14 @@ public class Post {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String title;
+    private String titleKo;
+    private String titleEn;
 
     @Column(columnDefinition = "text")
-    private String text;
+    private String textKo;
+    @Column(columnDefinition = "text")
+    private String textEn;
+
     private Long views;
 
     @CreationTimestamp
@@ -33,6 +37,7 @@ public class Post {
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Category category;
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    private Category category;
+    private Long categoryId;
 }
