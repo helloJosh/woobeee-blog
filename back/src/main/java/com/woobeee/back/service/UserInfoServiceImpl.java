@@ -18,6 +18,6 @@ public class UserInfoServiceImpl implements UserInfoService {
 
     @Override
     public void signIn(String id, String loginId) {
-        userInfoRepository.save(new UserInfo(id, UUID.fromString(loginId)));
+        userInfoRepository.save(new UserInfo(loginId, UUID.fromString(id)));
     }
 }

@@ -6,7 +6,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.*;
 
-@RequestMapping("/api/back")
+@RequestMapping("/api/back/likes")
 @Tag(name = "Like Controller", description = "좋아요 컨트롤러")
 public interface LikeController {
     @Operation(

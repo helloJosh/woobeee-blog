@@ -115,6 +115,13 @@ export default function Header({ onToggleSidebar, sidebarWidth }: HeaderProps) {
                 <div className="h-8 w-8 rounded-full bg-muted animate-pulse" />
             ) : user ? (
                 <UserMenu />
+            ) : localStorage.getItem("accessToken") ? (
+                <Button variant="ghost" asChild className="flex items-center gap-2">
+                  <Link href="/logout">
+                    <LogIn className="h-4 w-4" />
+                    <span className="hidden sm:inline">로그아웃</span>
+                  </Link>
+                </Button>
             ) : (
                 <Button variant="ghost" asChild className="flex items-center gap-2">
                   <Link href="/login">

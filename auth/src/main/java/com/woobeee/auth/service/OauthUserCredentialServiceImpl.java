@@ -69,8 +69,6 @@ public class OauthUserCredentialServiceImpl implements OauthUserCredentialServic
 
         List<UserAuth> userAuths = auths.stream()
                 .map(auth -> UserAuth.builder()
-                        .auth(auth)
-                        .userCredential(savedUserCredential)
                         .id(new UserAuth.UserAuthId(savedUserCredential.getId(), auth.getId()))
                         .build())
                 .toList();

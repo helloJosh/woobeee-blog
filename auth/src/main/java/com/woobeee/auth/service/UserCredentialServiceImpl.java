@@ -53,9 +53,16 @@ public class UserCredentialServiceImpl implements UserCredentialService{
                 userCredential.getPassword(),
                 loginRequest.getPassword())
         ) {
-            List<AuthType> authTypes = userCredential.getUserAuths()
+            List<Long> userAuths = userAuthRepository
+                    .findAllById_UserId(userCredential.getId())
                     .stream()
-                    .map(userAuth -> userAuth.getAuth().getAuthType())
+                    .map(UserAuth::getAuthId)
+                    .toList();
+
+            List<AuthType> authTypes = authRepository
+                    .findAllById(userAuths)
+                    .stream()
+                    .map(Auth::getAuthType)
                     .toList();
 
             String loginId = userCredential.getLoginId();
@@ -78,14 +85,10 @@ public class UserCredentialServiceImpl implements UserCredentialService{
                 .password(postSignInRequest.getPassword())
                 .build();
 
-        userCredential = userCredentialRepository.save(userCredential);
-
         UserCredential savedUserCredential = userCredentialRepository.save(userCredential);
 
         List<UserAuth> userAuths = auths.stream()
                 .map(auth -> UserAuth.builder()
-                        .auth(auth)
-                        .userCredential(savedUserCredential)
                         .id(new UserAuth.UserAuthId(savedUserCredential.getId(), auth.getId()))
                         .build())
                 .toList();

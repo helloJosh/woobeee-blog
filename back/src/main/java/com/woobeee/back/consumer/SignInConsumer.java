@@ -18,18 +18,18 @@ import java.io.IOException;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class SigninConsumer {
+public class SignInConsumer {
     private final ObjectMapper objectMapper;
     private final KafkaTemplate<String, String> kafkaTemplate;
 
     private final UserInfoService userInfoService;
 
-    @Value("${spring.config.activate.on-profile}")
+    @Value("${spring.cloud.config.profile}")
     private String profile;
 
     @KafkaListener(
-            topics = "${spring.config.activate.on-profile}-signin-trigger",
-            groupId = "${spring.kafka.consumer.group-id}")
+            topics = "${spring.cloud.config.profile}-sign-in-trigger",
+            groupId = "${spring.cloud.config.profile}-${spring.kafka.consumer.group-id}")
     public void listenExtract(String message) {
         log.info(message);
         JsonNode requestNode = null;

@@ -45,6 +45,7 @@ public class UserCredential {
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
-    @OneToMany(mappedBy = "userCredential", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<UserAuth> userAuths = new ArrayList<>();
+
+//    @OneToMany(mappedBy = "userCredential", cascade = CascadeType.ALL, orphanRemoval = true)
+//    private List<UserAuth> userAuths = new ArrayList<>();
 }

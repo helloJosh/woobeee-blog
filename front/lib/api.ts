@@ -1,5 +1,5 @@
 // API 기본 설정
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8080/api"
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8000"
 
 // 토큰 관리
 export const tokenManager = {
@@ -19,22 +19,22 @@ export const tokenManager = {
     removeToken: () => {
         if (typeof window !== "undefined") {
             localStorage.removeItem("accessToken")
-            localStorage.removeItem("refreshToken")
+            //localStorage.removeItem("refreshToken")
         }
     },
 
-    getRefreshToken: () => {
-        if (typeof window !== "undefined") {
-            return localStorage.getItem("refreshToken")
-        }
-        return null
-    },
-
-    setRefreshToken: (token: string) => {
-        if (typeof window !== "undefined") {
-            localStorage.setItem("refreshToken", token)
-        }
-    },
+    // getRefreshToken: () => {
+    //     if (typeof window !== "undefined") {
+    //         return localStorage.getItem("refreshToken")
+    //     }
+    //     return null
+    // },
+    //
+    // setRefreshToken: (token: string) => {
+    //     if (typeof window !== "undefined") {
+    //         localStorage.setItem("refreshToken", token)
+    //     }
+    // },
 }
 
 // API 요청 함수
@@ -56,7 +56,8 @@ export const apiRequest = async (endpoint: string, options: RequestInit = {}) =>
 
         // 토큰 만료 시 리프레시 시도
         if (response.status === 401 && token) {
-            const refreshed = await refreshAccessToken()
+            //const refreshed = await refreshAccessToken()
+            const refreshed = false
             if (refreshed) {
                 // 새 토큰으로 재시도
                 config.headers = {
@@ -79,34 +80,34 @@ export const apiRequest = async (endpoint: string, options: RequestInit = {}) =>
     }
 }
 
-// 토큰 리프레시
-const refreshAccessToken = async (): Promise<boolean> => {
-    const refreshToken = tokenManager.getRefreshToken()
-    if (!refreshToken) return false
-
-    try {
-        const response = await fetch(`${API_BASE_URL}/auth/refresh`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ refreshToken }),
-        })
-
-        if (response.ok) {
-            const data = await response.json()
-            tokenManager.setToken(data.accessToken)
-            if (data.refreshToken) {
-                tokenManager.setRefreshToken(data.refreshToken)
-            }
-            return true
-        }
-    } catch (error) {
-        console.error("Token refresh failed:", error)
-    }
-
-    return false
-}
+ // 토큰 리프레시
+// const refreshAccessToken = async (): Promise<boolean> => {
+//     const refreshToken = tokenManager.getRefreshToken()
+//     if (!refreshToken) return false
+//
+//     try {
+//         const response = await fetch(`${API_BASE_URL}/auth/refresh`, {
+//             method: "POST",
+//             headers: {
+//                 "Content-Type": "application/json",
+//             },
+//             body: JSON.stringify({ refreshToken }),
+//         })
+//
+//         if (response.ok) {
+//             const data = await response.json()
+//             tokenManager.setToken(data.accessToken)
+//             if (data.refreshToken) {
+//                 tokenManager.setRefreshToken(data.refreshToken)
+//             }
+//             return true
+//         }
+//     } catch (error) {
+//         console.error("Token refresh failed:", error)
+//     }
+//
+//     return false
+// }
 
 // 인증 API
 export const authAPI = {
@@ -155,14 +156,29 @@ export const authAPI = {
         return response.json()
     },
 
-    // 로그아웃
-    logout: async () => {
-        const response = await apiRequest("/auth/logout", {
+    // Google OAuth 회원가입
+    googleSignIn: async (googleToken: string) => {
+        const response = await apiRequest("/api/auth/signIn", {
             method: "POST",
+            body: JSON.stringify({ idToken: googleToken }),
         })
 
+        if (!response.ok) {
+            const error = await response.json()
+            throw new Error(error.message || "Google 로그인에 실패했습니다.")
+        }
+
+        return response.json()
+    },
+
+    // 로그아웃
+    logout: async () => {
+        // const response = await apiRequest("/auth/logout", {
+        //     method: "POST",
+        // })
+
         tokenManager.removeToken()
-        return response.ok
+        //return response.ok
     },
 
     // 사용자 정보 조회

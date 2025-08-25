@@ -55,7 +55,7 @@ export default function LoginPage() {
                 {/*</div>*/}
 
                 {/* Google 로그인 */}
-                <GoogleAuthButton mode="signin" className="w-full" />
+                <GoogleAuthButton mode="login" className="w-full" />
 
                 <div className="text-center text-sm text-muted-foreground">
                     계정이 없으신가요?{" "}

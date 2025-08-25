@@ -11,6 +11,7 @@ interface AuthContextType {
     login: (email: string, password: string) => Promise<void>
     register: (email: string, password: string, name: string) => Promise<void>
     googleLogin: (googleToken: string) => Promise<void>
+    googleSignIn: (googleToken: string) => Promise<void>
     logout: () => Promise<void>
     isAuthenticated: boolean
 }
@@ -33,15 +34,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     useEffect(() => {
         const initAuth = async () => {
             const token = tokenManager.getToken()
-            if (token) {
-                try {
-                    const userData = await authAPI.getProfile()
-                    setUser(userData)
-                } catch (error) {
-                    console.error("Failed to get user profile:", error)
-                    tokenManager.removeToken()
-                }
-            }
+            // if (token) {
+            //     try {
+            //         const userData = await authAPI.getProfile()
+            //         setUser(userData)
+            //     } catch (error) {
+            //         console.error("Failed to get user profile:", error)
+            //         tokenManager.removeToken()
+            //     }
+            // }
             setLoading(false)
         }
 
@@ -52,7 +53,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         try {
             const response = await authAPI.login(email, password)
             tokenManager.setToken(response.accessToken)
-            tokenManager.setRefreshToken(response.refreshToken)
+            //tokenManager.setRefreshToken(response.refreshToken)
             setUser(response.user)
         } catch (error) {
             console.error("Login failed:", error)
@@ -64,7 +65,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         try {
             const response = await authAPI.register(email, password, name)
             tokenManager.setToken(response.accessToken)
-            tokenManager.setRefreshToken(response.refreshToken)
+            //tokenManager.setRefreshToken(response.refreshToken)
             setUser(response.user)
         } catch (error) {
             console.error("Registration failed:", error)
@@ -75,8 +76,21 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const googleLogin = async (googleToken: string) => {
         try {
             const response = await authAPI.googleLogin(googleToken)
-            tokenManager.setToken(response.accessToken)
-            tokenManager.setRefreshToken(response.refreshToken)
+            tokenManager.setToken(response.data)
+            //tokenManager.setRefreshToken(response.refreshToken)
+            //setUser(response.user)
+        } catch (error) {
+            console.error("Google login failed:", error)
+            throw error
+        }
+    }
+
+    const googleSignIn = async (googleToken: string) => {
+        try {
+            const response = await authAPI.googleSignIn(googleToken)
+
+            tokenManager.setToken(response.data)
+            //tokenManager.setRefreshToken(response.refreshToken)
             setUser(response.user)
         } catch (error) {
             console.error("Google login failed:", error)
@@ -101,6 +115,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         login,
         register,
         googleLogin,
+        googleSignIn,
         logout,
         isAuthenticated: !!user,
     }

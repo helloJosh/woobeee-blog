@@ -5,9 +5,10 @@ import { Button } from "@/components/ui/button"
 import { Loader2 } from "lucide-react"
 import { useAuth } from "@/hooks/use-auth"
 import { GOOGLE_CLIENT_ID } from "@/lib/constants"
+import { useRouter } from "next/navigation"
 
 interface GoogleAuthButtonProps {
-    mode: "signin" | "signup"
+    mode: "signin" | "login"
     className?: string
 }
 
@@ -28,7 +29,8 @@ declare global {
 export default function GoogleAuthButton({ mode, className }: GoogleAuthButtonProps) {
     const [isLoading, setIsLoading] = useState(false)
     const [isScriptLoaded, setIsScriptLoaded] = useState(false)
-    const { googleLogin } = useAuth()
+    const { googleLogin, googleSignIn } = useAuth()
+    const router = useRouter()
     const buttonContainerRef = useCallback(
         (node: HTMLDivElement) => {
             if (node && isScriptLoaded && window.google) {
@@ -37,7 +39,7 @@ export default function GoogleAuthButton({ mode, className }: GoogleAuthButtonPr
                     type: "standard",
                     theme: "outline",
                     size: "large",
-                    text: mode === "signin" ? "signin_with" : "signup_with",
+                    text: mode === "login" ? "signin_with" : "signup_with",
                     shape: "rectangular",
                     logo_alignment: "left",
                     width: node.offsetWidth,
@@ -94,7 +96,14 @@ export default function GoogleAuthButton({ mode, className }: GoogleAuthButtonPr
             console.log("Google ID Token:", idToken)
 
             // 백엔드로 토큰 전송하여 인증
-            await googleLogin(idToken)
+            // await googleLogin(idToken)
+            // 모드에 따라 로그인/회원가입 분기
+            if (mode === "signin") {
+                await googleSignIn(idToken)
+            } else {
+                await googleLogin(idToken)
+            }
+            router.replace("/")
         } catch (error) {
             console.error("Google auth error:", error)
             alert("로그인 중 오류가 발생했습니다. 다시 시도해주세요.")

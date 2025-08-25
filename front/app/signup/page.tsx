@@ -56,7 +56,7 @@ export default function SignupPage() {
                 {/*</div>*/}
 
                 {/* Google 회원가입 */}
-                <GoogleAuthButton mode="signup" className="w-full" />
+                <GoogleAuthButton mode="signin" className="w-full" />
 
                 <div className="text-center text-sm text-muted-foreground">
                     이미 계정이 있으신가요?{" "}

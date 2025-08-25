@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @RequestMapping("/api/auth")
@@ -16,13 +17,13 @@ public interface UserCredentialController {
             summary = "로그인 API"
     )
     @PostMapping("/login")
-    ApiResponse<String> login(OauthTokenRequest request);
+    ApiResponse<String> login(@RequestBody OauthTokenRequest request);
 
     @Operation(
             summary = "로그아웃 API"
     )
     @PostMapping("/signIn")
-    ApiResponse<String> signIn(OauthTokenRequest request);
+    ApiResponse<String> signIn(@RequestBody OauthTokenRequest request);
 
     @Operation(
             summary = "로그아웃 API"

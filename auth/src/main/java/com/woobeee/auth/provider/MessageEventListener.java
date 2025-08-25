@@ -14,9 +14,9 @@ import org.springframework.transaction.event.TransactionalEventListener;
 @Slf4j
 @RequiredArgsConstructor
 public class MessageEventListener {
-    private final static String EXTRACT_TRIGGER_TOPIC = "-signin-trigger";
+    private final static String EXTRACT_TRIGGER_TOPIC = "-sign-in-trigger";
 
-    @Value("${spring.config.activate.on-profile}")
+    @Value("${spring.cloud.config.profile}")
     private String profile;
 
     private final KafkaTemplate<String, String> kafkaTemplate;
@@ -30,7 +30,7 @@ public class MessageEventListener {
             )
             .whenComplete((result, ex) -> {
                     if (ex != null) {
-                        log.error("메시지 전송 실패: topic={}, key={}", EXTRACT_TRIGGER_TOPIC, ex);
+                        log.error("메시지 전송 실패: topic={}, key={}", profile + EXTRACT_TRIGGER_TOPIC, ex);
                         throw new RuntimeException(ex);
                     } else {
                         log.info("메시지 전송 성공: topic={}, partition={}, offset={}",
