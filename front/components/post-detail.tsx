@@ -11,6 +11,8 @@ import ReactMarkdown from "react-markdown"
 import CommentSection from "@/components/comment-section"
 import { useRouter } from "next/navigation"
 import type { Post } from "@/lib/types"
+import remarkGfm from "remark-gfm"
+import remarkBreaks from "remark-breaks";
 
 interface PostDetailProps {
   post: Post
@@ -96,8 +98,56 @@ export default function PostDetail({ post }: PostDetailProps) {
         </CardHeader>
 
         <CardContent>
-          <div className="prose prose-gray dark:prose-invert max-w-none">
-            <ReactMarkdown>{post.content}</ReactMarkdown>
+          <div
+              className="
+                max-w-none font-sans text-base leading-7 break-words
+                /* 제목 공통 */
+                [&_h1]:font-bold [&_h1]:leading-tight [&_h1]:mt-6 [&_h1]:mb-3 [&_h1]:text-3xl
+                [&_h2]:font-bold [&_h2]:leading-tight [&_h2]:mt-6 [&_h2]:mb-3 [&_h2]:text-2xl
+                [&_h3]:font-bold [&_h3]:leading-tight [&_h3]:mt-5 [&_h3]:mb-2 [&_h3]:text-xl
+                [&_h4]:font-semibold [&_h4]:mt-5 [&_h4]:mb-2
+
+                /* 문단 */
+                [&_p]:my-3
+
+                /* 리스트 */
+                [&_ul]:list-disc [&_ul]:pl-4 [&_ul]:ml-6 [&_ul]:my-3
+                [&_ol]:list-decimal [&_ol]:pl-4 [&_ol]:ml-6 [&_ol]:my-3
+                [&_li]:my-1
+                [&_li>ul]:mt-1 [&_li>ol]:mt-1
+
+                /* 인라인 코드 */
+                [&_code]:bg-gray-100 [&_code]:rounded [&_code]:px-1.5 [&_code]:py-0.5
+                [&_code]:font-mono [&_code]:text-sm
+
+                /* 코드블록 */
+                [&_pre]:bg-gray-100 [&_pre]:p-4 [&_pre]:rounded-lg [&_pre]:overflow-x-auto [&_pre]:my-4
+                [&_pre_code]:bg-transparent [&_pre_code]:p-0
+
+                /* 인용문 */
+                [&_blockquote]:my-4 [&_blockquote]:pl-4 [&_blockquote]:border-l-4
+                [&_blockquote]:border-slate-200 [&_blockquote]:bg-slate-50 [&_blockquote]:text-slate-700
+
+                /* 구분선 */
+                [&_hr]:my-6 [&_hr]:border-0 [&_hr]:border-t [&_hr]:border-slate-200
+
+                /* 이미지/테이블 */
+                [&_img]:max-w-full [&_img]:h-auto
+                [&_table]:w-full [&_table]:border-collapse [&_table]:my-4
+                [&_th]:border [&_th]:border-slate-200 [&_th]:px-3 [&_th]:py-2 [&_th]:text-left
+                [&_td]:border [&_td]:border-slate-200 [&_td]:px-3 [&_td]:py-2
+
+                /* 라이트/다크 모드 색상 (전역 theme 변수 안 쓰는 순정 유틸 버전) */
+                text-slate-800
+                dark:text-slate-200
+                dark:[&_pre]:bg-slate-900
+                dark:[&_code]:bg-slate-900
+                dark:[&_blockquote]:bg-slate-900 dark:[&_blockquote]:border-slate-600 dark:[&_blockquote]:text-slate-300
+                dark:[&_hr]:border-slate-600
+                dark:[&_th]:border-slate-600 dark:[&_td]:border-slate-600
+              "
+          >
+            <ReactMarkdown remarkPlugins={[remarkGfm, remarkBreaks]}>{post.content}</ReactMarkdown>
           </div>
 
           <div className="flex items-center gap-4 mt-8 pt-6 border-t">
