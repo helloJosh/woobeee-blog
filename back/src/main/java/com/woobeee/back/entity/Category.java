@@ -40,4 +40,11 @@ public class Category {
 //
 //    @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL)
 //    private List<Category> children = new ArrayList<>();
+
+
+    public Category(String nameKo, String nameEn, Long parentId) {
+        this.nameKo = nameKo;
+        this.nameEn = nameEn;
+        this.parentId = parentId;
+    }
 }
