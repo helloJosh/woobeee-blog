@@ -111,36 +111,6 @@ export const apiRequest = async (endpoint: string, options: RequestInit = {}) =>
 
 // 인증 API
 export const authAPI = {
-    // 로그인
-    login: async (email: string, password: string) => {
-        const response = await apiRequest("/auth/login", {
-            method: "POST",
-            body: JSON.stringify({ email, password }),
-        })
-
-        if (!response.ok) {
-            const error = await response.json()
-            throw new Error(error.message || "로그인에 실패했습니다.")
-        }
-
-        return response.json()
-    },
-
-    // 회원가입
-    register: async (email: string, password: string, name: string) => {
-        const response = await apiRequest("/auth/register", {
-            method: "POST",
-            body: JSON.stringify({ email, password, name }),
-        })
-
-        if (!response.ok) {
-            const error = await response.json()
-            throw new Error(error.message || "회원가입에 실패했습니다.")
-        }
-
-        return response.json()
-    },
-
     // Google OAuth 로그인
     googleLogin: async (googleToken: string) => {
         const response = await apiRequest("/api/auth/login", {
@@ -179,16 +149,21 @@ export const authAPI = {
 
         tokenManager.removeToken()
         //return response.ok
-    },
+    }
+}
 
-    // 사용자 정보 조회
-    getProfile: async () => {
-        const response = await apiRequest("/auth/profile")
+export const categoryAPI = {
+    categories: async () => {
+        const response = await apiRequest("/api/back/categories", {
+            method: "GET"
+        })
 
         if (!response.ok) {
-            throw new Error("사용자 정보를 가져올 수 없습니다.")
+            const error = await response.json()
+            throw new Error(error.message || "카테고리 조회 실패.")
         }
 
-        return response.json()
-    },
+        const json = await response.json()
+        return json.data
+    }
 }

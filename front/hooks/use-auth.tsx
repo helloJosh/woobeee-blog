@@ -8,8 +8,6 @@ import type { User } from "@/lib/types"
 interface AuthContextType {
     user: User | null
     loading: boolean
-    login: (email: string, password: string) => Promise<void>
-    register: (email: string, password: string, name: string) => Promise<void>
     googleLogin: (googleToken: string) => Promise<void>
     googleSignIn: (googleToken: string) => Promise<void>
     logout: () => Promise<void>
@@ -30,7 +28,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const [user, setUser] = useState<User | null>(null)
     const [loading, setLoading] = useState(true)
 
-    // 초기 로드 시 토큰 확인 및 사용자 정보 가져오기
     useEffect(() => {
         const initAuth = async () => {
             const token = tokenManager.getToken()
@@ -48,30 +45,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
         initAuth()
     }, [])
-
-    const login = async (email: string, password: string) => {
-        try {
-            const response = await authAPI.login(email, password)
-            tokenManager.setToken(response.accessToken)
-            //tokenManager.setRefreshToken(response.refreshToken)
-            setUser(response.user)
-        } catch (error) {
-            console.error("Login failed:", error)
-            throw error
-        }
-    }
-
-    const register = async (email: string, password: string, name: string) => {
-        try {
-            const response = await authAPI.register(email, password, name)
-            tokenManager.setToken(response.accessToken)
-            //tokenManager.setRefreshToken(response.refreshToken)
-            setUser(response.user)
-        } catch (error) {
-            console.error("Registration failed:", error)
-            throw error
-        }
-    }
 
     const googleLogin = async (googleToken: string) => {
         try {
@@ -112,8 +85,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const value: AuthContextType = {
         user,
         loading,
-        login,
-        register,
         googleLogin,
         googleSignIn,
         logout,

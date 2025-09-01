@@ -12,7 +12,7 @@ import type { Post } from "@/lib/types"
 import MinimalScrollToTop from "@/components/minimal-scroll-to-top"
 
 interface PostListProps {
-    posts: Post[]
+    posts: Post[] | null
     selectedCategory: string | null
     categoryName?: string
     isSearchResult?: boolean
@@ -24,7 +24,6 @@ interface PostListProps {
 export default function PostList({
                                      posts,
                                      selectedCategory,
-                                     categoryName,
                                      isSearchResult,
                                      searchQuery,
                                      enableInfiniteScroll = true,
@@ -39,9 +38,6 @@ export default function PostList({
     const getTitle = () => {
         if (isSearchResult) {
             return searchQuery ? `"${searchQuery}" 검색 결과` : "검색 결과"
-        }
-        if (categoryName) {
-            return `${categoryName} 카테고리`
         }
         return "전체 글"
     }

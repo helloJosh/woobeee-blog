@@ -34,7 +34,7 @@ public interface CategoryController {
             summary = "카테고리 전체 조회 API"
     )
     @GetMapping("")
-    ApiResponse<GetCategoryResponse> getCategoryList(
+    ApiResponse<List<GetCategoryResponse>> getCategoryList(
             @RequestHeader(name = "Accept-Language", defaultValue = "ko-KR") String locale
     );
 }

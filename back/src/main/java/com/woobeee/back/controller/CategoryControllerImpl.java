@@ -32,9 +32,14 @@ public class CategoryControllerImpl implements CategoryController {
     }
 
     @Override
-    public ApiResponse<GetCategoryResponse> getCategoryList (
+    public ApiResponse<List<GetCategoryResponse>> getCategoryList (
             String locale
     ) {
-        return null;
+        log.info("get category list");
+
+        return ApiResponse.success(
+                categoryService.getCategoryList(locale),
+                "success"
+        );
     }
 }
