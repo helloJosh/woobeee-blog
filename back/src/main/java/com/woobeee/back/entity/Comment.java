@@ -11,6 +11,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 @AllArgsConstructor
@@ -31,11 +32,6 @@ public class Comment {
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_info_id")
-    private UserInfo userInfo;
-
 //    @ManyToOne(fetch = FetchType.LAZY)
 //    @JoinColumn(name = "post_id")
 //    private Post post;
@@ -43,10 +39,20 @@ public class Comment {
 
     private Long parentId;
 
+    private UUID userInfoId;
+
 //    @ManyToOne(fetch = FetchType.LAZY)
 //    @JoinColumn(name = "parent_id")
 //    private Comment parent;
 //
 //    @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL)
 //    private List<Comment> children = new ArrayList<>();
+
+
+    public Comment(String content, Long postId, Long parentId, UUID userInfoId) {
+        this.content = content;
+        this.postId = postId;
+        this.parentId = parentId;
+        this.userInfoId = userInfoId;
+    }
 }

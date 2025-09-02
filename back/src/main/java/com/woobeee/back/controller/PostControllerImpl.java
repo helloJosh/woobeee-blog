@@ -6,6 +6,7 @@ import com.woobeee.back.dto.response.GetPostsResponse;
 import com.woobeee.back.support.CustomPageable;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RequiredArgsConstructor
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class PostControllerImpl implements PostController {
     @Override
     public ApiResponse<GetPostsResponse> getPostWithCategory (
+            String q,
             Long categoryId,
             Integer page,
             Integer size,
@@ -28,6 +30,7 @@ public class PostControllerImpl implements PostController {
 
     @Override
     public ApiResponse<GetPostsResponse> getPosts(
+            String q,
             Integer page,
             Integer size,
             String userId,
@@ -37,19 +40,6 @@ public class PostControllerImpl implements PostController {
 
         CustomPageable pageable = new CustomPageable(page, size);
 
-        return null;
-    }
-
-    @Override
-    public ApiResponse<GetPostsResponse> getSearchPosts (
-            String q,
-            Integer page,
-            Integer size,
-            String userId,
-            String locale
-    ) {
-        log.info("getSearchPosts request received");
-        CustomPageable pageable = new CustomPageable(page, size);
         return null;
     }
 

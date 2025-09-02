@@ -17,6 +17,7 @@ public interface PostController {
     )
     @GetMapping("/{categoryId}")
     ApiResponse<GetPostsResponse> getPostWithCategory(
+            @RequestParam("q") String q,
             @PathVariable("categoryId") Long categoryId,
             @RequestParam("page") Integer page,
             @RequestParam(value = "size", defaultValue = "5") Integer size,
@@ -29,17 +30,6 @@ public interface PostController {
     )
     @GetMapping()
     ApiResponse<GetPostsResponse> getPosts(
-            @RequestParam("page") Integer page,
-            @RequestParam(value = "size", defaultValue = "5") Integer size,
-            @RequestHeader(name = "userId", required = false) String userId,
-            @RequestHeader(name = "Accept-Language", defaultValue = "ko-KR") String locale
-    );
-
-    @Operation(
-            summary = "전체 게시글 조회 API"
-    )
-    @GetMapping("/searches")
-    ApiResponse<GetPostsResponse> getSearchPosts(
             @RequestParam("q") String q,
             @RequestParam("page") Integer page,
             @RequestParam(value = "size", defaultValue = "5") Integer size,

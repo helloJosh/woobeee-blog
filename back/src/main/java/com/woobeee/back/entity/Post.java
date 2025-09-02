@@ -9,6 +9,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Entity
 @AllArgsConstructor
@@ -40,4 +41,14 @@ public class Post {
 //    @ManyToOne(fetch = FetchType.LAZY)
 //    private Category category;
     private Long categoryId;
+    private UUID userId;
+
+    public Post(String titleKo, String titleEn, String textKo, String textEn, Long categoryId, UUID userId) {
+        this.titleKo = titleKo;
+        this.titleEn = titleEn;
+        this.textKo = textKo;
+        this.textEn = textEn;
+        this.categoryId = categoryId;
+        this.userId = userId;
+    }
 }
