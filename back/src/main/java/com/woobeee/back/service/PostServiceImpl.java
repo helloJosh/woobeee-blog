@@ -2,17 +2,22 @@ package com.woobeee.back.service;
 
 
 import com.woobeee.back.dto.request.PostPostRequest;
+import com.woobeee.back.dto.response.GetPostsResponse;
 import com.woobeee.back.entity.Comment;
 import com.woobeee.back.entity.Post;
 import com.woobeee.back.repository.CategoryRepository;
 import com.woobeee.back.repository.CommentRepository;
+import com.woobeee.back.repository.LikeRepository;
 import com.woobeee.back.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import scala.concurrent.impl.FutureConvertersImpl;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -22,6 +27,7 @@ import java.util.UUID;
 public class PostServiceImpl implements PostService {
     private final PostRepository postRepository;
     private final CategoryRepository categoryRepository;
+    private final LikeRepository likeRepository;
 
     @Override
     public void savePost(PostPostRequest request, UUID userId) {
@@ -52,12 +58,86 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public void getAllPost(String q, String locale, Pageable pageable) {
+    public GetPostsResponse getAllPost(String q, String locale, Pageable pageable) {
+        Page<Post> posts;
 
+        if (q != null) {
+            if (locale.equalsIgnoreCase("en")) {
+                posts = postRepository.findByTitleEnContainingIgnoreCaseOrTextEnContainingIgnoreCaseOrderByCreatedAtDesc(
+                        q, q, pageable
+                );
+            } else {
+                posts = postRepository.findByTitleKoContainingIgnoreCaseOrTextKoContainingIgnoreCaseOrderByCreatedAtDesc(
+                        q, q, pageable
+                );
+            }
+        } else {
+            posts = postRepository.findAll(pageable);
+        }
+
+        List<GetPostsResponse.PostContent> contents = posts.getContent().stream().map(post -> {
+            String title = locale.equalsIgnoreCase("en") ? post.getTitleEn() : post.getTitleKo();
+            String content = locale.equalsIgnoreCase("en") ? post.getTextEn() : post.getTextKo();
+            String categoryName = categoryRepository.findById(post.getCategoryId())
+                    .map(cat -> locale.equalsIgnoreCase("en") ? cat.getNameEn() : cat.getNameKo())
+                    .orElse("Unknown");
+
+            Long likeCount = likeRepository.countById_PostId(post.getId());
+
+            return new GetPostsResponse.PostContent(
+                    post.getId(),
+                    title,
+                    content,
+                    categoryName,
+                    String.valueOf(post.getCategoryId()),
+                    post.getViews(),
+                    likeCount,
+                    post.getCreatedAt()
+            );
+        }).toList();
+
+        return new GetPostsResponse(posts.hasNext(), contents);
     }
 
     @Override
-    public void getAllPost(String q, String locale, Long categoryId, Pageable pageable) {
+    public GetPostsResponse getAllPost(String q, String locale, Long categoryId, Pageable pageable) {
+        Page<Post> posts;
 
+        if (q != null) {
+            if (locale.equalsIgnoreCase("en")) {
+                posts = postRepository.findByCategoryIdAndTitleEnContainingIgnoreCaseOrCategoryIdAndTextEnContainingIgnoreCaseOrderByCreatedAtDesc(
+                        categoryId, q, categoryId, q, pageable
+                );
+            } else {
+                posts = postRepository.findByCategoryIdAndTitleKoContainingIgnoreCaseOrCategoryIdAndTextKoContainingIgnoreCaseOrderByCreatedAtDesc(
+                        categoryId, q, categoryId, q, pageable
+                );
+            }
+        } else {
+            posts = postRepository.findAll(pageable);
+        }
+
+        List<GetPostsResponse.PostContent> contents = posts.getContent().stream().map(post -> {
+            String title = locale.equalsIgnoreCase("en") ? post.getTitleEn() : post.getTitleKo();
+            String content = locale.equalsIgnoreCase("en") ? post.getTextEn() : post.getTextKo();
+            String categoryName = categoryRepository.findById(post.getCategoryId())
+                    .map(cat -> locale.equalsIgnoreCase("en") ? cat.getNameEn() : cat.getNameKo())
+                    .orElse("Unknown");
+
+            Long likeCount = likeRepository.countById_PostId(post.getId());
+
+            return new GetPostsResponse.PostContent(
+                    post.getId(),
+                    title,
+                    content,
+                    categoryName,
+                    String.valueOf(post.getCategoryId()),
+                    post.getViews(),
+                    likeCount,
+                    post.getCreatedAt()
+            );
+        }).toList();
+
+        return new GetPostsResponse(posts.hasNext(), contents);
     }
 }

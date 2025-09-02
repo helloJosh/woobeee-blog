@@ -17,9 +17,9 @@ public interface PostController {
     )
     @GetMapping("/{categoryId}")
     ApiResponse<GetPostsResponse> getPostWithCategory(
-            @RequestParam("q") String q,
+            @RequestParam(value = "q", required = false) String q,
             @PathVariable("categoryId") Long categoryId,
-            @RequestParam("page") Integer page,
+            @RequestParam(value = "page", defaultValue = "0") Integer page,
             @RequestParam(value = "size", defaultValue = "5") Integer size,
             @RequestHeader(name = "userId", required = false) String userId,
             @RequestHeader(name = "Accept-Language", defaultValue = "ko-KR") String locale
@@ -30,8 +30,8 @@ public interface PostController {
     )
     @GetMapping()
     ApiResponse<GetPostsResponse> getPosts(
-            @RequestParam("q") String q,
-            @RequestParam("page") Integer page,
+            @RequestParam(value = "q", required = false) String q,
+            @RequestParam(value = "page", defaultValue = "0") Integer page,
             @RequestParam(value = "size", defaultValue = "5") Integer size,
             @RequestHeader(name = "userId", required = false) String userId,
             @RequestHeader(name = "Accept-Language", defaultValue = "ko-KR") String locale

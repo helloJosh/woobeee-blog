@@ -68,7 +68,8 @@ public class CommentServiceImpl implements CommentService {
         List<GetCommentResponse> roots = new ArrayList<>();
 
         for (Comment comment : comments) {
-            UserInfo userInfo = userInfoRepository.findById(UUID.fromString(userId))
+
+            UserInfo userInfo = userInfoRepository.findById(comment.getUserInfoId())
                     .orElseThrow();
 
             map.put(comment.getId(), new GetCommentResponse(

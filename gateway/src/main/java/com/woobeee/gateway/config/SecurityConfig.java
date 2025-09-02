@@ -16,7 +16,7 @@ public class SecurityConfig {
                 .csrf(ServerHttpSecurity.CsrfSpec::disable)
                 .authorizeExchange(exchanges -> exchanges
                         .pathMatchers("/api/back/likes/**").authenticated()
-                        .pathMatchers("/api/back/comments/**").authenticated()
+                        .pathMatchers(HttpMethod.POST, "/api/back/comments/**").authenticated()
                         .pathMatchers(HttpMethod.POST, "/api/back/posts/**").authenticated()
                         .pathMatchers(HttpMethod.DELETE, "/api/back/posts/**").authenticated()
                         .pathMatchers("/api/admin/**").hasRole("ADMIN") // ADMIN PAGE 아직없음

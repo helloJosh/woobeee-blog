@@ -3,6 +3,7 @@ package com.woobeee.back.controller;
 import com.woobeee.back.dto.request.PostPostRequest;
 import com.woobeee.back.dto.response.ApiResponse;
 import com.woobeee.back.dto.response.GetPostsResponse;
+import com.woobeee.back.service.PostService;
 import com.woobeee.back.support.CustomPageable;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -13,6 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @Slf4j
 public class PostControllerImpl implements PostController {
+    private final PostService postService;
+
     @Override
     public ApiResponse<GetPostsResponse> getPostWithCategory (
             String q,
@@ -25,7 +28,10 @@ public class PostControllerImpl implements PostController {
         log.info("getPostWithCategory request received");
         CustomPageable pageable = new CustomPageable(page, size);
 
-        return null;
+        return ApiResponse.success(
+                postService.getAllPost(q, locale, categoryId, pageable),
+                "post get with category success"
+        );
     }
 
     @Override
@@ -40,7 +46,10 @@ public class PostControllerImpl implements PostController {
 
         CustomPageable pageable = new CustomPageable(page, size);
 
-        return null;
+        return ApiResponse.success(
+                postService.getAllPost(q, locale, pageable),
+                "post get success"
+        );
     }
 
     @Override
