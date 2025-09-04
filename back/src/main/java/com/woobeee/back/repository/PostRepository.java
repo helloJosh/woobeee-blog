@@ -29,22 +29,23 @@ public interface PostRepository extends JpaRepository<Post, Long> {
     )
     List<CategoryCount> countGroupByCategoryId(@Param("categoryIds") Collection<Long> categoryIds);
 
-    List<Post> findAllByCategoryIdIn(List<Long> ids);
     void deleteAllByCategoryIdIn(List<Long> ids);
 
+    Page<Post> findAllByCategoryIdIn(List<Long> ids, Pageable pageable);
 
     Page<Post> findByTitleEnContainingIgnoreCaseOrTextEnContainingIgnoreCaseOrderByCreatedAtDesc(String titleEn, String textEn, Pageable pageable);
+
     Page<Post> findByTitleKoContainingIgnoreCaseOrTextKoContainingIgnoreCaseOrderByCreatedAtDesc(String titleKo, String textKo, Pageable pageable);
 
-    Page<Post> findByCategoryIdAndTitleEnContainingIgnoreCaseOrCategoryIdAndTextEnContainingIgnoreCaseOrderByCreatedAtDesc(
-            Long categoryId1, String titleEn,
-            Long categoryId2, String textEn,
+    Page<Post> findByCategoryIdInAndTitleEnContainingIgnoreCaseOrCategoryIdInAndTextEnContainingIgnoreCaseOrderByCreatedAtDesc(
+            List<Long> categoryId1, String titleEn,
+            List<Long> categoryId2, String textEn,
             Pageable pageable
     );
 
-    Page<Post> findByCategoryIdAndTitleKoContainingIgnoreCaseOrCategoryIdAndTextKoContainingIgnoreCaseOrderByCreatedAtDesc(
-            Long categoryId1, String titleKo,
-            Long categoryId2, String textKo,
+    Page<Post> findByCategoryIdInAndTitleKoContainingIgnoreCaseOrCategoryIdInAndTextKoContainingIgnoreCaseOrderByCreatedAtDesc(
+            List<Long> categoryId1, String titleKo,
+            List<Long> categoryId2, String textKo,
             Pageable pageable
     );
 }

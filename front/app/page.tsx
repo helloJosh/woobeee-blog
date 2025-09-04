@@ -6,39 +6,39 @@ import Header from "@/components/header"
 import Sidebar from "@/components/sidebar"
 import PostList from "@/components/post-list"
 import PostDetail from "@/components/post-detail"
-import { mockCategories, mockPosts } from "@/lib/mock-data"
+import { useCategories } from "@/hooks/use-categories"
 import type { Post } from "@/lib/types"
 import { useRouter, useSearchParams } from "next/navigation"
 import { redirect } from "next/navigation"
 
 export default function BlogPage() {
+  const { categories, loading, error, refresh } = useCategories()
   const router = useRouter()
   const searchParams = useSearchParams()
 
-  // URL에서 초기 상태 읽기
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(searchParams.get("category"))
+  // @ts-ignore
+  const [selectedCategory, setSelectedCategory] = useState<number | null>(searchParams.get("category"))
   const [selectedPost, setSelectedPost] = useState<Post | null>(null)
-  const [searchQuery, setSearchQuery] = useState(searchParams.get("search") || "")
+  // @ts-ignore
+  const [searchQuery, setSearchQuery] = useState<String | null>(searchParams.get("search"))
   const [sidebarOpen, setSidebarOpen] = useState(true)
+  const [sidebarWidth, setSidebarWidth] = useState(320) // ✅ 추가
 
-  // URL에서 postId가 있으면 해당 글 찾기
+  // URL ↔ 상태 동기화 (뒤/앞으로가기 대응)
   useEffect(() => {
-    const postId = searchParams.get("post")
-    if (postId) {
-      const post = mockPosts.find((p) => p.id === postId)
-      if (post) {
-        setSelectedPost(post)
-        setSelectedCategory(post.categoryId)
-      }
-    }
+    // @ts-ignore
+    const cat = searchParams.get("category")
+    // @ts-ignore
+    const q = searchParams.get("search")
+    setSelectedCategory(cat ? Number(cat) : null)
+    setSearchQuery(q ?? "")
   }, [searchParams])
 
   // URL 업데이트 함수
-  const updateURL = (params: { category?: string | null; post?: string | null; search?: string }) => {
+  const updateURL = (params: { category?: number | null; search?: string | null}) => {
     const newParams = new URLSearchParams()
 
-    if (params.category) newParams.set("category", params.category)
-    if (params.post) newParams.set("post", params.post)
+    if (params.category) newParams.set("category", String(params.category))
     if (params.search) newParams.set("search", params.search)
 
     const queryString = newParams.toString()
@@ -47,24 +47,15 @@ export default function BlogPage() {
     router.push(newURL, { scroll: false })
   }
 
-  const filteredPosts = mockPosts.filter((post) => {
-    const matchesCategory = !selectedCategory || post.categoryId === selectedCategory
-    const matchesSearch =
-      !searchQuery ||
-      post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      post.content.toLowerCase().includes(searchQuery.toLowerCase())
-    return matchesCategory && matchesSearch
-  })
-
-  const handleCategorySelect = (categoryId: string | null) => {
+  const handleCategorySelect = (categoryId: number | null) => {
     setSelectedCategory(categoryId)
-    setSelectedPost(null)
+    // @ts-ignore
     updateURL({ category: categoryId, search: searchQuery })
   }
 
   const handlePostSelect = (post: Post) => {
     setSelectedPost(post)
-    updateURL({ category: selectedCategory, post: post.id, search: searchQuery })
+    router.push(`/blog/post/${post.id}`)
   }
 
   const handleHome = () => {
@@ -79,16 +70,18 @@ export default function BlogPage() {
     updateURL({ category: selectedCategory, search: query })
   }
 
-  useEffect(() => {
-    // 홈페이지 접속 시 /blog로 리다이렉트
-    redirect("/blog")
-  }, [router])
+  // useEffect(() => {
+  //   // 홈페이지 접속 시 /blog로 리다이렉트
+  //   redirect("/blog")
+  // }, [router])
 
+  // @ts-ignore
   return (
     <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
       <div className="min-h-screen bg-background">
         <Header
           onHome={handleHome}
+            // @ts-ignore
           searchQuery={searchQuery}
           onSearchChange={handleSearchChange}
           onToggleSidebar={() => setSidebarOpen(!sidebarOpen)}
@@ -96,19 +89,21 @@ export default function BlogPage() {
 
         <div className="flex">
           <Sidebar
-            categories={mockCategories}
-            selectedCategory={selectedCategory}
-            onCategorySelect={handleCategorySelect}
-            isOpen={sidebarOpen}
+              categories={categories}
+              isOpen={sidebarOpen}
+              width={sidebarWidth}
+              onWidthChange={setSidebarWidth}
+              onCategorySelect={handleCategorySelect}  // ✅ 추가!
           />
 
           <main className={`flex-1 transition-all duration-300 ${sidebarOpen ? "ml-80" : "ml-0"}`}>
             <div className="p-6">
-              {selectedPost ? (
-                <PostDetail post={selectedPost} onBack={() => setSelectedPost(null)} />
-              ) : (
-                <PostList posts={filteredPosts} onPostSelect={handlePostSelect} selectedCategory={selectedCategory} />
-              )}
+              <PostList
+                  selectedCategoryId={selectedCategory ? Number(selectedCategory) : undefined}
+                  // @ts-ignore
+                  searchQuery={searchQuery || undefined}
+                  onPostSelect={handlePostSelect || undefined}
+              />
             </div>
           </main>
         </div>

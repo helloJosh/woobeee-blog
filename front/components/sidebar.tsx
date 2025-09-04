@@ -12,19 +12,25 @@ import type { Category } from "@/lib/types"
 
 interface SidebarProps {
   categories: Category[]
-  selectedCategory?: string | null
   isOpen: boolean
   width: number
   onWidthChange: (width: number) => void
+  onCategorySelect?: (id: number | null) => void   // ✅ 추가
 }
 
-export default function Sidebar({ categories, selectedCategory, isOpen, width, onWidthChange }: SidebarProps) {
-  const [expandedCategories, setExpandedCategories] = useState<Set<string>>(new Set())
+export default function Sidebar({
+                                  categories,
+                                  isOpen,
+                                  width,
+                                  onWidthChange,
+                                  onCategorySelect,
+                                }: SidebarProps) {
+  const [expandedCategories, setExpandedCategories] = useState<Set<number>>(new Set())
   const [isResizing, setIsResizing] = useState(false)
   const sidebarRef = useRef<HTMLDivElement>(null)
   const pathname = usePathname()
 
-  const toggleCategory = (categoryId: string) => {
+  const toggleCategory = (categoryId: number) => {
     const newExpanded = new Set(expandedCategories)
     if (newExpanded.has(categoryId)) {
       newExpanded.delete(categoryId)
@@ -34,8 +40,8 @@ export default function Sidebar({ categories, selectedCategory, isOpen, width, o
     setExpandedCategories(newExpanded)
   }
 
-  const isSelected = (categoryId: string) => {
-    return pathname === `/blog/category/${categoryId}` || selectedCategory === categoryId
+  const isSelected = (categoryId: number) => {
+    return pathname === `/blog?categoryId=${categoryId}`
   }
 
   const handleMouseDown = useCallback((e: React.MouseEvent) => {
@@ -110,7 +116,10 @@ export default function Sidebar({ categories, selectedCategory, isOpen, width, o
             }`}
             asChild
           >
-            <Link href={`/blog/category/${category.id}`}>
+            <Link
+                href={`/blog?categoryId=${category.id}`}
+                onClick={() => onCategorySelect?.(category.id)} // ✅ 클릭 시 호출
+            >
               {hasChildren ? (
                 isExpanded ? (
                   <FolderOpen className="h-4 w-4" />

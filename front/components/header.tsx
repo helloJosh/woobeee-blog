@@ -14,7 +14,12 @@ import { useAuth } from "@/hooks/use-auth" // Updated import
 
 interface HeaderProps {
   onToggleSidebar: () => void
-  sidebarWidth: number
+  /** 상위에서 관리하는 검색어(있으면 표시됨) */
+  searchQuery?: string | null
+  /** 상위에 검색어 변경/제출을 알리고 싶을 때 사용 */
+  onSearchChange?: (q: string) => void
+  /** 선택사항: 홈 버튼 눌렀을 때 */
+  onHome?: () => void
 }
 
 // 디바운싱을 위한 커스텀 훅
@@ -33,8 +38,12 @@ function useDebounce(value: string, delay: number) {
 
   return debouncedValue
 }
-
-export default function Header({ onToggleSidebar, sidebarWidth }: HeaderProps) {
+export default function Header({
+                                 onToggleSidebar,
+                                 searchQuery: searchQueryProp,
+                                 onSearchChange,
+                                 onHome,
+                               }: HeaderProps) {
   const { theme, setTheme } = useTheme()
   const [mounted, setMounted] = useState(false)
   const [searchQuery, setSearchQuery] = useState("")
@@ -50,17 +59,38 @@ export default function Header({ onToggleSidebar, sidebarWidth }: HeaderProps) {
 
   useEffect(() => {
     // URL에서 검색어 읽기
-    const query = searchParams.get("q") || searchParams.get("search") || ""
+
+    // @ts-ignore
+    const query = searchParams.get("q")
+    // @ts-ignore
     setSearchQuery(query)
   }, [searchParams])
 
+  useEffect(() => {
+    if (typeof searchQueryProp === "string") {
+      setSearchQuery(searchQueryProp)
+    }
+  }, [searchQueryProp])
+
   const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    if (searchQuery.trim()) {
-      router.push(`/search?q=${encodeURIComponent(searchQuery)}`)
-    } else {
-      router.push("/blog")
+    const q = searchQuery.trim()
+
+    if (onSearchChange) {
+      // 상위가 관리하는 방식: 상위에 위임
+      console.log("[Header] 검색어 변경 감지:", q) // 👈 찍히는지 확인
+      onSearchChange(q)
     }
+    // else {
+    //   // 자체 라우팅: 기존 category 파라미터 유지
+    //   const params = new URLSearchParams()
+    //   // @ts-ignore
+    //   const cat = searchParams.get("categoryId")
+    //   if (cat) params.set("categoryId", cat)
+    //   if (q) params.set("q", q)
+    //
+    //   router.push(`/blog${params.toString() ? `?${params.toString()}` : ""}`)
+    // }
   }
 
   if (!mounted) {

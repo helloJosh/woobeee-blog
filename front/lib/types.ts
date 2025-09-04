@@ -1,29 +1,18 @@
 export interface Category {
-  id: string
+  id: number
   name: string
   postCount: number
   children?: Category[]
 }
 
 export interface Comment {
-  id: string
+  id: number
   author: string
   content: string
   createdAt: Date
   replies: Comment[]
 }
 
-export interface Post {
-  id: string
-  title: string
-  content: string
-  category: string
-  categoryId: string
-  views: number
-  likes: number
-  createdAt: Date
-  comments: Comment[]
-}
 
 // 사용자 관련 타입 추가
 export interface User {
@@ -49,4 +38,40 @@ export interface RegisterRequest {
   email: string
   password: string
   name: string
+}
+
+
+export interface ApiResponse<T> {
+  header: ApiHeader
+  data: T
+}
+
+export interface ApiHeader {
+  successful: boolean
+  message: string
+  resultCode: number
+}
+
+export interface Post {
+  id: number
+  title: string
+  content: string
+  category: string
+  categoryId: string
+  authorName: string
+  views: number
+  likes: number
+  createdAt: Date
+}
+
+export interface GetPostsResponse {
+  contents: Post[]
+  hasNext: boolean
+}
+
+export interface PostsParams {
+  page?: number
+  size?: number
+  categoryId?: number
+  q?: string // 검색어
 }

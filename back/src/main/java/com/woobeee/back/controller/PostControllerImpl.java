@@ -15,28 +15,10 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 public class PostControllerImpl implements PostController {
     private final PostService postService;
-
-    @Override
-    public ApiResponse<GetPostsResponse> getPostWithCategory (
-            String q,
-            Long categoryId,
-            Integer page,
-            Integer size,
-            String userId,
-            String locale
-    ) {
-        log.info("getPostWithCategory request received");
-        CustomPageable pageable = new CustomPageable(page, size);
-
-        return ApiResponse.success(
-                postService.getAllPost(q, locale, categoryId, pageable),
-                "post get with category success"
-        );
-    }
-
     @Override
     public ApiResponse<GetPostsResponse> getPosts(
             String q,
+            Long categoryId,
             Integer page,
             Integer size,
             String userId,
@@ -47,7 +29,7 @@ public class PostControllerImpl implements PostController {
         CustomPageable pageable = new CustomPageable(page, size);
 
         return ApiResponse.success(
-                postService.getAllPost(q, locale, pageable),
+                postService.getAllPost(q, locale, categoryId, pageable),
                 "post get success"
         );
     }
