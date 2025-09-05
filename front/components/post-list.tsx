@@ -14,7 +14,7 @@ import {Post} from "@/lib/types";
 
 interface PostListProps {
     selectedCategoryId?: number | null
-    categoryName?: string
+    selectedCategoryName?: string
     isSearchResult?: boolean
     searchQuery?: string
     enableInfiniteScroll?: boolean
@@ -24,7 +24,7 @@ interface PostListProps {
 
 export default function PostList({
                                      selectedCategoryId,
-                                     categoryName,
+                                     selectedCategoryName,
                                      isSearchResult,
                                      searchQuery,
                                      enableInfiniteScroll = true,
@@ -43,8 +43,8 @@ export default function PostList({
         if (isSearchResult) {
             return searchQuery ? `"${searchQuery}" 검색 결과` : "검색 결과"
         }
-        if (categoryName) {
-            return `${categoryName} 카테고리`
+        if (selectedCategoryName) {
+            return `${selectedCategoryName}`
         }
         return "전체 글"
     }
@@ -76,18 +76,6 @@ export default function PostList({
             <div className="flex items-center justify-between">
                 <h1 className="text-2xl font-bold">{getTitle()}</h1>
                 <div className="flex items-center gap-2">
-                    <Badge variant="secondary">
-                        {enableInfiniteScroll
-                            ? hasMore
-                                ? `로드됨`
-                                : `개`
-                            : `개`}
-                    </Badge>
-                    {enableInfiniteScroll && (
-                        <Badge variant="outline" className="text-xs">
-                            무한스크롤
-                        </Badge>
-                    )}
                     <Button variant="ghost" size="sm" onClick={refresh} disabled={loading}>
                         <RefreshCw className={`h-4 w-4 ${loading ? "animate-spin" : ""}`} />
                     </Button>
@@ -124,7 +112,7 @@ export default function PostList({
                             }
                         }}
                     >
-                        <Link href={`/blog/post/${post.id}`}>
+                        <Link href={`/post/${post.id}`}>
                             <CardHeader className="pb-3">
                                 <div className="flex items-start justify-between gap-4">
                                     <div className="flex-1">

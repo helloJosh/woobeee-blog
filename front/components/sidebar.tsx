@@ -7,7 +7,7 @@ import { ChevronDown, ChevronRight, Folder, FolderOpen, GripVertical } from "luc
 import { Button } from "@/components/ui/button"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import Link from "next/link"
-import { usePathname } from "next/navigation"
+import {usePathname, useSearchParams} from "next/navigation"
 import type { Category } from "@/lib/types"
 
 interface SidebarProps {
@@ -15,7 +15,8 @@ interface SidebarProps {
   isOpen: boolean
   width: number
   onWidthChange: (width: number) => void
-  onCategorySelect?: (id: number | null) => void   // ✅ 추가
+  onCategorySelect?: (id: number | null, categoryName: String) => void
+  selectedCategoryId?: number
 }
 
 export default function Sidebar({
@@ -24,11 +25,21 @@ export default function Sidebar({
                                   width,
                                   onWidthChange,
                                   onCategorySelect,
+                                  selectedCategoryId,
                                 }: SidebarProps) {
   const [expandedCategories, setExpandedCategories] = useState<Set<number>>(new Set())
   const [isResizing, setIsResizing] = useState(false)
   const sidebarRef = useRef<HTMLDivElement>(null)
-  const pathname = usePathname()
+  const searchParams = useSearchParams()
+
+  // @ts-ignore
+  const selectedFromQuery = Number(searchParams.get("categoryId"))
+  const effectiveSelectedId = selectedCategoryId ?? selectedFromQuery
+
+  const handleCategoryClick = (categoryId: number, categoryName: String) => {
+    // 폼 안에 있어도 submit되지 않도록 버튼에 type="button"을 지정하세요 (JSX 예시 아래 참고)
+    onCategorySelect?.(categoryId, categoryName)
+  }
 
   const toggleCategory = (categoryId: number) => {
     const newExpanded = new Set(expandedCategories)
@@ -38,10 +49,6 @@ export default function Sidebar({
       newExpanded.add(categoryId)
     }
     setExpandedCategories(newExpanded)
-  }
-
-  const isSelected = (categoryId: number) => {
-    return pathname === `/blog?categoryId=${categoryId}`
   }
 
   const handleMouseDown = useCallback((e: React.MouseEvent) => {
@@ -68,21 +75,6 @@ export default function Sidebar({
     setIsResizing(false)
   }, [])
 
-  // 마우스 이벤트 리스너 등록/해제
-  // useState(() => {
-  //   if (isResizing) {
-  //     document.addEventListener("mousemove", handleMouseMove)
-  //     document.addEventListener("mouseup", handleMouseUp)
-  //   } else {
-  //     document.removeEventListener("mousemove", handleMouseMove)
-  //     document.removeEventListener("mouseup", handleMouseUp)
-  //   }
-  //
-  //   return () => {
-  //     document.removeEventListener("mousemove", handleMouseMove)
-  //     document.removeEventListener("mouseup", handleMouseUp)
-  //   }
-  // })
   useEffect(() => {
     if (!isResizing) return
 
@@ -97,7 +89,8 @@ export default function Sidebar({
 
   const renderCategory = (category: Category, level = 0) => {
     const isExpanded = expandedCategories.has(category.id)
-    const selected = isSelected(category.id)
+
+    const isSelected = (categoryId: number) => effectiveSelectedId === categoryId
     const hasChildren = category.children && category.children.length > 0
 
     return (
@@ -110,15 +103,14 @@ export default function Sidebar({
           )}
 
           <Button
-            variant={selected ? "secondary" : "ghost"}
+            variant={"ghost"}
             className={`flex-1 justify-start gap-2 h-auto py-2 px-2 ${level > 0 ? `ml-${level * 4}` : ""} ${
               !hasChildren ? "ml-1" : ""
             }`}
             asChild
           >
-            <Link
-                href={`/blog?categoryId=${category.id}`}
-                onClick={() => onCategorySelect?.(category.id)} // ✅ 클릭 시 호출
+            <div
+                onClick={() => handleCategoryClick(category.id, category.name)} // ✅ 클릭 시 호출
             >
               {hasChildren ? (
                 isExpanded ? (
@@ -131,7 +123,7 @@ export default function Sidebar({
               )}
               <span className="text-left truncate">{category.name}</span>
               <span className="ml-auto text-xs text-muted-foreground">{category.postCount}</span>
-            </Link>
+            </div>
           </Button>
         </div>
 
@@ -153,11 +145,11 @@ export default function Sidebar({
       >
         <div className="p-4">
           <Button
-            variant={pathname === "/blog" || pathname === "/" ? "secondary" : "ghost"}
+              variant={"ghost"}
             className="w-full justify-start mb-2"
             asChild
           >
-            <Link href="/blog">전체 글</Link>
+            <Link href="/">전체 글</Link>
           </Button>
         </div>
 

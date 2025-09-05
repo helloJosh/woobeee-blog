@@ -1,8 +1,9 @@
 "use client"
 
 import { useState, useEffect, useCallback, useRef } from "react"
-import { postsAPI, type PostsParams, type GetPostsResponse } from "@/lib/api"
-import type { Post } from "@/lib/api"
+import { postsAPI } from "@/lib/api"
+import type { Post , PostsParams, GetPostsResponse} from "@/lib/types"
+import  {mockPostResponseApi , mockPostResponseApiWithCategory, mockPostResponseApiWithSearch, mockPostResponseApiWithCategoryAndSearch} from "@/lib/mock-data"
 
 interface UseInfinitePostsProps {
     categoryId?: number
@@ -11,7 +12,13 @@ interface UseInfinitePostsProps {
     enabled?: boolean
 }
 
-export function useInfinitePosts({ categoryId, search, pageSize = 5, enabled = true }: UseInfinitePostsProps = {}) {
+export function useInfinitePosts ({
+                                      categoryId,
+                                      search,
+                                      pageSize = 5,
+                                      enabled = true
+}: UseInfinitePostsProps = {})
+{
     const [posts, setPosts] = useState<Post[]>([])
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState<string | null>(null)
@@ -48,23 +55,34 @@ export function useInfinitePosts({ categoryId, search, pageSize = 5, enabled = t
                 setLoading(true)
                 setError(null)
 
+                const q = (search ?? "").trim()
+                const hasCategory = typeof categoryId === "number" && !Number.isNaN(categoryId)
+                const hasSearch = q.length > 0
+
                 const params: PostsParams = {
                     page,
                     size: pageSize,
-                    ...(search && { q: search }),
+                    ...(hasCategory && { categoryId }),
+                    ...(hasSearch && { q }),
                 }
 
                 let response: GetPostsResponse
+                //response = await postsAPI.getPosts(params)
 
-                if (categoryId) {
-                    // 카테고리별 포스트 조회
-                    response = await postsAPI.getPostsByCategory(categoryId, params)
+                if (hasCategory && hasSearch) {
+                    console.log("📦 using mockPostResponseApiWithCategoryAndSearch")
+                    response = mockPostResponseApiWithCategoryAndSearch.data
+                } else if (hasCategory) {
+                    console.log("📦 using mockPostResponseApiWithCategory")
+                    response = mockPostResponseApiWithCategory.data
+                } else if (hasSearch) {
+                    console.log("📦 using mockPostResponseApiWithSearch")
+                    response = mockPostResponseApiWithSearch.data
                 } else {
-                    // 전체 포스트 조회
-                    response = await postsAPI.getPosts(params)
+                    console.log("📦 using default mockPostResponseApi")
+                    response = mockPostResponseApi.data
                 }
 
-                // response.posts가 배열인지 확인
                 const newPosts = Array.isArray(response.contents) ? response.contents : []
 
                 if (reset) {

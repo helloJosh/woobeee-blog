@@ -37,7 +37,7 @@ export default function PostDetail({ post }: PostDetailProps) {
   }
 
   const handleShare = async () => {
-    const url = `${window.location.origin}/blog/post/${post.id}`
+    const url = `${window.location.origin}/post/${post.id}`
 
     if (navigator.share) {
       try {
@@ -69,7 +69,7 @@ export default function PostDetail({ post }: PostDetailProps) {
       <Card>
         <CardHeader>
           <div className="space-y-4">
-            <Badge variant="outline">{post.category}</Badge>
+            <Badge variant="outline">{post.categoryName}</Badge>
             <h1 className="text-3xl font-bold">{post.title}</h1>
 
             <div className="flex items-center justify-between text-sm text-muted-foreground">
@@ -80,11 +80,11 @@ export default function PostDetail({ post }: PostDetailProps) {
                 </div>
                 <div className="flex items-center gap-1">
                   <Heart className="h-4 w-4" />
-                  <span>{likes}</span>
+                  {/*<span>{likes}</span>*/}
                 </div>
                 <div className="flex items-center gap-1">
                   <MessageCircle className="h-4 w-4" />
-                  <span>{post.comments.length}</span>
+                  {/*<span>{post.comments.length}</span>*/}
                 </div>
               </div>
               <span>
@@ -164,7 +164,7 @@ export default function PostDetail({ post }: PostDetailProps) {
         </CardContent>
       </Card>
 
-      <CommentSection comments={post.comments} />
+      {/*<CommentSection comments={post.comments} />*/}
     </div>
   )
 }

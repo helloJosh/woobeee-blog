@@ -81,16 +81,6 @@ export default function Header({
       console.log("[Header] 검색어 변경 감지:", q) // 👈 찍히는지 확인
       onSearchChange(q)
     }
-    // else {
-    //   // 자체 라우팅: 기존 category 파라미터 유지
-    //   const params = new URLSearchParams()
-    //   // @ts-ignore
-    //   const cat = searchParams.get("categoryId")
-    //   if (cat) params.set("categoryId", cat)
-    //   if (q) params.set("q", q)
-    //
-    //   router.push(`/blog${params.toString() ? `?${params.toString()}` : ""}`)
-    // }
   }
 
   if (!mounted) {
@@ -106,7 +96,7 @@ export default function Header({
             </Button>
 
             <Button variant="ghost" asChild className="flex items-center gap-2 font-semibold">
-              <Link href="/blog">
+              <Link href="/">
                 <Home className="h-5 w-5" />
                 <span className="hidden sm:inline">HOME</span>
               </Link>
@@ -115,7 +105,13 @@ export default function Header({
 
           <div className="flex-1 flex items-center justify-end gap-4">
             <form onSubmit={handleSearchSubmit} className="relative max-w-sm w-full">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+              <button
+                  type="submit"
+                  className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground"
+              >
+                <Search className="w-4 h-4" />
+              </button>
+
               <Input
                   placeholder="검색..."
                   value={searchQuery}

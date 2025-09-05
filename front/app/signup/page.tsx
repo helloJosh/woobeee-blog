@@ -16,7 +16,7 @@ export default function SignupPage() {
 
     useEffect(() => {
         if (user && !loading) {
-            router.push("/blog")
+            router.push("/")
         }
     }, [user, loading, router])
 
@@ -37,7 +37,7 @@ export default function SignupPage() {
             <div className="w-full max-w-md space-y-6">
                 {/* 뒤로가기 버튼 */}
                 <Button variant="ghost" asChild className="self-start">
-                    <Link href="/blog" className="flex items-center gap-2">
+                    <Link href="/" className="flex items-center gap-2">
                         <ArrowLeft className="h-4 w-4" />
                         블로그로 돌아가기
                     </Link>

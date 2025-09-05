@@ -18,11 +18,14 @@ export default function BlogPage() {
 
   // @ts-ignore
   const [selectedCategory, setSelectedCategory] = useState<number | null>(searchParams.get("category"))
+  // @ts-ignore
+  const [selectedCategoryName, setSelectedCategoryName] = useState<String | null>(searchParams.get("categoryName"))
   const [selectedPost, setSelectedPost] = useState<Post | null>(null)
   // @ts-ignore
   const [searchQuery, setSearchQuery] = useState<String | null>(searchParams.get("search"))
   const [sidebarOpen, setSidebarOpen] = useState(true)
   const [sidebarWidth, setSidebarWidth] = useState(320) // ✅ 추가
+  const [post,setPost] = useState()
 
   // URL ↔ 상태 동기화 (뒤/앞으로가기 대응)
   useEffect(() => {
@@ -47,15 +50,16 @@ export default function BlogPage() {
     router.push(newURL, { scroll: false })
   }
 
-  const handleCategorySelect = (categoryId: number | null) => {
+  const handleCategorySelect = (categoryId: number | null, categoryName: String) => {
     setSelectedCategory(categoryId)
+    setSelectedCategoryName(categoryName)
     // @ts-ignore
     updateURL({ category: categoryId, search: searchQuery })
   }
 
   const handlePostSelect = (post: Post) => {
     setSelectedPost(post)
-    router.push(`/blog/post/${post.id}`)
+    router.push(`/post/${post.id}`)
   }
 
   const handleHome = () => {
@@ -68,14 +72,22 @@ export default function BlogPage() {
   const handleSearchChange = (query: string) => {
     setSearchQuery(query)
     updateURL({ category: selectedCategory, search: query })
-  }
 
+  }
+  // const clickMenu (menu) =>{
+  //   api호출
+  //   {
+  //     setpost(res)
+  //   }
+  //   set()
+  // }
   // useEffect(() => {
   //   // 홈페이지 접속 시 /blog로 리다이렉트
   //   redirect("/blog")
   // }, [router])
 
   // @ts-ignore
+  // PostList에서 Post를 불러와서 랜더링시키기
   return (
     <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
       <div className="min-h-screen bg-background">
@@ -93,13 +105,14 @@ export default function BlogPage() {
               isOpen={sidebarOpen}
               width={sidebarWidth}
               onWidthChange={setSidebarWidth}
-              onCategorySelect={handleCategorySelect}  // ✅ 추가!
+              onCategorySelect={handleCategorySelect}
           />
 
           <main className={`flex-1 transition-all duration-300 ${sidebarOpen ? "ml-80" : "ml-0"}`}>
             <div className="p-6">
               <PostList
                   selectedCategoryId={selectedCategory ? Number(selectedCategory) : undefined}
+                  selectedCategoryName={selectedCategoryName ? String(selectedCategoryName) : undefined}
                   // @ts-ignore
                   searchQuery={searchQuery || undefined}
                   onPostSelect={handlePostSelect || undefined}

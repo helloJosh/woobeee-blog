@@ -56,8 +56,8 @@ export interface Post {
   id: number
   title: string
   content: string
-  category: string
-  categoryId: string
+  categoryName: string
+  categoryId: number
   authorName: string
   views: number
   likes: number

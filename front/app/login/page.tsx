@@ -14,7 +14,7 @@ export default function LoginPage() {
 
     useEffect(() => {
         if (user && !loading) {
-            router.push("/blog")
+            router.push("/")
         }
     }, [user, loading, router])
 
@@ -35,7 +35,7 @@ export default function LoginPage() {
             <div className="w-full max-w-md space-y-6">
                 {/* 뒤로가기 버튼 */}
                 <Button variant="ghost" asChild className="self-start">
-                    <Link href="/blog" className="flex items-center gap-2">
+                    <Link href="/" className="flex items-center gap-2">
                         <ArrowLeft className="h-4 w-4" />
                         블로그로 돌아가기
                     </Link>
@@ -53,8 +53,8 @@ export default function LoginPage() {
                 {/*</div>*/}
 
                 {/* Google 로그인 */}
-                <GoogleAuthButton mode="login" className="w-full" />
 
+                <GoogleAuthButton mode="login" className="w-full" />
                 <div className="text-center text-sm text-muted-foreground">
                     계정이 없으신가요?{" "}
                     <Link href="/signup" className="text-primary hover:underline">
@@ -62,17 +62,17 @@ export default function LoginPage() {
                     </Link>
                 </div>
 
-                <div className="text-center text-xs text-muted-foreground">
-                    로그인하면{" "}
-                    <Link href="#" className="hover:underline">
-                        서비스 약관
-                    </Link>
-                    과{" "}
-                    <Link href="#" className="hover:underline">
-                        개인정보 처리방침
-                    </Link>
-                    에 동의하는 것으로 간주됩니다.
-                </div>
+                {/*<div className="text-center text-xs text-muted-foreground">*/}
+                {/*    로그인하면{" "}*/}
+                {/*    <Link href="#" className="hover:underline">*/}
+                {/*        서비스 약관*/}
+                {/*    </Link>*/}
+                {/*    과{" "}*/}
+                {/*    <Link href="#" className="hover:underline">*/}
+                {/*        개인정보 처리방침*/}
+                {/*    </Link>*/}
+                {/*    에 동의하는 것으로 간주됩니다.*/}
+                {/*</div>*/}
             </div>
         </div>
     )
