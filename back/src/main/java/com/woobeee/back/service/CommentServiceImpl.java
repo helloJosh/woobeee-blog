@@ -4,6 +4,9 @@ import com.woobeee.back.dto.request.PostCommentRequest;
 import com.woobeee.back.dto.response.GetCommentResponse;
 import com.woobeee.back.entity.Comment;
 import com.woobeee.back.entity.UserInfo;
+import com.woobeee.back.exception.CustomAuthenticationException;
+import com.woobeee.back.exception.CustomNotFoundException;
+import com.woobeee.back.exception.ErrorCode;
 import com.woobeee.back.repository.CommentRepository;
 import com.woobeee.back.repository.UserInfoRepository;
 import lombok.RequiredArgsConstructor;
@@ -24,16 +27,21 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public void saveComment (
             PostCommentRequest request,
-            String userId
+            String loginId
     ) {
-//        UserInfo userInfo = userInfoRepository.findById(UUID.fromString(userId))
-//                .orElseThrow();
+        if (loginId == null) {
+            throw new CustomAuthenticationException(ErrorCode.comment_needAuthentication);
+        }
+
+        UserInfo userInfo = userInfoRepository
+                .findByLoginId(loginId)
+                .orElseThrow(() -> new CustomNotFoundException(ErrorCode.login_userNotFound));
 
         Comment comment = new Comment (
                 request.getContent(),
                 request.getPostId(),
                 request.getParentId(),
-                UUID.fromString(userId)
+                userInfo.getId()
         );
 
         commentRepository.save(comment);
@@ -42,14 +50,20 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public void deleteComment (
             Long commentId,
-            String userId
+            String loginId
     ) {
+        if (loginId == null) {
+            throw new CustomAuthenticationException(ErrorCode.comment_needAuthentication);
+        }
 
-        // TODO : exception 정리
+        UserInfo userInfo = userInfoRepository
+                .findByLoginId(loginId)
+                .orElseThrow(() -> new CustomNotFoundException(ErrorCode.login_userNotFound));
+
         Comment comment = commentRepository.findById(commentId)
                 .orElseThrow(() -> new RuntimeException("댓글이 존재하지 않습니다."));
 
-        if (!comment.getUserInfoId().toString().equals(userId)) {
+        if (!comment.getUserInfoId().equals(userInfo.getId())) {
             throw new RuntimeException("댓글을 삭제할 권한이 없습니다.");
         }
 
@@ -59,7 +73,7 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public List<GetCommentResponse> getAllCommentsFromPost (
             Long postId,
-            String userId
+            String loginId
     ) {
         List<Comment> comments = commentRepository.findAllByPostId(postId);
 
@@ -69,12 +83,14 @@ public class CommentServiceImpl implements CommentService {
 
         for (Comment comment : comments) {
 
-            UserInfo userInfo = userInfoRepository.findById(comment.getUserInfoId())
-                    .orElseThrow();
+            UserInfo commentWritterUserInfo = userInfoRepository
+                    .findById(comment.getUserInfoId())
+                    .orElseThrow(() -> new CustomNotFoundException(ErrorCode.login_userNotFound));
 
             map.put(comment.getId(), new GetCommentResponse(
                     comment.getId(),
-                    userInfo.getLoginId(),
+                    commentWritterUserInfo.getLoginId(),
+                    commentWritterUserInfo.getLoginId().equals(loginId),
                     comment.getContent(),
                     comment.getCreatedAt(),
                     new ArrayList<>()

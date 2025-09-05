@@ -4,25 +4,20 @@ package com.woobeee.back.service;
 import com.woobeee.back.dto.request.PostPostRequest;
 import com.woobeee.back.dto.response.GetPostResponse;
 import com.woobeee.back.dto.response.GetPostsResponse;
-import com.woobeee.back.entity.Category;
-import com.woobeee.back.entity.Comment;
-import com.woobeee.back.entity.Like;
-import com.woobeee.back.entity.Post;
-import com.woobeee.back.repository.CategoryRepository;
-import com.woobeee.back.repository.CommentRepository;
-import com.woobeee.back.repository.LikeRepository;
-import com.woobeee.back.repository.PostRepository;
+import com.woobeee.back.entity.*;
+import com.woobeee.back.exception.CustomAuthenticationException;
+import com.woobeee.back.exception.CustomNotFoundException;
+import com.woobeee.back.exception.ErrorCode;
+import com.woobeee.back.repository.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import scala.concurrent.impl.FutureConvertersImpl;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 @Service
 @Transactional
@@ -32,42 +27,50 @@ public class PostServiceImpl implements PostService {
     private final PostRepository postRepository;
     private final CategoryRepository categoryRepository;
     private final LikeRepository likeRepository;
+    private final UserInfoRepository userInfoRepository;
 
     @Override
-    public void savePost(PostPostRequest request, UUID userId) {
+    public void savePost(PostPostRequest request, String loginId) {
+        UserInfo userInfo = userInfoRepository
+                .findByLoginId(loginId)
+                .orElseThrow(() -> new CustomNotFoundException(ErrorCode.login_userNotFound));
+
         Post post = new Post(
                 request.getTitleKo(),
                 request.getTitleEn(),
                 request.getContentKo(),
                 request.getContentEn(),
                 request.getCategoryId(),
-                userId
+                userInfo.getId()
         );
 
         postRepository.save(post);
     }
 
     @Override
-    public void deletePost(Long postId, UUID userId) {
+    public void deletePost(Long postId, String loginId) {
+        UserInfo userInfo = userInfoRepository
+                .findByLoginId(loginId)
+                .orElseThrow(() -> new CustomNotFoundException(ErrorCode.login_userNotFound));
 
-        // TODO : exception 정리
         Post post = postRepository.findById(postId)
-                .orElseThrow(() -> new RuntimeException("게시글이 존재하지 않습니다."));
+                .orElseThrow(() -> new CustomNotFoundException(ErrorCode.post_notFound));
 
-        if (!post.getUserId().equals(userId)) {
-            throw new RuntimeException("댓글을 삭제할 권한이 없습니다.");
+        if (!post.getUserId().equals(userInfo.getId())) {
+            throw new CustomAuthenticationException(ErrorCode.comment_needAuthentication);
         }
 
         postRepository.delete(post);
     }
 
     @Override
-    public GetPostResponse getPost(Long postId, String locale, String userId) {
+    public GetPostResponse getPost(Long postId, String locale, String loginId) {
         Post post = postRepository.findById(postId)
-                .orElseThrow();
+                .orElseThrow(() -> new CustomNotFoundException(ErrorCode.post_notFound));
 
         String title = locale.equalsIgnoreCase("en") ? post.getTitleEn() : post.getTitleKo();
         String content = locale.equalsIgnoreCase("en") ? post.getTextEn() : post.getTextKo();
+
 
         String categoryName = categoryRepository.findById(post.getCategoryId())
                 .map(cat -> locale.equalsIgnoreCase("en") ? cat.getNameEn() : cat.getNameKo())
@@ -76,9 +79,13 @@ public class PostServiceImpl implements PostService {
         Long likeCount = likeRepository.countById_PostId(post.getId());
 
         Boolean isLiked = false;
-        if (userId != null) {
+        if (loginId != null) {
+            UserInfo userInfo = userInfoRepository
+                    .findByLoginId(loginId)
+                    .orElseThrow(() -> new CustomNotFoundException(ErrorCode.login_userNotFound));
+
             isLiked = likeRepository
-                    .existsById(new Like.LikeId(UUID.fromString(userId), post.getId()));
+                    .existsById(new Like.LikeId(userInfo.getId(), post.getId()));
         }
 
         return new GetPostResponse(

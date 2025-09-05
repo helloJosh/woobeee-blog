@@ -8,6 +8,7 @@ function normalize(list: any[] = []): Comment[] {
     return list.map((c) => ({
         id: c.id,
         author: c.author ?? "익명",
+        isEditable: c.isEditable ,
         content: c.content ?? "",
         createdAt: c.createdAt ? new Date(c.createdAt) : new Date(),
         replies: normalize(c.replies ?? []),

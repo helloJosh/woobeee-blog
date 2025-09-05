@@ -9,6 +9,7 @@ import com.woobeee.auth.entity.Auth;
 import com.woobeee.auth.entity.UserAuth;
 import com.woobeee.auth.entity.UserCredential;
 import com.woobeee.auth.entity.enums.AuthType;
+import com.woobeee.auth.exception.ErrorCode;
 import com.woobeee.auth.exception.UserConflictException;
 import com.woobeee.auth.exception.UserNotFoundException;
 import com.woobeee.auth.jwt.JwtTokenProvider;
@@ -50,7 +51,7 @@ public class OauthUserCredentialServiceImpl implements OauthUserCredentialServic
         String userUuid = idToken.getPayload().getSubject();
 
         if (userCredentialRepository.existsByLoginId(email)) {
-            throw new UserConflictException("signIn.userConflict");
+            throw new UserConflictException(ErrorCode.signIn_userConflict);
         }
 
         List<Auth> auths = authRepository
@@ -101,7 +102,7 @@ public class OauthUserCredentialServiceImpl implements OauthUserCredentialServic
         String userUuid = idToken.getPayload().getSubject();
 
         UserCredential user = userCredentialRepository.findUserCredentialByLoginId(email)
-                .orElseThrow(() -> new UserNotFoundException("가입되지 않은 사용자입니다."));
+                .orElseThrow(() -> new UserNotFoundException(ErrorCode.login_userNotFound));
 
         return jwtTokenProvider.generateToken(
                 List.of(AuthType.ROLE_MEMBER),

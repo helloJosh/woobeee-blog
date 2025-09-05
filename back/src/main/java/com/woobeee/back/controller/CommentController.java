@@ -18,7 +18,7 @@ public interface CommentController {
     )
     @PostMapping("")
     ApiResponse<Void> saveComment(
-            @RequestHeader(name = "userId", required = false) String userId,
+            @RequestHeader(name = "loginId", required = false) String loginId,
             @RequestBody PostCommentRequest request
     );
 
@@ -28,7 +28,7 @@ public interface CommentController {
     @DeleteMapping("/{commentId}")
     ApiResponse<Void> deleteComment(
             @PathVariable(value = "commentId") Long commentId,
-            @RequestHeader(name = "userId", required = false) String userId
+            @RequestHeader(name = "loginId", required = false) String loginId
     );
 
     @Operation(
@@ -37,6 +37,6 @@ public interface CommentController {
     @GetMapping("/{postId}")
     ApiResponse<List<GetCommentResponse>> getAllCommentsFromPost(
             @PathVariable(value = "postId") Long postId,
-            @RequestHeader(name = "userId", required = false) String userId
+            @RequestHeader(name = "loginId", required = false) String loginId
     );
 }

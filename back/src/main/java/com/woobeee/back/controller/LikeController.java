@@ -15,7 +15,7 @@ public interface LikeController {
     @PostMapping("/{postId}")
     ApiResponse<Void> saveLike(
             @PathVariable(value = "postId") Long postId,
-            @RequestHeader(name = "userId", required = false) String userId
+            @RequestHeader(name = "loginId", required = false) String loginId
     );
 
     @Operation(
@@ -24,6 +24,6 @@ public interface LikeController {
     @DeleteMapping("/{postId}")
     ApiResponse<Void> deleteLike(
             @PathVariable(value = "postId") Long postId,
-            @RequestHeader(name = "userId", required = false) String userId
+            @RequestHeader(name = "loginId", required = false) String loginId
     );
 }

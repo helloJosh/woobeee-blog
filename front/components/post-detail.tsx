@@ -187,6 +187,8 @@ import { useRouter } from "next/navigation"
 import { usePostDetail } from "@/hooks/use-post-detail"
 import { useLike } from "@/hooks/use-like"
 import CommentSection from "@/components/comment-section";
+import {LikeBar} from "@/components/likebar"
+import {Toaster} from "@/components/ui/toaster";
 
 interface PostDetailProps {
   postId: number
@@ -195,16 +197,8 @@ interface PostDetailProps {
 export default function PostDetail({ postId }: PostDetailProps) {
   const router = useRouter()
 
-  // ① 포스트 상세 불러오기
-  const { post, loading, error } = usePostDetail(postId)
 
-  // ② 좋아요 훅 (post가 로드된 뒤 post.id로 초기화)
-  if (!post) return null
-  const { likes, isLiked, toggleLike } = useLike(
-      post.id,
-      post.likes ?? 0,
-      post.isLiked ?? false
-  )
+  const { post, loading, error } = usePostDetail(postId)
 
   const createdAtDate = useMemo(() => {
     if (!post?.createdAt) return null
@@ -217,19 +211,37 @@ export default function PostDetail({ postId }: PostDetailProps) {
   const handleShare = async () => {
     if (!post) return
     const url = `${window.location.origin}/post/${post.id}`
-    if (navigator.share) {
-      try {
-        await navigator.share({ title: post.title, text: post.title, url })
-      } catch {
-        // 공유 취소
-      }
-    } else {
+
+    // 클립보드 복사: HTTPS(또는 localhost)에서 동작
+    if (navigator.clipboard && window.isSecureContext) {
       try {
         await navigator.clipboard.writeText(url)
-        alert("링크가 클립보드에 복사되었습니다!")
-      } catch (err) {
-        console.error("클립보드 복사 실패:", err)
+        alert("링크를 복사했어요!") // 필요하면 토스트로 교체
+      } catch (e) {
+        console.error("clipboard.writeText 실패:", e)
+        fallbackCopy(url)
       }
+    } else {
+      // 비보안 컨텍스트 등에서의 폴백
+      fallbackCopy(url)
+    }
+  }
+
+  function fallbackCopy(text: string) {
+    const ta = document.createElement("textarea")
+    ta.value = text
+    ta.style.position = "fixed"
+    ta.style.left = "-9999px"
+    document.body.appendChild(ta)
+    ta.select()
+    try {
+      document.execCommand("copy")
+      alert("링크를 복사했어요!")
+    } catch (e) {
+      console.error("execCommand copy 실패:", e)
+      alert("복사에 실패했어요. 주소창에서 직접 복사해 주세요.")
+    } finally {
+      document.body.removeChild(ta)
     }
   }
 
@@ -264,7 +276,6 @@ export default function PostDetail({ postId }: PostDetailProps) {
           <ArrowLeft className="h-4 w-4" />
           뒤로가기
         </Button>
-
         <Card>
           <CardHeader>
             <div className="space-y-4">
@@ -278,8 +289,8 @@ export default function PostDetail({ postId }: PostDetailProps) {
                     <span>{post.views.toLocaleString()}</span>
                   </div>
                   <div className="flex items-center gap-1">
-                    <Heart className={`h-4 w-4 ${isLiked ? "fill-current" : ""}`} />
-                    <span>{likes}</span>
+                    {/*<Heart className={`h-4 w-4 ${isLiked ? "fill-current" : ""}`} />*/}
+                    {/*<span>{likes}</span>*/}
                   </div>
                   {/* 댓글 수가 있다면 여기에 표시 */}
                   <div className="flex items-center gap-1">
@@ -336,24 +347,24 @@ export default function PostDetail({ postId }: PostDetailProps) {
             </div>
 
             <div className="flex items-center gap-4 mt-8 pt-6 border-t">
-              <Button
-                  variant={isLiked ? "default" : "outline"}
-                  onClick={toggleLike}
-                  className="flex items-center gap-2"
-              >
-                <Heart className={`h-4 w-4 ${isLiked ? "fill-current" : ""}`} />
-                좋아요 {likes}
-              </Button>
+              {/*<Button*/}
+              {/*    variant={isLiked ? "default" : "outline"}*/}
+              {/*    onClick={toggleLike}*/}
+              {/*    className="flex items-center gap-2"*/}
+              {/*>*/}
+              {/*  <Heart className={`h-4 w-4 ${isLiked ? "fill-current" : ""}`} />*/}
+              {/*  좋아요 {likes}*/}
+              {/*</Button>*/}
 
+              <LikeBar post={post} />
               <Button variant="outline" onClick={handleShare} className="flex items-center gap-2 bg-transparent">
                 <Share2 className="h-4 w-4" />
-                공유하기
+                링크복사
               </Button>
             </div>
           </CardContent>
         </Card>
 
-         댓글 섹션을 쓴다면 여기에
          <CommentSection postId={post.id} />
       </div>
   )

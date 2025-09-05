@@ -24,7 +24,7 @@ public class PostControllerImpl implements PostController {
             Long categoryId,
             Integer page,
             Integer size,
-            String userId,
+            String loginId,
             String locale
     ) {
         log.info("getPosts request received");
@@ -40,13 +40,13 @@ public class PostControllerImpl implements PostController {
     @Override
     public ApiResponse<GetPostResponse> getPost (
             Long postId,
-            String userId,
+            String loginId,
             String locale
     ) {
         log.info("getPost request received");
 
         return ApiResponse.success(
-                postService.getPost(postId, locale, userId),
+                postService.getPost(postId, locale, loginId),
                 "post get success"
         );
     }

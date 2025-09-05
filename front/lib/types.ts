@@ -8,6 +8,7 @@ export interface Category {
 export interface Comment {
   id: number
   author: string
+  isEditable: boolean
   content: string
   createdAt: Date
   replies: Comment[]

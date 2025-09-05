@@ -6,7 +6,9 @@ import com.woobeee.gateway.jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.ReactiveSecurityContextHolder;
 import org.springframework.security.core.context.SecurityContextImpl;
@@ -28,6 +30,10 @@ public class JwtAuthFilter implements WebFilter {
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, WebFilterChain chain) {
         log.info("JwtAuthFilter message receive: {}", exchange.getRequest().getURI());
+        // 1) Preflight 는 패스
+        if (HttpMethod.OPTIONS.equals(exchange.getRequest().getMethod())) {
+            return chain.filter(exchange);
+        }
 
         String authHeader = exchange.getRequest().getHeaders().getFirst(HttpHeaders.AUTHORIZATION);
 
@@ -37,7 +43,17 @@ public class JwtAuthFilter implements WebFilter {
             try {
                 Authentication authentication = jwtTokenProvider.getAuthentication(token);
 
-                return chain.filter(exchange)
+                String loginId = authentication.getName();
+
+                ServerHttpRequest mutatedRequest = exchange.getRequest().mutate()
+                        .header("loginId", loginId)
+                        .build();
+
+                ServerWebExchange mutatedExchange = exchange.mutate()
+                        .request(mutatedRequest)
+                        .build();
+
+                return chain.filter(mutatedExchange)
                         .contextWrite(ReactiveSecurityContextHolder.withSecurityContext(
                                 Mono.just(new SecurityContextImpl(authentication))
                         ));

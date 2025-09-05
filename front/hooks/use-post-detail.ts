@@ -14,6 +14,7 @@ export function usePostDetail(postId: number) {
             try {
                 const response = await postsAPI.getPost(Number(postId))
                 setPost(response)
+                console.log(response)
             } catch (err) {
                 console.error(err)
                 setError("포스트를 불러오는데 실패했습니다.")

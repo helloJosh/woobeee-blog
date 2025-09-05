@@ -5,11 +5,9 @@ import { ThemeProvider } from "@/components/theme-provider"
 import Header from "@/components/header"
 import Sidebar from "@/components/sidebar"
 import PostList from "@/components/post-list"
-import PostDetail from "@/components/post-detail"
 import { useCategories } from "@/hooks/use-categories"
 import type { Post } from "@/lib/types"
 import { useRouter, useSearchParams } from "next/navigation"
-import { redirect } from "next/navigation"
 
 export default function BlogPage() {
   const { categories, loading, error, refresh } = useCategories()
@@ -74,20 +72,7 @@ export default function BlogPage() {
     updateURL({ category: selectedCategory, search: query })
 
   }
-  // const clickMenu (menu) =>{
-  //   api호출
-  //   {
-  //     setpost(res)
-  //   }
-  //   set()
-  // }
-  // useEffect(() => {
-  //   // 홈페이지 접속 시 /blog로 리다이렉트
-  //   redirect("/blog")
-  // }, [router])
 
-  // @ts-ignore
-  // PostList에서 Post를 불러와서 랜더링시키기
   return (
     <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
       <div className="min-h-screen bg-background">

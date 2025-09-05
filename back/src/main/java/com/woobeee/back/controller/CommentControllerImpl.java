@@ -19,12 +19,12 @@ public class CommentControllerImpl implements CommentController {
 
     @Override
     public ApiResponse<Void> saveComment (
-            String userId,
+            String loginId,
             PostCommentRequest request
     ) {
-        log.info("saveComment request userId = {}", userId);
+        log.info("saveComment request userId = {}", loginId);
 
-        commentService.saveComment(request, userId);
+        commentService.saveComment(request, loginId);
 
         return ApiResponse.createSuccess("comment saved successfully");
     }
@@ -32,21 +32,24 @@ public class CommentControllerImpl implements CommentController {
     @Override
     public ApiResponse<Void> deleteComment (
             Long commentId,
-            String userId
+            String loginId
     ) {
-        log.info("deleteComment request userId = {}", userId);
+        log.info("deleteComment request userId = {}", loginId);
 
-        commentService.deleteComment(commentId, userId);
+        commentService.deleteComment(commentId, loginId);
 
         return ApiResponse.success("comment deleted successfully");
     }
 
     @Override
-    public ApiResponse<List<GetCommentResponse>> getAllCommentsFromPost(Long postId, String userId) {
-        log.info("get comment request userId = {}", userId);
+    public ApiResponse<List<GetCommentResponse>> getAllCommentsFromPost (
+            Long postId,
+            String loginId
+    ) {
+        log.info("get comment request userId = {}", loginId);
 
         return ApiResponse.success(
-                commentService.getAllCommentsFromPost(postId, userId),
+                commentService.getAllCommentsFromPost(postId, loginId),
                 "comment deleted successfully"
         );
     }

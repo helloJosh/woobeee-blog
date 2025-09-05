@@ -8,8 +8,8 @@ import org.springframework.data.domain.Pageable;
 import java.util.UUID;
 
 public interface PostService {
-    void savePost(PostPostRequest request, UUID userId);
-    void deletePost(Long postId, UUID userId);
+    void savePost(PostPostRequest request, String loginId);
+    void deletePost(Long postId, String loginId);
     GetPostsResponse getAllPost(String q, String locale, Long categoryId, Pageable pageable);
-    GetPostResponse getPost(Long postId, String locale, String userId);
+    GetPostResponse getPost(Long postId, String locale, String loginId);
 }

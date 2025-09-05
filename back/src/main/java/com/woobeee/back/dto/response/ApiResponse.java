@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.http.HttpStatus;
 
+import java.time.LocalDateTime;
+
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Getter
@@ -68,10 +70,10 @@ public class ApiResponse<T> {
         );
     }
 
-    public static <T> ApiResponse<T> fail(HttpStatus errorCode, T data, String message) {
+    public static ApiResponse<LocalDateTime> fail(HttpStatus errorCode, String message) {
         return new ApiResponse<>(
                 new Header(false, message, errorCode.value()),
-                data
+                LocalDateTime.now()
         );
     }
 }

@@ -78,7 +78,7 @@ export default function Header({
 
     if (onSearchChange) {
       // 상위가 관리하는 방식: 상위에 위임
-      console.log("[Header] 검색어 변경 감지:", q) // 👈 찍히는지 확인
+      console.log("[Header] 검색어 변경 감지:", q)
       onSearchChange(q)
     }
   }

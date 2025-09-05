@@ -21,7 +21,7 @@ public interface PostController {
             @RequestParam(value = "categoryId", required = false) Long categoryId,
             @RequestParam(value = "page", defaultValue = "0") Integer page,
             @RequestParam(value = "size", defaultValue = "5") Integer size,
-            @RequestHeader(name = "userId", required = false) String userId,
+            @RequestHeader(name = "loginId", required = false) String loginId,
             @RequestHeader(name = "Accept-Language", defaultValue = "ko-KR") String locale
     );
 
@@ -31,7 +31,7 @@ public interface PostController {
     @GetMapping("/{postId}")
     ApiResponse<GetPostResponse> getPost(
             @PathVariable("postId") Long postId,
-            @RequestHeader(name = "userId", required = false) String userId,
+            @RequestHeader(name = "loginId", required = false) String loginId,
             @RequestHeader(name = "Accept-Language", defaultValue = "ko-KR") String locale
     );
 

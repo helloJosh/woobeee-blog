@@ -8,6 +8,7 @@ import com.woobeee.auth.entity.Auth;
 import com.woobeee.auth.entity.UserAuth;
 import com.woobeee.auth.entity.UserCredential;
 import com.woobeee.auth.entity.enums.AuthType;
+import com.woobeee.auth.exception.ErrorCode;
 import com.woobeee.auth.exception.PasswordNotMatchException;
 import com.woobeee.auth.exception.UserNotFoundException;
 import com.woobeee.auth.provider.MessageEvent;
@@ -47,7 +48,7 @@ public class UserCredentialServiceImpl implements UserCredentialService{
         UserCredential userCredential = userCredentialRepository
                 .findUserCredentialByLoginId(loginRequest.getLoginId())
                 .orElseThrow(
-                        () -> new UserNotFoundException("login.userNotFound"));
+                        () -> new UserNotFoundException(ErrorCode.login_userNotFound));
 
         if ( passwordEncoder.matches(
                 userCredential.getPassword(),
@@ -71,7 +72,7 @@ public class UserCredentialServiceImpl implements UserCredentialService{
 
             return retToken;
         } else {
-            throw new PasswordNotMatchException("login.passwordNotMatch");
+            throw new PasswordNotMatchException(ErrorCode.login_passwordNotMatch);
         }
     }
 

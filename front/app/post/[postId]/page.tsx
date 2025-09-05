@@ -1,6 +1,5 @@
 "use client"
 
-import { notFound } from "next/navigation"
 import PostDetail from "@/components/post-detail"
 interface PostPageProps {
   params: {

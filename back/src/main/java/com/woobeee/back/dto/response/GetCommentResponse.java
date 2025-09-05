@@ -15,6 +15,7 @@ import java.util.List;
 public class GetCommentResponse {
     private Long id;
     private String author;
+    private Boolean isEditable;
     private String content;
     private LocalDateTime createdAt;
 

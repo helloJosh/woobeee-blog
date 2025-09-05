@@ -1,3 +1,5 @@
+"use client"
+
 import {
     ApiResponse,
     GetCommentResponse,
@@ -6,9 +8,20 @@ import {
     PostCommentRequest,
     PostsParams
 } from "./types"
+import {getFriendlyErrorMessage} from "@/lib/errors/error-utils";
 
 // API 기본 설정
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8000"
+
+export class HttpError extends Error {
+    status: number
+    data: any
+    constructor(status: number, message: string, data?: any) {
+        super(message)
+        this.status = status
+        this.data = data
+    }
+}
 
 // 토큰 관리
 export const tokenManager = {
@@ -63,25 +76,25 @@ export const apiRequest = async (endpoint: string, options: RequestInit = {}) =>
     try {
         const response = await fetch(url, config)
 
-        // 토큰 만료 시 리프레시 시도
-        if (response.status === 401 && token) {
-            //const refreshed = await refreshAccessToken()
-            const refreshed = false
-            if (refreshed) {
-                // 새 토큰으로 재시도
-                config.headers = {
-                    ...config.headers,
-                    Authorization: `Bearer ${tokenManager.getToken()}`,
-                }
-                return fetch(url, config)
-            } else {
-                // 리프레시 실패 시 로그아웃
-                tokenManager.removeToken()
-                window.location.href = "/login"
-                throw new Error("Authentication failed")
-            }
-        }
+        // 응답 자체는 왔지만 HTTP 에러인 경우
+        if (!response.ok) {
+            let code = "unknown"
+            let description = "요청에 실패했습니다."
 
+            try {
+                const errorData = await response.json()
+                code = errorData?.header?.successful === false
+                    ? errorData?.header?.message ?? "unknown"
+                    : "unknown"
+                description = getFriendlyErrorMessage(code)
+
+                console.log(description)
+                alert(description)
+            } catch {
+            }
+
+            throw new Error(description)
+        }
         return response
     } catch (error) {
         console.error("API request failed:", error)
@@ -122,17 +135,31 @@ export const apiRequest = async (endpoint: string, options: RequestInit = {}) =>
 export const authAPI = {
     // Google OAuth 로그인
     googleLogin: async (googleToken: string) => {
-        const response = await apiRequest("/api/auth/login", {
-            method: "POST",
-            body: JSON.stringify({ idToken: googleToken }),
-        })
-
-        if (!response.ok) {
-            const error = await response.json()
-            throw new Error(error.message || "Google 로그인에 실패했습니다.")
+        try {
+            const response = await apiRequest("/api/auth/login", {
+                method: "POST",
+                body: JSON.stringify({ idToken: googleToken }),
+            })
+            return response.json()
+        } catch (e) {
+            if (e instanceof HttpError) {
+                switch (e.status) {
+                    case 400:
+                        throw new Error(e.message || "잘못된 요청입니다.")
+                    case 401:
+                        // 토큰 만료/위조 등 → 로그인 재시도 안내
+                        throw new Error(e.message || "인증이 만료되었어요. 다시 로그인 해주세요.")
+                    case 403:
+                        throw new Error(e.message || "권한이 없습니다.")
+                    case 500:
+                        throw new Error("서버 오류가 발생했습니다. 잠시 후 다시 시도해주세요.")
+                    default:
+                        throw new Error(e.message || "로그인에 실패했습니다.")
+                }
+            }
+            throw new Error("네트워크 오류가 발생했습니다. 인터넷 연결을 확인해주세요.")
         }
 
-        return response.json()
     },
 
     // Google OAuth 회원가입
@@ -190,7 +217,9 @@ export const postsAPI = {
             searchParams.append("categoryId", String(params.categoryId))
         }
 
-        const response = await apiRequest(`/api/back/posts?${searchParams.toString()}`)
+        const response = await apiRequest(`/api/back/posts?${searchParams.toString()}`, {
+            method: "GET"
+        })
 
         if (!response.ok) {
             const error = await response.json()
@@ -207,7 +236,9 @@ export const postsAPI = {
     },
 
     getPost: async (postId: number): Promise<GetPostResponse> => {
-        const res = await fetch(`/api/back/post/${postId}`)
+        const res = await apiRequest(`/api/back/posts/${postId}`, {
+            method: "GET"
+        })
 
         if (!res.ok) {
             throw new Error("Failed to fetch post")
@@ -221,13 +252,16 @@ export const postsAPI = {
 
 type Method = "POST" | "DELETE";
 async function call(method: Method, postId: number, userId?: string) {
-    const res = await fetch(`/api/back/likes/${postId}`, {
-        method,
-        headers: {
-            "Content-Type": "application/json",
-            ...(userId ? { userId } : {}), // 선택 헤더
-        },
-    });
+    const res = await apiRequest(`/api/back/likes/${postId}`, {
+        method: method
+    })
+    // const res = await fetch(`/api/back/likes/${postId}`, {
+    //     method,
+    //     headers: {
+    //         "Content-Type": "application/json",
+    //         ...(userId ? { userId } : {}), // 선택 헤더
+    //     },
+    // });
 
     if (!res.ok) {
         const msg = await res.text().catch(() => "");
@@ -262,14 +296,18 @@ export const commentAPI = {
         postId: number,
         userId?: string
     ): Promise<GetCommentsApiResponse> {
-        const res = await fetch(`/api/back/comments/${postId}`, {
-            method: "GET",
-            headers: {
-                Accept: "application/json",
-                ...(userId ? { userId } : {}),
-            },
-            cache: "no-store", // 최신 댓글 보장 (필요시 제거)
+
+        const res = await apiRequest(`/api/back/comments/${postId}`, {
+            method: "GET"
         })
+        // const res = await fetch(`/api/back/comments/${postId}`, {
+        //     method: "GET",
+        //     headers: {
+        //         Accept: "application/json",
+        //         ...(userId ? { userId } : {}),
+        //     },
+        //     cache: "no-store", // 최신 댓글 보장 (필요시 제거)
+        // })
 
         if (!res.ok) {
             const msg = await res.text().catch(() => "")
@@ -287,13 +325,8 @@ export const commentAPI = {
         request: PostCommentRequest,
         userId?: string
     ): Promise<ApiResponse<void>> {
-        const res = await fetch(`/api/back/comments`, {
+        const res = await apiRequest(`/api/back/comments`, {
             method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                Accept: "application/json",
-                ...(userId ? { userId } : {}),
-            },
             body: JSON.stringify(request),
         })
 
@@ -313,12 +346,8 @@ export const commentAPI = {
         commentId: number,
         userId?: string
     ): Promise<ApiResponse<void>> {
-        const res = await fetch(`/api/back/comments/${commentId}`, {
-            method: "DELETE",
-            headers: {
-                Accept: "application/json",
-                ...(userId ? { userId } : {}),
-            },
+        const res = await apiRequest(`/api/back/comments/${commentId}`, {
+            method: "DELETE"
         })
 
         if (!res.ok) {
