@@ -7,24 +7,41 @@ import { ChevronDown, ChevronRight, Folder, FolderOpen, GripVertical } from "luc
 import { Button } from "@/components/ui/button"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import Link from "next/link"
-import { usePathname } from "next/navigation"
+import {usePathname, useSearchParams} from "next/navigation"
 import type { Category } from "@/lib/types"
 
 interface SidebarProps {
   categories: Category[]
-  selectedCategory?: string | null
   isOpen: boolean
   width: number
   onWidthChange: (width: number) => void
+  onCategorySelect?: (id: number | null, categoryName: String) => void
+  selectedCategoryId?: number
 }
 
-export default function Sidebar({ categories, selectedCategory, isOpen, width, onWidthChange }: SidebarProps) {
-  const [expandedCategories, setExpandedCategories] = useState<Set<string>>(new Set())
+export default function Sidebar({
+                                  categories,
+                                  isOpen,
+                                  width,
+                                  onWidthChange,
+                                  onCategorySelect,
+                                  selectedCategoryId,
+                                }: SidebarProps) {
+  const [expandedCategories, setExpandedCategories] = useState<Set<number>>(new Set())
   const [isResizing, setIsResizing] = useState(false)
   const sidebarRef = useRef<HTMLDivElement>(null)
-  const pathname = usePathname()
+  const searchParams = useSearchParams()
 
-  const toggleCategory = (categoryId: string) => {
+  // @ts-ignore
+  const selectedFromQuery = Number(searchParams.get("categoryId"))
+  const effectiveSelectedId = selectedCategoryId ?? selectedFromQuery
+
+  const handleCategoryClick = (categoryId: number, categoryName: String) => {
+    // 폼 안에 있어도 submit되지 않도록 버튼에 type="button"을 지정하세요 (JSX 예시 아래 참고)
+    onCategorySelect?.(categoryId, categoryName)
+  }
+
+  const toggleCategory = (categoryId: number) => {
     const newExpanded = new Set(expandedCategories)
     if (newExpanded.has(categoryId)) {
       newExpanded.delete(categoryId)
@@ -32,10 +49,6 @@ export default function Sidebar({ categories, selectedCategory, isOpen, width, o
       newExpanded.add(categoryId)
     }
     setExpandedCategories(newExpanded)
-  }
-
-  const isSelected = (categoryId: string) => {
-    return pathname === `/blog/category/${categoryId}` || selectedCategory === categoryId
   }
 
   const handleMouseDown = useCallback((e: React.MouseEvent) => {
@@ -62,21 +75,6 @@ export default function Sidebar({ categories, selectedCategory, isOpen, width, o
     setIsResizing(false)
   }, [])
 
-  // 마우스 이벤트 리스너 등록/해제
-  // useState(() => {
-  //   if (isResizing) {
-  //     document.addEventListener("mousemove", handleMouseMove)
-  //     document.addEventListener("mouseup", handleMouseUp)
-  //   } else {
-  //     document.removeEventListener("mousemove", handleMouseMove)
-  //     document.removeEventListener("mouseup", handleMouseUp)
-  //   }
-  //
-  //   return () => {
-  //     document.removeEventListener("mousemove", handleMouseMove)
-  //     document.removeEventListener("mouseup", handleMouseUp)
-  //   }
-  // })
   useEffect(() => {
     if (!isResizing) return
 
@@ -91,7 +89,8 @@ export default function Sidebar({ categories, selectedCategory, isOpen, width, o
 
   const renderCategory = (category: Category, level = 0) => {
     const isExpanded = expandedCategories.has(category.id)
-    const selected = isSelected(category.id)
+
+    const isSelected = (categoryId: number) => effectiveSelectedId === categoryId
     const hasChildren = category.children && category.children.length > 0
 
     return (
@@ -104,13 +103,15 @@ export default function Sidebar({ categories, selectedCategory, isOpen, width, o
           )}
 
           <Button
-            variant={selected ? "secondary" : "ghost"}
+            variant={"ghost"}
             className={`flex-1 justify-start gap-2 h-auto py-2 px-2 ${level > 0 ? `ml-${level * 4}` : ""} ${
-              !hasChildren ? "ml-8" : ""
+              !hasChildren ? "ml-1" : ""
             }`}
             asChild
           >
-            <Link href={`/blog/category/${category.id}`}>
+            <div
+                onClick={() => handleCategoryClick(category.id, category.name)} // ✅ 클릭 시 호출
+            >
               {hasChildren ? (
                 isExpanded ? (
                   <FolderOpen className="h-4 w-4" />
@@ -122,7 +123,7 @@ export default function Sidebar({ categories, selectedCategory, isOpen, width, o
               )}
               <span className="text-left truncate">{category.name}</span>
               <span className="ml-auto text-xs text-muted-foreground">{category.postCount}</span>
-            </Link>
+            </div>
           </Button>
         </div>
 
@@ -143,13 +144,12 @@ export default function Sidebar({ categories, selectedCategory, isOpen, width, o
         style={{ width: `${width}px` }}
       >
         <div className="p-4">
-          <h2 className="font-semibold text-lg mb-4">카테고리</h2>
           <Button
-            variant={pathname === "/blog" || pathname === "/" ? "secondary" : "ghost"}
+              variant={"ghost"}
             className="w-full justify-start mb-2"
             asChild
           >
-            <Link href="/blog">전체 글</Link>
+            <Link href="/">전체 글</Link>
           </Button>
         </div>
 
@@ -164,9 +164,9 @@ export default function Sidebar({ categories, selectedCategory, isOpen, width, o
           }`}
           onMouseDown={handleMouseDown}
         >
-          <div className="absolute top-1/2 right-0 transform -translate-y-1/2 translate-x-1/2">
-            <GripVertical className="h-4 w-4 text-muted-foreground" />
-          </div>
+          {/*<div className="absolute top-1/2 right-0 transform -translate-y-1/2 translate-x-1/2">*/}
+          {/*  <GripVertical className="h-4 w-4 text-muted-foreground" />*/}
+          {/*</div>*/}
         </div>
       </aside>
 

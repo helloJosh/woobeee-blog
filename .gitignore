@@ -50,7 +50,6 @@ front/.env.production.local
 # OS/IDE 생성 파일
 front/.DS_Store
 front/*.log
-front/*.iml
 front/.idea/
 front/.vscode/
 
@@ -59,3 +58,8 @@ front/npm-debug.log*
 front/yarn-debug.log*
 front/yarn-error.log*
 front/pnpm-debug.log*
+
+# docker-compose
+docker-copose.yml
+.docker-volumes
+kafka_server_jaas.conf

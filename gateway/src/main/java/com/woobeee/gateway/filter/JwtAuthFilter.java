@@ -1,0 +1,69 @@
+package com.woobeee.gateway.filter;
+
+import com.woobeee.gateway.exception.JwtExpiredException;
+import com.woobeee.gateway.exception.JwtNotValidException;
+import com.woobeee.gateway.jwt.JwtTokenProvider;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.server.reactive.ServerHttpRequest;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.ReactiveSecurityContextHolder;
+import org.springframework.security.core.context.SecurityContextImpl;
+import org.springframework.stereotype.Component;
+import org.springframework.web.server.ServerWebExchange;
+import org.springframework.web.server.WebFilter;
+import org.springframework.web.server.WebFilterChain;
+import reactor.core.publisher.Mono;
+
+
+
+@Component
+@Slf4j
+@RequiredArgsConstructor
+public class JwtAuthFilter implements WebFilter {
+
+    private final JwtTokenProvider jwtTokenProvider;
+
+    @Override
+    public Mono<Void> filter(ServerWebExchange exchange, WebFilterChain chain) {
+        log.info("JwtAuthFilter message receive: {}", exchange.getRequest().getURI());
+        // 1) Preflight 는 패스
+        if (HttpMethod.OPTIONS.equals(exchange.getRequest().getMethod())) {
+            return chain.filter(exchange);
+        }
+
+        String authHeader = exchange.getRequest().getHeaders().getFirst(HttpHeaders.AUTHORIZATION);
+
+        if (authHeader != null && authHeader.startsWith("Bearer ")) {
+            String token = authHeader.substring(7);
+
+            try {
+                Authentication authentication = jwtTokenProvider.getAuthentication(token);
+
+                String loginId = authentication.getName();
+
+                ServerHttpRequest mutatedRequest = exchange.getRequest().mutate()
+                        .header("loginId", loginId)
+                        .build();
+
+                ServerWebExchange mutatedExchange = exchange.mutate()
+                        .request(mutatedRequest)
+                        .build();
+
+                return chain.filter(mutatedExchange)
+                        .contextWrite(ReactiveSecurityContextHolder.withSecurityContext(
+                                Mono.just(new SecurityContextImpl(authentication))
+                        ));
+            } catch (
+                    JwtExpiredException | JwtNotValidException e) {
+                exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED); // 401
+                return exchange.getResponse().setComplete();
+            }
+        }
+
+        return chain.filter(exchange);
+    }
+}

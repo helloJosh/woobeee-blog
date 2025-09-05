@@ -41,7 +41,7 @@ export default function PostList({
       <div className="space-y-3">
         {posts.map((post, index) => (
           <Card key={post.id} className="cursor-pointer hover:shadow-md transition-shadow">
-            <Link to={`/blog/post/${post.id}`}>
+            <Link to={`/front/app/post/${post.id}`}>
               <CardHeader className="pb-3">
                 <div className="flex items-start justify-between gap-4">
                   <div className="flex-1">
