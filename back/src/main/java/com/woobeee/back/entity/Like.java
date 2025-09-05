@@ -32,4 +32,8 @@ public class Like {
         private UUID userId;
         private Long postId;
     }
+
+    public Like(UUID userId, Long postId) {
+        this.id = new LikeId(userId, postId);
+    }
 }

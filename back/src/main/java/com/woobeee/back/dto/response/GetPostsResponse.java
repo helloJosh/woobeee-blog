@@ -1,6 +1,5 @@
 package com.woobeee.back.dto.response;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -22,8 +21,8 @@ public class GetPostsResponse {
         private Long id;
         private String title;
         private String content;
-        private String category;
-        private String categoryId;
+        private String categoryName;
+        private Long categoryId;
         private Long views;
         private Long likes;
         private LocalDateTime createdAt;

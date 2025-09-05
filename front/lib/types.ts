@@ -75,3 +75,29 @@ export interface PostsParams {
   categoryId?: number
   q?: string // 검색어
 }
+
+export interface GetPostResponse {
+  id: number
+  title: string
+  content: string
+  categoryName : string
+  categoryId : number
+  views: number
+  likes: number
+  isLiked: boolean
+  createdAt: Date
+}
+
+export interface GetCommentResponse {
+  id: number
+  author: string
+  content: string
+  createdAt: Date
+  replies?: GetCommentResponse[]
+}
+
+export interface PostCommentRequest {
+  postId : number
+  parentId : number | null
+  content : string
+}

@@ -2,9 +2,11 @@ package com.woobeee.back.service;
 
 
 import com.woobeee.back.dto.request.PostPostRequest;
+import com.woobeee.back.dto.response.GetPostResponse;
 import com.woobeee.back.dto.response.GetPostsResponse;
 import com.woobeee.back.entity.Category;
 import com.woobeee.back.entity.Comment;
+import com.woobeee.back.entity.Like;
 import com.woobeee.back.entity.Post;
 import com.woobeee.back.repository.CategoryRepository;
 import com.woobeee.back.repository.CommentRepository;
@@ -60,6 +62,39 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
+    public GetPostResponse getPost(Long postId, String locale, String userId) {
+        Post post = postRepository.findById(postId)
+                .orElseThrow();
+
+        String title = locale.equalsIgnoreCase("en") ? post.getTitleEn() : post.getTitleKo();
+        String content = locale.equalsIgnoreCase("en") ? post.getTextEn() : post.getTextKo();
+
+        String categoryName = categoryRepository.findById(post.getCategoryId())
+                .map(cat -> locale.equalsIgnoreCase("en") ? cat.getNameEn() : cat.getNameKo())
+                .orElse("Unknown");
+
+        Long likeCount = likeRepository.countById_PostId(post.getId());
+
+        Boolean isLiked = false;
+        if (userId != null) {
+            isLiked = likeRepository
+                    .existsById(new Like.LikeId(UUID.fromString(userId), post.getId()));
+        }
+
+        return new GetPostResponse(
+                post.getId(),
+                title,
+                content,
+                categoryName,
+                post.getCategoryId(),
+                post.getViews(),
+                likeCount,
+                isLiked,
+                post.getCreatedAt()
+        );
+    }
+
+    @Override
     public GetPostsResponse getAllPost(String q, String locale, Long categoryId, Pageable pageable) {
         Page<Post> posts;
 
@@ -105,7 +140,7 @@ public class PostServiceImpl implements PostService {
                     title,
                     content,
                     categoryName,
-                    String.valueOf(post.getCategoryId()),
+                    post.getCategoryId(),
                     post.getViews(),
                     likeCount,
                     post.getCreatedAt()
