@@ -40,11 +40,14 @@ export default function PostList({
         })
 
     const getTitle = () => {
-        if (isSearchResult) {
-            return searchQuery ? `"${searchQuery}" 검색 결과` : "검색 결과"
+        if (searchQuery && selectedCategoryName) {
+            return `"${searchQuery}" 검색 결과 (카테고리: ${selectedCategoryName})`
+        }
+        if (searchQuery) {
+            return `"${searchQuery}" 검색 결과`
         }
         if (selectedCategoryName) {
-            return `${selectedCategoryName}`
+            return selectedCategoryName
         }
         return "전체 글"
     }

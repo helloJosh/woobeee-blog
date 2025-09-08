@@ -8,5 +8,6 @@ public enum ErrorCode {
 
     comment_needAuthentication,
     like_needAuthentication,
-    post_notFound
+    post_notFound,
+    post_imageUploadError
 }

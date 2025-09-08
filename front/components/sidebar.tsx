@@ -41,6 +41,11 @@ export default function Sidebar({
     onCategorySelect?.(categoryId, categoryName)
   }
 
+  const handleAllClick = () => {
+    // 선택 해제: 카테고리 ID와 이름을 비움
+    onCategorySelect?.(null, "")
+  }
+
   const toggleCategory = (categoryId: number) => {
     const newExpanded = new Set(expandedCategories)
     if (newExpanded.has(categoryId)) {
@@ -122,7 +127,7 @@ export default function Sidebar({
                 <div className="w-4" />
               )}
               <span className="text-left truncate">{category.name}</span>
-              <span className="ml-auto text-xs text-muted-foreground">{category.postCount}</span>
+              <span className="ml-auto text-xs text-muted-foreground">{category.count}</span>
             </div>
           </Button>
         </div>
@@ -149,7 +154,9 @@ export default function Sidebar({
             className="w-full justify-start mb-2"
             asChild
           >
-            <Link href="/">전체 글</Link>
+            <Link href="/" onClick={handleAllClick}>
+              전체 글
+            </Link>
           </Button>
         </div>
 

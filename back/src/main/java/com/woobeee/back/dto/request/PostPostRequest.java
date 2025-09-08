@@ -10,8 +10,5 @@ import lombok.NoArgsConstructor;
 public class PostPostRequest {
     private String titleKo;
     private String titleEn;
-    private String contentKo;
-    private String contentEn;
     private Long categoryId;
-
 }

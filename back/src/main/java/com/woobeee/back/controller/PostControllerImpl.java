@@ -9,7 +9,9 @@ import com.woobeee.back.support.CustomPageable;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
 import java.util.UUID;
 
 @RequiredArgsConstructor
@@ -52,8 +54,19 @@ public class PostControllerImpl implements PostController {
     }
 
     @Override
-    public ApiResponse<Void> savePost(PostPostRequest request) {
-        return null;
+    public ApiResponse<Void> savePost (
+            PostPostRequest request,
+            MultipartFile markdownEn,
+            MultipartFile markdownKr,
+            List<MultipartFile> files
+    ) {
+        log.info("save Post request received");
+
+        postService.savePost(request, "kimjoshua135@gmail.com", markdownEn, markdownKr, files);
+
+        return ApiResponse.createSuccess(
+            "post save success"
+        );
     }
 
     @Override

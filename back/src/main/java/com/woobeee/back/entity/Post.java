@@ -1,10 +1,7 @@
 package com.woobeee.back.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -25,11 +22,14 @@ public class Post {
     private String titleEn;
 
     @Column(columnDefinition = "text")
+    @Setter
     private String textKo;
     @Column(columnDefinition = "text")
+    @Setter
     private String textEn;
 
-    private Long views;
+    @Builder.Default
+    private Long views = 0L;
 
     @CreationTimestamp
     @Builder.Default
@@ -50,5 +50,6 @@ public class Post {
         this.textEn = textEn;
         this.categoryId = categoryId;
         this.userId = userId;
+        this.views = 0L;
     }
 }

@@ -7,7 +7,11 @@ import com.woobeee.back.dto.response.GetPostsResponse;
 import com.woobeee.back.dto.response.ApiResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 @RequestMapping("/api/back/posts")
 @Tag(name = "Post Controller", description = "게시글 컨트롤러")
@@ -38,9 +42,12 @@ public interface PostController {
     @Operation(
             summary = "게시글 저장 API"
     )
-    @PostMapping()
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     ApiResponse<Void> savePost(
-            @RequestBody PostPostRequest request
+            @RequestPart("request") PostPostRequest request,
+            @RequestPart(value = "markdownEn", required = false) MultipartFile markdownEn,
+            @RequestPart(value = "markdownKr", required = false) MultipartFile markdownKr,
+            @RequestPart(value = "file", required = false) List<MultipartFile> files
     );
 
     @Operation(

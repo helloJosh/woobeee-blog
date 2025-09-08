@@ -1,7 +1,7 @@
 export interface Category {
   id: number
   name: string
-  postCount: number
+  count: number
   children?: Category[]
 }
 

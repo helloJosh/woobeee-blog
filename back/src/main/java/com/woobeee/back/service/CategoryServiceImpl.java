@@ -59,11 +59,10 @@ public class CategoryServiceImpl implements CategoryService {
         List<Category> categories = categoryRepository.findAll();
         if (categories.isEmpty()) return List.of();
 
-        List<Long> ids = categories.stream()
-                .map(Category::getId)
-                .toList();
+        List<Long> ids = categories.stream().map(Category::getId).toList();
 
-        Map<Long, Integer> countMap = postRepository.countGroupByCategoryId(ids).stream()
+        // 각 카테고리에 "직접" 달린 글 수
+        Map<Long, Integer> directCountMap = postRepository.countGroupByCategoryId(ids).stream()
                 .collect(Collectors.toMap(
                         PostRepository.CategoryCount::getCategoryId,
                         c -> (int) c.getCnt()
@@ -74,6 +73,7 @@ public class CategoryServiceImpl implements CategoryService {
                 ? defaultIfBlank(c.getNameKo(), c.getNameEn())
                 : defaultIfBlank(c.getNameEn(), c.getNameKo());
 
+        // 1) DTO 맵 구성 (초기 postCount는 직접 글 수)
         Map<Long, GetCategoryResponse> dtoMap = new HashMap<>(ids.size() * 2);
         for (Category c : categories) {
             dtoMap.put(
@@ -81,12 +81,13 @@ public class CategoryServiceImpl implements CategoryService {
                     new GetCategoryResponse(
                             c.getId(),
                             nameSelector.apply(c),
-                            countMap.getOrDefault(c.getId(), 0),
+                            directCountMap.getOrDefault(c.getId(), 0),
                             new ArrayList<>()
                     )
             );
         }
 
+        // 2) 트리 구성
         List<GetCategoryResponse> roots = new ArrayList<>();
         for (Category c : categories) {
             GetCategoryResponse me = dtoMap.get(c.getId());
@@ -95,12 +96,26 @@ public class CategoryServiceImpl implements CategoryService {
                 roots.add(me);
             } else {
                 GetCategoryResponse parent = dtoMap.get(parentId);
-                if (parent != null) {
-                    parent.getChildren().add(me);
-                }
+                if (parent != null) parent.getChildren().add(me);
             }
         }
 
+        // 3) 자식들의 개수를 부모에 누적 (후위 순회)
+        for (GetCategoryResponse root : roots) {
+            aggregateCounts(root);
+        }
+
         return roots;
+    }
+
+
+    /** 자식들의 postCount를 부모에 합산하여 최종 postCount로 갱신 */
+    private int aggregateCounts(GetCategoryResponse node) {
+        int sum = node.getCount(); // 내 글 수(직접)
+        for (GetCategoryResponse child : node.getChildren()) {
+            sum += aggregateCounts(child); // 자식 서브트리 합
+        }
+        node.setCount(sum);
+        return sum;
     }
 }

@@ -67,21 +67,22 @@ export function useInfinitePosts ({
                 }
 
                 let response: GetPostsResponse
-                //response = await postsAPI.getPosts(params)
 
-                if (hasCategory && hasSearch) {
-                    console.log("📦 using mockPostResponseApiWithCategoryAndSearch")
-                    response = mockPostResponseApiWithCategoryAndSearch.data
-                } else if (hasCategory) {
-                    console.log("📦 using mockPostResponseApiWithCategory")
-                    response = mockPostResponseApiWithCategory.data
-                } else if (hasSearch) {
-                    console.log("📦 using mockPostResponseApiWithSearch")
-                    response = mockPostResponseApiWithSearch.data
-                } else {
-                    console.log("📦 using default mockPostResponseApi")
-                    response = mockPostResponseApi.data
-                }
+                response = await postsAPI.getPosts(params)
+
+                // if (hasCategory && hasSearch) {
+                //     console.log("📦 using mockPostResponseApiWithCategoryAndSearch")
+                //     response = mockPostResponseApiWithCategoryAndSearch.data
+                // } else if (hasCategory) {
+                //     console.log("📦 using mockPostResponseApiWithCategory")
+                //     response = mockPostResponseApiWithCategory.data
+                // } else if (hasSearch) {
+                //     console.log("📦 using mockPostResponseApiWithSearch")
+                //     response = mockPostResponseApiWithSearch.data
+                // } else {
+                //     console.log("📦 using default mockPostResponseApi")
+                //     response = mockPostResponseApi.data
+                // }
 
                 const newPosts = Array.isArray(response.contents) ? response.contents : []
 

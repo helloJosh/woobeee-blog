@@ -5,29 +5,29 @@ export const mockCategories: Category[] = [
   {
     id: 1,
     name: "기술",
-    postCount: 15,
+    count: 15,
     children: [
-      { id: 4, name: "프론트엔드", postCount: 8 },
-      { id: 5, name: "백엔드", postCount: 5 },
-      { id: 6, name: "모바일", postCount: 2 },
+      { id: 4, name: "프론트엔드", count: 8 },
+      { id: 5, name: "백엔드", count: 5 },
+      { id: 6, name: "모바일", count: 2 },
     ],
   },
   {
     id: 2,
     name: "일상",
-    postCount: 12,
+    count: 12,
     children: [
-      { id: 7, name: "일기", postCount: 7 },
-      { id: 8, name: "여행", postCount: 5 },
+      { id: 7, name: "일기", count: 7 },
+      { id: 8, name: "여행", count: 5 },
     ],
   },
   {
     id: 3,
     name: "리뷰",
-    postCount: 8,
+    count: 8,
     children: [
-      { id: 9, name: "도서", postCount: 4 },
-      { id: 10, name: "영화", postCount: 4 },
+      { id: 9, name: "도서", count: 4 },
+      { id: 10, name: "영화", count: 4 },
     ],
   },
 ]
@@ -36,6 +36,7 @@ const mockComments: Comment[] = [
   {
     id: 1,
     author: "익명1",
+    isEditable : true,
     content: "정말 유용한 글이네요! 감사합니다.",
     createdAt: new Date(2024, 0, 15, 14, 30),
     replies: [
@@ -43,6 +44,7 @@ const mockComments: Comment[] = [
         id: 2,
         author: "익명2",
         content: "저도 동감합니다!",
+        isEditable : true,
         createdAt: new Date(2024, 0, 15, 15, 0),
         replies: [],
       },
@@ -52,6 +54,7 @@ const mockComments: Comment[] = [
     id: 3,
     author: "익명3",
     content: "다음 글도 기대하겠습니다.",
+    isEditable : true,
     createdAt: new Date(2024, 0, 16, 9, 0),
     replies: [],
   },
