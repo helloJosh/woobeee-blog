@@ -15,6 +15,7 @@ import com.woobeee.back.support.ProgressInputStream;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -51,6 +52,9 @@ public class PostServiceImpl implements PostService {
     private final S3Client s3Client;
     private final MinioConfig.MinioProperties minio;
     private final S3Presigner s3Presigner;
+
+    @Value("${spring.cloud.config.profile}")
+    private String profile;
 
     /**
      * 이미지 삽입 글작성시: 마크다운에는 ![설명](${파일명}) 형태로 넣어두세요.
@@ -184,6 +188,10 @@ public class PostServiceImpl implements PostService {
                     .existsById(new Like.LikeId(userInfo.getId(), post.getId()));
         }
 
+        if (profile.equals("dev")) {
+            content = replaceLocalhostToDev(content);
+        }
+
         return new GetPostResponse(
                 post.getId(),
                 title,
@@ -196,6 +204,11 @@ public class PostServiceImpl implements PostService {
                 post.getCreatedAt()
         );
     }
+
+    private String replaceLocalhostToDev(String markdown) {
+        return markdown.replace("http://localhost:9000", "https://woobeee.com");
+    }
+
     private String replaceImagePlaceholdersWithPresignedUrls(String markdown, Long postId) {
         if (markdown == null || markdown.isBlank()) return markdown;
 

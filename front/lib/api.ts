@@ -11,7 +11,8 @@ import {
 import {getFriendlyErrorMessage} from "@/lib/errors/error-utils";
 
 // API 기본 설정
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8000"
+//const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8000"
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "https://woobeee.com"
 
 export class HttpError extends Error {
     status: number
