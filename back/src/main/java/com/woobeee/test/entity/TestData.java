@@ -1,4 +1,4 @@
-package com.woobeee.back.entity.test;
+package com.woobeee.test.entity;
 
 import jakarta.persistence.*;
 import lombok.*;

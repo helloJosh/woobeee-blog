@@ -1,4 +1,4 @@
-package com.woobeee.back.controller;
+package com.woobeee.test.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

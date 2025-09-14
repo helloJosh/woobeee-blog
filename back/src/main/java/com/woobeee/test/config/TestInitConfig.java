@@ -1,13 +1,13 @@
-package com.woobeee.back.config.test;
+package com.woobeee.test.config;
 
-import com.woobeee.back.entity.test.TestData;
-import com.woobeee.back.entity.test.TestDataChildren;
-import com.woobeee.back.entity.test.TestDataSingle;
-import com.woobeee.back.entity.test.TestDataSingleChildren;
-import com.woobeee.back.repository.test.TestDataChildrenRepository;
-import com.woobeee.back.repository.test.TestDataRepository;
-import com.woobeee.back.repository.test.TestDataSingleChildrenRepository;
-import com.woobeee.back.repository.test.TestDataSingleRepository;
+import com.woobeee.test.entity.TestData;
+import com.woobeee.test.entity.TestDataChildren;
+import com.woobeee.test.entity.TestDataSingle;
+import com.woobeee.test.entity.TestDataSingleChildren;
+import com.woobeee.test.repository.TestDataChildrenRepository;
+import com.woobeee.test.repository.TestDataRepository;
+import com.woobeee.test.repository.TestDataSingleChildrenRepository;
+import com.woobeee.test.repository.TestDataSingleRepository;
 import jakarta.annotation.PostConstruct;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;

@@ -1,6 +1,6 @@
-package com.woobeee.back.repository.test;
+package com.woobeee.test.repository;
 
-import com.woobeee.back.entity.test.TestDataSingle;
+import com.woobeee.test.entity.TestDataSingle;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.UUID;

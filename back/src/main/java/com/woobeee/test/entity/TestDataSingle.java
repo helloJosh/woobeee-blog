@@ -1,6 +1,8 @@
-package com.woobeee.back.entity.test;
+package com.woobeee.test.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -15,12 +17,8 @@ import java.util.UUID;
 @NoArgsConstructor
 @Getter
 @Builder
-@Table(
-        indexes = {
-                @Index(name = "ix_single_children_started_at", columnList = "started_at")
-        }
-)
-public class TestDataSingleChildren {
+public class TestDataSingle {
+
     @Id
     @GeneratedValue
     @UuidGenerator
@@ -29,12 +27,8 @@ public class TestDataSingleChildren {
     private LocalDateTime startedAt;
     private LocalDateTime endedAt;
 
-    @ManyToOne
-    private TestDataSingle testDataSingle;
-
-    public TestDataSingleChildren(LocalDateTime startedAt, LocalDateTime endedAt, TestDataSingle testDataSingle) {
+    public TestDataSingle(LocalDateTime startedAt, LocalDateTime endedAt) {
         this.startedAt = startedAt;
         this.endedAt = endedAt;
-        this.testDataSingle = testDataSingle;
     }
 }
