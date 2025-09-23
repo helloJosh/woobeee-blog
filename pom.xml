@@ -11,6 +11,7 @@
         <module>back</module>
         <module>auth</module>
         <module>gateway</module>
+        <module>sample</module>
         <!--React :front</module>-->
     </modules>
 

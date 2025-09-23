@@ -1,20 +1,12 @@
 package com.woobeee.back.test.config;
 
-import com.woobeee.back.test.entity.TestData;
-import com.woobeee.back.test.entity.TestDataChildren;
-import com.woobeee.back.test.entity.TestDataSingle;
-import com.woobeee.back.test.entity.TestDataSingleChildren;
 import com.woobeee.back.test.repository.TestDataChildrenRepository;
 import com.woobeee.back.test.repository.TestDataRepository;
 import com.woobeee.back.test.repository.TestDataSingleChildrenRepository;
 import com.woobeee.back.test.repository.TestDataSingleRepository;
-import jakarta.annotation.PostConstruct;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-
-import java.time.LocalDateTime;
-import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
