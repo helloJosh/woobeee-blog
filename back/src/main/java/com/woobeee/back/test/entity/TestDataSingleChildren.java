@@ -1,4 +1,4 @@
-package com.woobeee.test.entity;
+package com.woobeee.back.test.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -29,12 +29,20 @@ public class TestDataSingleChildren {
     private LocalDateTime startedAt;
     private LocalDateTime endedAt;
 
-    @ManyToOne
-    private TestDataSingle testDataSingle;
+    private UUID testDataSingleId;
+//
+//    @ManyToOne
+//    private TestDataSingle testDataSingle;
+//
+//    public TestDataSingleChildren(LocalDateTime startedAt, LocalDateTime endedAt, TestDataSingle testDataSingle) {
+//        this.startedAt = startedAt;
+//        this.endedAt = endedAt;
+//        this.testDataSingle = testDataSingle;
+//    }
 
-    public TestDataSingleChildren(LocalDateTime startedAt, LocalDateTime endedAt, TestDataSingle testDataSingle) {
+    public TestDataSingleChildren(LocalDateTime startedAt, LocalDateTime endedAt, UUID testDataSingleId) {
         this.startedAt = startedAt;
         this.endedAt = endedAt;
-        this.testDataSingle = testDataSingle;
+        this.testDataSingleId = testDataSingleId;
     }
 }

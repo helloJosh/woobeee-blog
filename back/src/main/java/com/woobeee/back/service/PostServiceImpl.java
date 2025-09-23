@@ -12,6 +12,7 @@ import com.woobeee.back.exception.CustomNotFoundException;
 import com.woobeee.back.exception.ErrorCode;
 import com.woobeee.back.repository.*;
 import com.woobeee.back.support.ProgressInputStream;
+import com.woobeee.back.support.RedisSupport;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -49,6 +50,7 @@ public class PostServiceImpl implements PostService {
     private final LikeRepository likeRepository;
     private final UserInfoRepository userInfoRepository;
 
+    private final RedisSupport redisSupport;
     private final S3Client s3Client;
     private final MinioConfig.MinioProperties minio;
     private final S3Presigner s3Presigner;
@@ -167,6 +169,8 @@ public class PostServiceImpl implements PostService {
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new CustomNotFoundException(ErrorCode.post_notFound));
 
+        long redisAfter = redisSupport.incrementPostViewAndRanking(postId);
+
         String title = locale.equalsIgnoreCase("en") ? post.getTitleEn() : post.getTitleKo();
         String content = locale.equalsIgnoreCase("en") ? post.getTextEn() : post.getTextKo();
 
@@ -188,13 +192,14 @@ public class PostServiceImpl implements PostService {
                     .existsById(new Like.LikeId(userInfo.getId(), post.getId()));
         }
 
+        //TODO: view batch로 redis에서 가져와서 업데이트
         return new GetPostResponse(
                 post.getId(),
                 title,
                 content,
                 categoryName,
                 post.getCategoryId(),
-                post.getViews(),
+                redisAfter,
                 likeCount,
                 isLiked,
                 post.getCreatedAt()

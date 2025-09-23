@@ -63,6 +63,7 @@ front/pnpm-debug.log*
 docker-copose.yml
 .docker-volumes
 kafka_server_jaas.conf
+.DS_Store
 
 /local-docker
 /logs
