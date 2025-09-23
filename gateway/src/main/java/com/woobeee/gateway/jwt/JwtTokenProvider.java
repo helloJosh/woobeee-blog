@@ -35,9 +35,9 @@ public class JwtTokenProvider {
                     .getPayload()
                     .getSubject();
         } catch (ExpiredJwtException e) {
-            throw new JwtExpiredException("login.jwtExpired");
+            throw new JwtExpiredException("login_jwtExpired");
         } catch (JwtException e) {
-            throw new JwtNotValidException("login.jwtInvalid");
+            throw new JwtNotValidException("login_jwtInvalid");
         }
     }
 
@@ -58,9 +58,9 @@ public class JwtTokenProvider {
             return new UsernamePasswordAuthenticationToken(userId, null, authorities);
 
         } catch (ExpiredJwtException e) {
-            throw new JwtExpiredException("login.jwtExpired");
+            throw new JwtExpiredException("login_jwtExpired");
         } catch (JwtException e) {
-            throw new JwtNotValidException("login.jwtInvalid");
+            throw new JwtNotValidException("login_jwtInvalid");
         }
     }
 }

@@ -79,15 +79,12 @@ export const apiRequest = async (endpoint: string, options: RequestInit = {}) =>
 
         // 응답 자체는 왔지만 HTTP 에러인 경우
         if (!response.ok) {
-            // 401 Unauthorized → 토큰 만료 처리
             if (response.status === 401) {
-                tokenManager.removeToken?.()
-                alert("토큰이 만료되었습니다.")
-                // 필요 시 redirect 추가:
-                window.location.href = "/login"
-                throw new Error("토큰이 만료되었습니다.")
+                tokenManager.removeToken()
+                window.location.reload()
+                alert("인증만료되었습니다. 다시 로그인해주세요")
+                throw new Error("인증이 만료되었습니다. 다시 로그인해 주세요.")
             }
-
             let code = "unknown"
             let description = "요청에 실패했습니다."
 
