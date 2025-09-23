@@ -19,12 +19,14 @@ import com.woobeee.auth.repository.UserAuthRepository;
 import com.woobeee.auth.repository.UserCredentialRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Slf4j
 @RequiredArgsConstructor
 @Service
 @Transactional
@@ -101,8 +103,13 @@ public class OauthUserCredentialServiceImpl implements OauthUserCredentialServic
         String email = idToken.getPayload().getEmail();
         String userUuid = idToken.getPayload().getSubject();
 
-        UserCredential user = userCredentialRepository.findUserCredentialByLoginId(email)
-                .orElseThrow(() -> new UserNotFoundException(ErrorCode.login_userNotFound));
+        try {
+            UserCredential user = userCredentialRepository.findUserCredentialByLoginId(email)
+                    .orElseThrow(() -> new UserNotFoundException(ErrorCode.login_userNotFound));
+        } catch (UserNotFoundException e) {
+            log.warn("user not found redirecting to signin");
+            return signIn(idTokenString);
+        }
 
         return jwtTokenProvider.generateToken(
                 List.of(AuthType.ROLE_MEMBER),

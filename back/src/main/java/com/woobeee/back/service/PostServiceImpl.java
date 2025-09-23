@@ -188,10 +188,6 @@ public class PostServiceImpl implements PostService {
                     .existsById(new Like.LikeId(userInfo.getId(), post.getId()));
         }
 
-        if (profile.equals("dev")) {
-            content = replaceLocalhostToDev(content);
-        }
-
         return new GetPostResponse(
                 post.getId(),
                 title,
@@ -204,10 +200,10 @@ public class PostServiceImpl implements PostService {
                 post.getCreatedAt()
         );
     }
-
-    private String replaceLocalhostToDev(String markdown) {
-        return markdown.replace("http://localhost:9000", "https://woobeee.com");
-    }
+//
+//    private String replaceLocalhostToDev(String markdown) {
+//        return markdown.replace("http://localhost:9000", "https://woobeee.com");
+//    }
 
     private String replaceImagePlaceholdersWithPresignedUrls(String markdown, Long postId) {
         if (markdown == null || markdown.isBlank()) return markdown;
@@ -220,12 +216,22 @@ public class PostServiceImpl implements PostService {
             String fileName = matcher.group(1); // ${fileName} 에서 fileName 추출
 
             // Presigned URL 생성
-            String presignedUrl = generatePresignedUrl(postId, fileName);
+            //String presignedUrl = generatePresignedUrl(postId, fileName);
 
-            matcher.appendReplacement(result, Matcher.quoteReplacement(presignedUrl));
+            // public URL
+            String publicUrl = publicUrl(postId, fileName);
+
+            matcher.appendReplacement(result, Matcher.quoteReplacement(publicUrl));
         }
         matcher.appendTail(result);
         return result.toString();
+    }
+
+    private String publicUrl(Long postId, String fileName) {
+        String base = "https://woobeee.com";
+        String bucket = minio.getBucket();
+        String key = postId + "/" + fileName;
+        return String.format("%s/%s/%s", base, bucket, key);
     }
 
     private String generatePresignedUrl(Long postId, String fileName) {
