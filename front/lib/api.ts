@@ -79,6 +79,11 @@ export const apiRequest = async (endpoint: string, options: RequestInit = {}) =>
 
         // 응답 자체는 왔지만 HTTP 에러인 경우
         if (!response.ok) {
+            if (response.status === 401) {
+                tokenManager.removeToken()
+                window.location.reload()
+                throw new Error("인증이 만료되었습니다. 다시 로그인해 주세요.")
+            }
             let code = "unknown"
             let description = "요청에 실패했습니다."
 
