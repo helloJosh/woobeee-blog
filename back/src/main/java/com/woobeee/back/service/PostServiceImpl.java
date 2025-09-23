@@ -292,6 +292,7 @@ public class PostServiceImpl implements PostService {
                     .map(cat -> locale.equalsIgnoreCase("en") ? cat.getNameEn() : cat.getNameKo())
                     .orElse("Unknown");
 
+            long redisAfter = redisSupport.incrementPostViewAndRanking(post.getId());
             Long likeCount = likeRepository.countById_PostId(post.getId());
 
             return new GetPostsResponse.PostContent(
@@ -300,7 +301,7 @@ public class PostServiceImpl implements PostService {
                     content,
                     categoryName,
                     post.getCategoryId(),
-                    post.getViews(),
+                    redisAfter,
                     likeCount,
                     post.getCreatedAt()
             );

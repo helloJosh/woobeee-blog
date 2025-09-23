@@ -20,6 +20,7 @@ public class Like {
     private LikeId id;
 
     @CreationTimestamp
+    @Builder.Default
     private LocalDateTime createdAt = LocalDateTime.now();
 
     @Embeddable

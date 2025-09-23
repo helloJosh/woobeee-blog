@@ -6,4 +6,4 @@ spring:
     import: optional:configserver:${CONFIG_URI}
   cloud:
     config:
-      profile: local
+      profile: dev
