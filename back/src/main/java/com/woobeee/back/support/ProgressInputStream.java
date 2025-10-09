@@ -3,6 +3,7 @@ package com.woobeee.back.support;
 import java.io.FilterInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Objects;
 import java.util.function.Consumer;
 
 public class ProgressInputStream extends FilterInputStream {
@@ -36,6 +37,8 @@ public class ProgressInputStream extends FilterInputStream {
             double percent = (double) bytesRead / totalSize * 100;
             progressCallback.accept(percent);
         }
+
+
         return byteRead;
     }
 }

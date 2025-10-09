@@ -1,4 +1,4 @@
-package com.woobeee.back.test.entity;
+package com.woobeee.sample.singlecompositekey.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

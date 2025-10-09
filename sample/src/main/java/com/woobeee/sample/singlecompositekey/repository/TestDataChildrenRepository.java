@@ -1,6 +1,6 @@
-package com.woobeee.back.test.repository;
+package com.woobeee.sample.singlecompositekey.repository;
 
-import com.woobeee.back.test.entity.TestDataChildren;
+import com.woobeee.sample.singlecompositekey.entity.TestDataChildren;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

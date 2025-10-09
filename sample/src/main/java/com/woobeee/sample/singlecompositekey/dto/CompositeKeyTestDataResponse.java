@@ -1,4 +1,4 @@
-package com.woobeee.back.test.dto;
+package com.woobeee.sample.singlecompositekey.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -1,15 +1,15 @@
-package com.woobeee.back.test.service;
+package com.woobeee.sample.singlecompositekey.service;
 
-import com.woobeee.back.test.dto.CompositeKeyTestDataResponse;
-import com.woobeee.back.test.dto.SingleKeyTestDataResponse;
-import com.woobeee.back.test.entity.TestData;
-import com.woobeee.back.test.entity.TestDataChildren;
-import com.woobeee.back.test.entity.TestDataSingle;
-import com.woobeee.back.test.entity.TestDataSingleChildren;
-import com.woobeee.back.test.repository.TestDataChildrenRepository;
-import com.woobeee.back.test.repository.TestDataRepository;
-import com.woobeee.back.test.repository.TestDataSingleChildrenRepository;
-import com.woobeee.back.test.repository.TestDataSingleRepository;
+import com.woobeee.sample.singlecompositekey.dto.CompositeKeyTestDataResponse;
+import com.woobeee.sample.singlecompositekey.dto.SingleKeyTestDataResponse;
+import com.woobeee.sample.singlecompositekey.entity.TestData;
+import com.woobeee.sample.singlecompositekey.entity.TestDataChildren;
+import com.woobeee.sample.singlecompositekey.entity.TestDataSingle;
+import com.woobeee.sample.singlecompositekey.entity.TestDataSingleChildren;
+import com.woobeee.sample.singlecompositekey.repository.TestDataChildrenRepository;
+import com.woobeee.sample.singlecompositekey.repository.TestDataRepository;
+import com.woobeee.sample.singlecompositekey.repository.TestDataSingleChildrenRepository;
+import com.woobeee.sample.singlecompositekey.repository.TestDataSingleRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

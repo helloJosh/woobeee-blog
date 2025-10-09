@@ -1,4 +1,4 @@
-package com.woobeee.back.test.entity;
+package com.woobeee.sample.singlecompositekey.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -23,8 +23,8 @@ public class TestDataChildren {
     private TestDataChildrenId testDataId;
     private LocalDateTime startedAt;
     private LocalDateTime endedAt;
-    private UUID parentId1;
 
+    private UUID parentId1;
     private UUID parentId2;
 
 //    @ManyToOne

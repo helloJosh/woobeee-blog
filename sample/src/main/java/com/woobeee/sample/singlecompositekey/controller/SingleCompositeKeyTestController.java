@@ -1,8 +1,8 @@
-package com.woobeee.back.test.controller;
+package com.woobeee.sample.singlecompositekey.controller;
 
-import com.woobeee.back.test.dto.CompositeKeyTestDataResponse;
-import com.woobeee.back.test.dto.SingleKeyTestDataResponse;
-import com.woobeee.back.test.service.SingleCompositeKeyTestService;
+import com.woobeee.sample.singlecompositekey.dto.CompositeKeyTestDataResponse;
+import com.woobeee.sample.singlecompositekey.dto.SingleKeyTestDataResponse;
+import com.woobeee.sample.singlecompositekey.service.SingleCompositeKeyTestService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
