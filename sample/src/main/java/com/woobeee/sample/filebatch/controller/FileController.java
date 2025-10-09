@@ -16,9 +16,8 @@ public class FileController {
     private final JobLauncherService jobLauncherService;
 
     @GetMapping("/{key}")
-    public String getSingles(@PathVariable("key") String key) throws Exception {
-        jobLauncherService.runJob(key);
+    public String saveKey(@PathVariable("key") String key) throws Exception {
+        jobLauncherService.runConcurrentJob(key);
         return "success";
     }
-
 }

@@ -8,6 +8,7 @@ import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.JobParametersBuilder;
 import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
@@ -15,15 +16,19 @@ import org.springframework.stereotype.Service;
 @Service
 public class JobLauncherService {
     private final JobLauncher jobLauncher;
-    private final Job flatFileJob;
+
+    @Qualifier("concurrentFlatFileJob")
+    private final Job concurrentFlatFileJob;
 
     @Async
-    public void runJob(String path) throws Exception {
+    public void runConcurrentJob(String path) throws Exception {
         JobParameters params = new JobParametersBuilder()
-                .addString("key", path) // S3 key
+                .addString("key", path)
+                .addLong("chunkSize", 1_000L)
                 .addLong("time", System.currentTimeMillis())
                 .toJobParameters();
-
-        jobLauncher.run(flatFileJob, params);
+        jobLauncher.run(concurrentFlatFileJob, params);
     }
+
+
 }
