@@ -15,6 +15,7 @@ import org.springframework.batch.core.step.builder.StepBuilder;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.batch.item.database.*;
 import org.springframework.batch.item.database.support.H2PagingQueryProvider;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -92,7 +93,7 @@ public class BatchConfig {
         return w;
     }
 
-    @Bean
+    @Bean(name = "testChunkStep")
     public Step testChunkStep(
             JobRepository repo,
             PlatformTransactionManager tm,
@@ -108,11 +109,11 @@ public class BatchConfig {
                 .build();
     }
 
-    @Bean
-    public Job testChunkJob(JobRepository repo, Step testChunkJo) {
+    @Bean(name = "testChunkJob")
+    public Job testChunkJob(JobRepository repo, @Qualifier("testChunkStep") Step testChunkStep) {
         return new JobBuilder("childChunkJob", repo)
                 .incrementer(new RunIdIncrementer())
-                .start(testChunkJo)
+                .start(testChunkStep)
                 .listener(jobExecutionListener()) // ✅ Job listener 추가
                 .build();
     }
