@@ -12,6 +12,7 @@
         <module>auth</module>
         <module>gateway</module>
         <module>sample</module>
+        <module>chat</module>
         <!--React :front</module>-->
     </modules>
 

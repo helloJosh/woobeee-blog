@@ -6,6 +6,8 @@ import com.woobeee.back.dto.request.PostPostRequest;
 import com.woobeee.back.dto.response.GetPostResponse;
 import com.woobeee.back.dto.response.GetPostsResponse;
 import com.woobeee.back.entity.*;
+import com.woobeee.back.event.MessageEvent;
+import com.woobeee.back.event.MessageEventListener;
 import com.woobeee.back.exception.CustomAuthenticationException;
 import com.woobeee.back.exception.CustomInternalServerException;
 import com.woobeee.back.exception.CustomNotFoundException;
@@ -54,6 +56,8 @@ public class PostServiceImpl implements PostService {
     private final S3Client s3Client;
     private final MinioConfig.MinioProperties minio;
     private final S3Presigner s3Presigner;
+
+    private final MessageEventListener eventListener;
 
     @Value("${spring.cloud.config.profile}")
     private String profile;
@@ -146,6 +150,7 @@ public class PostServiceImpl implements PostService {
 //        if (!markdownKrString.isBlank())
 //            post.setTextKo(markdownKrString);
         postRepository.save(post);
+        eventListener.handleDatasetSavedEvent(new MessageEvent("trigger batch"));
     }
 
     @Override
