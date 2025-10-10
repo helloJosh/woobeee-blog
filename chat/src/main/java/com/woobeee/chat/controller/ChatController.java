@@ -2,6 +2,8 @@ package com.woobeee.chat.controller;
 
 import com.woobeee.chat.dto.ChatRequest;
 import com.woobeee.chat.service.ChatService;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.http.codec.ServerSentEvent;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -11,17 +13,20 @@ import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Flux;
 
 @RestController
-@RequestMapping("/chat")
+@RequiredArgsConstructor
+@Slf4j
+@RequestMapping("/api/chat")
 public class ChatController {
     private final ChatService svc;
 
-    public ChatController(ChatService svc) {
-        this.svc = svc;
-    }
-
-    @PostMapping(value = "/stream", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+    @PostMapping(
+            value = "/stream",
+            produces = MediaType.TEXT_EVENT_STREAM_VALUE,
+            consumes = MediaType.APPLICATION_JSON_VALUE
+    )
     public Flux<ServerSentEvent<String>> stream(@RequestBody ChatRequest request) {
-        return svc.streamFromVllm(request)
+        log.info("{} chat request", request);
+        return svc.streamFromVllmWithRag(request)
                 .map(token -> ServerSentEvent.builder(token).event("chunk").build());
     }
 }

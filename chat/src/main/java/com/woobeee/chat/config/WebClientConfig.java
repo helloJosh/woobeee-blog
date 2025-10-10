@@ -16,7 +16,7 @@ public class WebClientConfig {
                 .keepAlive(true);
 
         return WebClient.builder()
-                .baseUrl("http://dev.amberroad.ai:9437")
+                .baseUrl("http://dev.amberroad.ai:9442")
                 .clientConnector(new ReactorClientHttpConnector(http))
                 .exchangeStrategies(ExchangeStrategies.builder()
                         .codecs(cfg -> cfg.defaultCodecs().maxInMemorySize(16 * 1024 * 1024))
