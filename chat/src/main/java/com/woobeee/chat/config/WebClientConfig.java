@@ -1,5 +1,6 @@
 package com.woobeee.chat.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.client.reactive.ReactorClientHttpConnector;
@@ -9,6 +10,10 @@ import reactor.netty.http.client.HttpClient;
 
 @Configuration
 public class WebClientConfig {
+
+    @Value("${vllm.url}")
+    private String url;
+
     @Bean
     WebClient vllmWebClient() {
         var http = HttpClient.create()
@@ -16,7 +21,7 @@ public class WebClientConfig {
                 .keepAlive(true);
 
         return WebClient.builder()
-                .baseUrl("http://dev.amberroad.ai:9442")
+                .baseUrl(url)
                 .clientConnector(new ReactorClientHttpConnector(http))
                 .exchangeStrategies(ExchangeStrategies.builder()
                         .codecs(cfg -> cfg.defaultCodecs().maxInMemorySize(16 * 1024 * 1024))
