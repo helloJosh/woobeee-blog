@@ -148,11 +148,12 @@ public class ChatService {
                     .append("textKo: ").append(p.textKo()).append("\n")
                     .append("titleEn: ").append(p.titleEn()).append("\n")
                     .append("textKr: ").append(p.textEn()).append("\n")
+                    .append("createdAt: ").append(p.createdAt()).append("\n")
                     .append("url: ").append("https://woobeee.com/post/").append(p.id()).append("\n")
                     .append("category: ").append(p.categoryNameKo()).append("\n\n");
         }
 
-        sb.append("Answer concisely and cite the relevant post numbers and url like \n\n [1] https://woobeee.com/post/1 \n, [2] https://woobeee.com/post/2 \n.");
+        sb.append("Answer concisely and cite the relevant post numbers and url like [1] https://woobeee.com/post/1 , [2] https://woobeee.com/post/2. Format should be markdown");
         return sb.toString();
     }
 
