@@ -26,7 +26,13 @@ public class ChatController {
     )
     public Flux<ServerSentEvent<String>> stream(@RequestBody ChatRequest request) {
         log.info("{} chat request", request);
+
         return svc.streamFromVllmWithRag(request)
-                .map(token -> ServerSentEvent.builder(token).event("chunk").build());
+                .doOnNext(token -> log.info("SSE token: {}", token)) // ✅ 각 토큰 출력
+                .map(token -> ServerSentEvent.builder(token)
+                        .event("chunk")
+                        .build())
+                .doOnComplete(() -> log.info("✅ SSE Stream completed"))
+                .doOnError(e -> log.error("❌ SSE Stream error", e));
     }
 }

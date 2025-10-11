@@ -146,14 +146,16 @@ public class ChatService {
             sb.append("[").append(i + 1).append("]\n")
                     .append("titleKo: ").append(p.titleKo()).append("\n")
                     .append("textKo: ").append(p.textKo()).append("\n")
-                    .append("titleEn: ").append(p.titleEn()).append("\n")
-                    .append("textKr: ").append(p.textEn()).append("\n")
-                    .append("createdAt: ").append(p.createdAt()).append("\n")
-                    .append("url: ").append("https://woobeee.com/post/").append(p.id()).append("\n")
-                    .append("category: ").append(p.categoryNameKo()).append("\n\n");
+                    //.append(" titleEn: ").append(" ").append(p.titleEn()).append(" ").append("\n")
+                    //.append(" textEn: ").append(" ").append(p.textEn()).append(" ").append("\n")
+                    //.append("createdAt: ").append(" ").append(p.createdAt()).append(" ").append("\n")
+                    .append("url: ").append("https://woobeee.com/post/").append(p.id()).append("\n");
+                    //.append("category: ").append(" ").append(p.categoryNameKo()).append(" ").append("\n\n");
         }
-
-        sb.append("Answer concisely and cite the relevant post numbers and url like [1] https://woobeee.com/post/1 , [2] https://woobeee.com/post/2. Format should be markdown");
+        sb.append("Recommend all the titles and URLs that are most relevant to the query. ");
+        sb.append("Answer concisely and cite the relevant context. ");
+        sb.append("If nothing matches, do not recommend any title or URL. ");
+        sb.append("If the question is in Korean, answer in Korean; otherwise, answer in English. ");
         return sb.toString();
     }
 

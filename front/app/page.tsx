@@ -8,6 +8,7 @@ import PostList from "@/components/post-list"
 import { useCategories } from "@/hooks/use-categories"
 import type { Post } from "@/lib/types"
 import { useRouter, useSearchParams } from "next/navigation"
+import ChatWidget from "@/app/chat/page";
 
 export default function BlogPage() {
   const { categories, loading, error, refresh } = useCategories()
@@ -106,6 +107,8 @@ export default function BlogPage() {
           </main>
         </div>
       </div>
+
+      <ChatWidget />
     </ThemeProvider>
   )
 }
