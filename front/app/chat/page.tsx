@@ -5,7 +5,7 @@ import ReactMarkdown from "react-markdown";
 import type { Components } from "react-markdown";
 import remarkGfm from "remark-gfm";
 
-const CHAT_URL = "http://localhost:8000/api/chat/stream";
+const CHAT_URL = "https://woobeee.com/api/chat/stream";
 
 type Msg = { role: "user" | "assistant" | "system"; content: string };
 
