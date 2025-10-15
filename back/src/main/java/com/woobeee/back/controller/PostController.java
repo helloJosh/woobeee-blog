@@ -7,6 +7,7 @@ import com.woobeee.back.dto.response.GetPostsResponse;
 import com.woobeee.back.dto.response.ApiResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -36,7 +37,8 @@ public interface PostController {
     ApiResponse<GetPostResponse> getPost(
             @PathVariable("postId") Long postId,
             @RequestHeader(name = "loginId", required = false) String loginId,
-            @RequestHeader(name = "Accept-Language", defaultValue = "ko-KR") String locale
+            @RequestHeader(name = "Accept-Language", defaultValue = "ko-KR") String locale,
+            HttpServletRequest request
     );
 
     @Operation(

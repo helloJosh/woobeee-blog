@@ -15,6 +15,7 @@ import com.woobeee.back.exception.ErrorCode;
 import com.woobeee.back.repository.*;
 import com.woobeee.back.support.ProgressInputStream;
 import com.woobeee.back.support.RedisSupport;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -170,11 +171,11 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public GetPostResponse getPost(Long postId, String locale, String loginId) {
+    public GetPostResponse getPost(Long postId, String locale, String loginId, HttpServletRequest request) {
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new CustomNotFoundException(ErrorCode.post_notFound));
 
-        long redisAfter = redisSupport.incrementPostViewAndRanking(postId);
+        long redisAfter = redisSupport.incrementPostViewAndRanking(postId, request);
 
         String title = locale.equalsIgnoreCase("en") ? post.getTitleEn() : post.getTitleKo();
         String content = locale.equalsIgnoreCase("en") ? post.getTextEn() : post.getTextKo();
@@ -297,7 +298,7 @@ public class PostServiceImpl implements PostService {
                     .map(cat -> locale.equalsIgnoreCase("en") ? cat.getNameEn() : cat.getNameKo())
                     .orElse("Unknown");
 
-            long redisAfter = redisSupport.incrementPostViewAndRanking(post.getId());
+            long redisAfter = redisSupport.getCurrentPostView(post.getId());
             Long likeCount = likeRepository.countById_PostId(post.getId());
 
             return new GetPostsResponse.PostContent(

@@ -6,6 +6,7 @@ import com.woobeee.back.dto.response.GetPostResponse;
 import com.woobeee.back.dto.response.GetPostsResponse;
 import com.woobeee.back.service.PostService;
 import com.woobeee.back.support.CustomPageable;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.RestController;
@@ -43,12 +44,13 @@ public class PostControllerImpl implements PostController {
     public ApiResponse<GetPostResponse> getPost (
             Long postId,
             String loginId,
-            String locale
+            String locale,
+            HttpServletRequest request
     ) {
         log.info("getPost request received");
 
         return ApiResponse.success(
-                postService.getPost(postId, locale, loginId),
+                postService.getPost(postId, locale, loginId, request),
                 "post get success"
         );
     }
