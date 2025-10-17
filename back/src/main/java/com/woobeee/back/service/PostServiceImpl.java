@@ -151,7 +151,7 @@ public class PostServiceImpl implements PostService {
 //        if (!markdownKrString.isBlank())
 //            post.setTextKo(markdownKrString);
         postRepository.save(post);
-        eventListener.handleDatasetSavedEvent(new MessageEvent("trigger batch"));
+        //eventListener.handleDatasetSavedEvent(new MessageEvent("trigger batch"));
     }
 
     @Override

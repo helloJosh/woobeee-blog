@@ -34,7 +34,6 @@ import java.util.stream.Collectors;
 public class ConcurrentJobConfig {
     private final int THREAD_SIZE = 1;
 
-
     @Bean
     @StepScope
     public ConcurrentFlatFileItemReader concurrentFlatFileItemReader(
