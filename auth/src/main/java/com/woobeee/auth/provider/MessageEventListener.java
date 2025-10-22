@@ -26,7 +26,7 @@ public class MessageEventListener {
     public void handleDatasetSavedEvent(MessageEvent event) {
         kafkaTemplate.send(
                 profile + EXTRACT_TRIGGER_TOPIC,
-                Message.signInAfterMessage(event.getMessage(), objectMapper)
+                Message.signInAfterMessage(event.message(), objectMapper)
             )
             .whenComplete((result, ex) -> {
                     if (ex != null) {
