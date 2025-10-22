@@ -39,6 +39,4 @@ public class UserCredentialControllerImpl implements UserCredentialController{
         log.info("logout request");
         return ApiResponse.success("logout success");
     }
-
-
 }
