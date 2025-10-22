@@ -19,7 +19,7 @@ public class UserCredentialControllerImpl implements UserCredentialController{
     public ApiResponse<String> login(OauthTokenRequest request) {
         log.info("login request");
         return ApiResponse.success(
-                oauthUserCredentialService.logIn(request.getIdToken()),
+                oauthUserCredentialService.logIn(request.idToken()),
                 "login request success"
         );
     }
@@ -29,7 +29,7 @@ public class UserCredentialControllerImpl implements UserCredentialController{
     public ApiResponse<String> signIn(OauthTokenRequest request) {
         log.info("sign in request");
         return ApiResponse.success(
-                oauthUserCredentialService.signIn(request.getIdToken()),
+                oauthUserCredentialService.signIn(request.idToken()),
                 "sign in success");
     }
 

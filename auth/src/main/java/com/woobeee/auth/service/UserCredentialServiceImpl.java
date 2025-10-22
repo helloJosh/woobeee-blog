@@ -46,13 +46,13 @@ public class UserCredentialServiceImpl implements UserCredentialService{
         String retToken;
 
         UserCredential userCredential = userCredentialRepository
-                .findUserCredentialByLoginId(loginRequest.getLoginId())
+                .findUserCredentialByLoginId(loginRequest.loginId())
                 .orElseThrow(
                         () -> new UserNotFoundException(ErrorCode.login_userNotFound));
 
         if ( passwordEncoder.matches(
                 userCredential.getPassword(),
-                loginRequest.getPassword())
+                loginRequest.password())
         ) {
             List<Long> userAuths = userAuthRepository
                     .findAllById_UserId(userCredential.getId())
@@ -79,11 +79,11 @@ public class UserCredentialServiceImpl implements UserCredentialService{
     @Override
     public String signIn(PostSignInRequest postSignInRequest) {
         List<Auth> auths = authRepository
-                .findAllByAuthTypeIn(postSignInRequest.getAuthTypes());
+                .findAllByAuthTypeIn(postSignInRequest.authTypes());
 
         UserCredential userCredential = UserCredential.builder()
-                .loginId(postSignInRequest.getLoginId())
-                .password(postSignInRequest.getPassword())
+                .loginId(postSignInRequest.loginId())
+                .password(postSignInRequest.password())
                 .build();
 
         UserCredential savedUserCredential = userCredentialRepository.save(userCredential);
@@ -97,11 +97,11 @@ public class UserCredentialServiceImpl implements UserCredentialService{
         userAuthRepository.saveAll(userAuths);
 
         String retToken = jwtTokenProvider.generateToken(
-                postSignInRequest.getAuthTypes(), postSignInRequest.getLoginId());
+                postSignInRequest.authTypes(), postSignInRequest.loginId());
 
         ObjectNode node = objectMapper.createObjectNode();
-        node.put("loginId", postSignInRequest.getLoginId());
-        node.put("nickname", postSignInRequest.getNickname());
+        node.put("loginId", postSignInRequest.loginId());
+        node.put("nickname", postSignInRequest.nickname());
 
         eventPublisher.publishEvent(new MessageEvent(node));
         return retToken;

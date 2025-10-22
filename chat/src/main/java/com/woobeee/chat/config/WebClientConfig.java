@@ -38,7 +38,8 @@ public class WebClientConfig {
                 .clientConnector(new ReactorClientHttpConnector(http))
                 //.defaultHeader("Authorization", authHeader)
                 .exchangeStrategies(ExchangeStrategies.builder()
-                        .codecs(cfg -> cfg.defaultCodecs().maxInMemorySize(16 * 1024 * 1024))
+                        .codecs(cfg
+                                -> cfg.defaultCodecs().maxInMemorySize(16 * 1024 * 1024))
                         .build())
                 .build();
     }

@@ -7,12 +7,17 @@ import lombok.NoArgsConstructor;
 
 import java.util.List;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-public class PostSignInRequest {
-    private String loginId;
-    private String password;
-    private String nickname;
-    private List<AuthType> authTypes;
+//@Data
+//@NoArgsConstructor
+//@AllArgsConstructor
+public record PostSignInRequest (
+        String loginId,
+        String password,
+        String nickname,
+        List<AuthType> authTypes
+){
+//    private String loginId;
+//    private String password;
+//    private String nickname;
+//    private List<AuthType> authTypes;
 }
