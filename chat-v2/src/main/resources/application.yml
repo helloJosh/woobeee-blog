@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: chat-v2
+
+  config:
+    import: configserver:${CONFIG_URI}
+  cloud:
+    config:
+      profile: local
