@@ -9,10 +9,12 @@ import {
     PostsParams
 } from "./types"
 import {getFriendlyErrorMessage} from "@/lib/errors/error-utils";
+import axios from "axios"
 
 // API 기본 설정
 //const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8000"
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "https://woobeee.com"
+
 
 export class HttpError extends Error {
     status: number
@@ -64,12 +66,21 @@ export const tokenManager = {
 export const apiRequest = async (endpoint: string, options: RequestInit = {}) => {
     const url = `${API_BASE_URL}${endpoint}`
     const token = tokenManager.getToken()
+    // ▼ 추가: 언어 읽기 (없으면 ko-KR 기본)
+    let lang = "ko-KR"
+    if (typeof window !== "undefined") {
+        const stored = localStorage.getItem("lang")
+        if (stored === "ko-KR" || stored === "en-US") {
+            lang = stored
+        }
+    }
 
     const config: RequestInit = {
         headers: {
             "Content-Type": "application/json",
             ...(token && { Authorization: `Bearer ${token}` }),
             ...options.headers,
+            "X-Lang": lang,                  // ▼ 여기서 무조건 X-Lang 넣어줌
         },
         ...options,
     }

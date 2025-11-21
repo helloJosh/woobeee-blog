@@ -2,7 +2,7 @@
 
 import type React from "react"
 
-import { Search, Menu, Home, Sun, Moon, Github, Mail, LogIn } from "lucide-react"
+import {Search, Menu, Home, Sun, Moon, Github, Mail, LogIn, Instagram} from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { useTheme } from "next-themes"
@@ -38,6 +38,7 @@ function useDebounce(value: string, delay: number) {
 
   return debouncedValue
 }
+
 export default function Header({
                                  onToggleSidebar,
                                  searchQuery: searchQueryProp,
@@ -52,6 +53,9 @@ export default function Header({
   const searchParams = useSearchParams()
   const debouncedSearchQuery = useDebounce(searchQuery, 300)
   const { user, loading } = useAuth() // Updated usage
+
+  // ▼ 언어 상태 추가 (ko-KR / en-US)
+  const [lang, setLang] = useState<"ko-KR" | "en-US">("ko-KR")
 
   useEffect(() => {
     setMounted(true)
@@ -72,6 +76,21 @@ export default function Header({
     }
   }, [searchQueryProp])
 
+  // ▼ 최초 마운트 시 localStorage에 저장된 언어 불러오기
+  useEffect(() => {
+    if (!mounted) return
+    const stored = localStorage.getItem("lang")
+    if (stored === "ko-KR" || stored === "en-US") {
+      setLang(stored)
+    }
+  }, [mounted])
+
+  // ▼ 언어 변경될 때마다 localStorage 저장 + (필요하면 Axios 헤더 적용)
+  useEffect(() => {
+    if (!mounted) return
+    localStorage.setItem("lang", lang)
+  }, [lang, mounted])
+
   const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     const q = searchQuery.trim()
@@ -81,6 +100,11 @@ export default function Header({
       console.log("[Header] 검색어 변경 감지:", q)
       onSearchChange(q)
     }
+  }
+
+  // ▼ EN/KR 토글 핸들러
+  const handleToggleLang = () => {
+    setLang((prev) => (prev === "ko-KR" ? "en-US" : "ko-KR"))
   }
 
   if (!mounted) {
@@ -120,6 +144,16 @@ export default function Header({
               />
             </form>
 
+            {/* ▼ 여기 EN/KR 토글 버튼 추가 */}
+            <Button
+                variant="outline"
+                size="sm"
+                className="px-3"
+                onClick={handleToggleLang}
+            >
+              {lang === "ko-KR" ? "KR" : "EN"}
+            </Button>
+
             <Button variant="ghost" size="icon" onClick={() => setTheme(theme === "dark" ? "light" : "dark")}>
               {theme === "dark" ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
             </Button>
@@ -131,7 +165,7 @@ export default function Header({
             </Button>
 
             <Button variant="ghost" size="icon" asChild>
-              <a href="mailto:contact@example.com">
+              <a href="mailto:kimjoshua135@gmail.com">
                 <Mail className="h-5 w-5" />
               </a>
             </Button>
