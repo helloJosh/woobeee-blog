@@ -9,6 +9,7 @@ import { useCategories } from "@/hooks/use-categories"
 import type { Post } from "@/lib/types"
 import { useRouter, useSearchParams } from "next/navigation"
 import ChatWidget from "@/app/chat/page";
+import {useIsMobile} from "@/hooks/use-mobile";
 
 export default function BlogPage() {
   const { categories, loading, error, refresh } = useCategories()
@@ -23,10 +24,11 @@ export default function BlogPage() {
   // @ts-ignore
   const [searchQuery, setSearchQuery] = useState<String | null>(searchParams.get("search"))
   const [sidebarOpen, setSidebarOpen] = useState(true)
-  const [sidebarWidth, setSidebarWidth] = useState(320) // ✅ 추가
+  const [sidebarWidth, setSidebarWidth] = useState(320)
+
+  const isMobile = useIsMobile()
   const [post,setPost] = useState()
 
-  // URL ↔ 상태 동기화 (뒤/앞으로가기 대응)
   useEffect(() => {
     // @ts-ignore
     const cat = searchParams.get("category")
@@ -36,7 +38,14 @@ export default function BlogPage() {
     setSearchQuery(q ?? "")
   }, [searchParams])
 
-  // URL 업데이트 함수
+  useEffect(() => {
+    if (isMobile) {
+      setSidebarOpen(false)
+    } else {
+      setSidebarOpen(true)
+    }
+  }, [isMobile])
+
   const updateURL = (params: { category?: number | null; search?: string | null}) => {
     const newParams = new URLSearchParams()
 

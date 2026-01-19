@@ -9,7 +9,6 @@ import {
     PostsParams
 } from "./types"
 import {getFriendlyErrorMessage} from "@/lib/errors/error-utils";
-import axios from "axios"
 
 // API 기본 설정
 //const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8000"

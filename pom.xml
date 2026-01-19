@@ -13,6 +13,7 @@
         <module>gateway</module>
         <module>sample</module>
         <module>chat</module>
+        <module>chat-v2</module>
         <!--React :front</module>-->
     </modules>
 
