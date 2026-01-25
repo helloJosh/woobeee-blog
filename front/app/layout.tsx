@@ -8,8 +8,27 @@ import { AuthProvider } from "@/hooks/use-auth"
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "Blog Website",
-  description: "A modern blog with categories and comments",
+    title: "Woobeee Blog",
+    description: "Backend developer의 개벌 배포의 기록을 남기는 기술 블로그",
+    verification: {
+        google: "2RCEa6sNCl3hSwoaqa3-kYV3B0z179VjCqtKOADZB0A",
+    },
+    openGraph: {
+        title: "Woobeee Blog",
+        description: "개발과 기록을 남기는 기술 블로그",
+        url: "https://woobeee.com",
+        siteName: "Woobeee",
+        images: [
+            {
+                url: "https://woobeee.com/og-image.png",
+                width: 1200,
+                height: 630,
+                alt: "Woobeee Blog",
+            },
+        ],
+        locale: "ko_KR",
+        type: "website",
+    },
 }
 
 export default function RootLayout({
@@ -19,9 +38,6 @@ export default function RootLayout({
 }) {
   return (
       <html lang="ko">
-        <head>
-            <meta name="google-site-verification" content="2RCEa6sNCl3hSwoaqa3-kYV3B0z179VjCqtKOADZB0A" />
-        </head>
       <body className={inter.className}>
       <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
         <AuthProvider>{children}</AuthProvider>
