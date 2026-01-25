@@ -1,5 +1,6 @@
 package com.woobeee.back.controller;
 
+import com.woobeee.back.aop.Idempotent;
 import com.woobeee.back.dto.request.PostCommentRequest;
 import com.woobeee.back.dto.response.ApiResponse;
 import com.woobeee.back.dto.response.GetCommentResponse;
@@ -17,6 +18,7 @@ public class CommentControllerImpl implements CommentController {
     private final CommentService commentService;
 
     @Override
+    @Idempotent
     public ApiResponse<Void> saveComment (
             String loginId,
             PostCommentRequest request

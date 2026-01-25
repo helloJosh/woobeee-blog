@@ -1,5 +1,6 @@
 package com.woobeee.back.controller;
 
+import com.woobeee.back.aop.Idempotent;
 import com.woobeee.back.dto.request.PostPostRequest;
 import com.woobeee.back.dto.response.ApiResponse;
 import com.woobeee.back.dto.response.GetPostResponse;
@@ -55,6 +56,7 @@ public class PostControllerImpl implements PostController {
     }
 
     @Override
+    @Idempotent
     public ApiResponse<Void> savePost (
             PostPostRequest request,
             MultipartFile markdownEn,
@@ -71,6 +73,7 @@ public class PostControllerImpl implements PostController {
     }
 
     @Override
+    @Idempotent
     public ApiResponse<Void> deletePost(Long postId) {
         return null;
     }

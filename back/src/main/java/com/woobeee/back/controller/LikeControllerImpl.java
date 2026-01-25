@@ -1,5 +1,6 @@
 package com.woobeee.back.controller;
 
+import com.woobeee.back.aop.Idempotent;
 import com.woobeee.back.dto.response.ApiResponse;
 import com.woobeee.back.service.LikeService;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +14,7 @@ public class LikeControllerImpl implements LikeController{
     private final LikeService likeService;
 
     @Override
+    @Idempotent
     public ApiResponse<Void> saveLike(Long postId, String loginId) {
         log.info("saveLike request postId:{}, userId:{}", postId, loginId);
 

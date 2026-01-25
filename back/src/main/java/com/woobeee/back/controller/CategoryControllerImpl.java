@@ -1,5 +1,6 @@
 package com.woobeee.back.controller;
 
+import com.woobeee.back.aop.Idempotent;
 import com.woobeee.back.dto.request.PostCategoryRequest;
 import com.woobeee.back.dto.response.ApiResponse;
 import com.woobeee.back.dto.response.GetCategoryResponse;
@@ -17,6 +18,7 @@ public class CategoryControllerImpl implements CategoryController {
     private final CategoryService categoryService;
 
     @Override
+    @Idempotent
     public ApiResponse<Void> saveCategory (
             Long parentId,
             PostCategoryRequest request
