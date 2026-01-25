@@ -20,10 +20,6 @@ import java.util.UUID;
 @Getter
 @Builder
 public class UserInfo {
-    /**
-     * This UUID id must be same with UserCredential Tables Id
-     * Later the database will be seperated
-     */
     @Id
     private UUID id;
 

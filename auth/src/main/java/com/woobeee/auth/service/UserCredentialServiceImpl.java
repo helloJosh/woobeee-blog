@@ -2,6 +2,7 @@ package com.woobeee.auth.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.woobeee.auth.dto.provider.MessageEvent;
 import com.woobeee.auth.dto.request.PostLoginRequest;
 import com.woobeee.auth.dto.request.PostSignInRequest;
 import com.woobeee.auth.entity.Auth;
@@ -11,7 +12,6 @@ import com.woobeee.auth.entity.enums.AuthType;
 import com.woobeee.auth.exception.ErrorCode;
 import com.woobeee.auth.exception.PasswordNotMatchException;
 import com.woobeee.auth.exception.UserNotFoundException;
-import com.woobeee.auth.provider.MessageEvent;
 import com.woobeee.auth.repository.AuthRepository;
 import com.woobeee.auth.repository.UserAuthRepository;
 import com.woobeee.auth.repository.UserCredentialRepository;
@@ -25,6 +25,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @RequiredArgsConstructor
 @Service
@@ -100,10 +101,18 @@ public class UserCredentialServiceImpl implements UserCredentialService{
                 postSignInRequest.authTypes(), postSignInRequest.loginId());
 
         ObjectNode node = objectMapper.createObjectNode();
+        node.put("id", savedUserCredential.getId().toString());
         node.put("loginId", postSignInRequest.loginId());
         node.put("nickname", postSignInRequest.nickname());
 
-        eventPublisher.publishEvent(new MessageEvent(node));
+        MessageEvent event = MessageEvent.builder()
+                .eventId(UUID.randomUUID())
+                .topic("sign-in-trigger")
+                .key(postSignInRequest.loginId())
+                .message(node)
+                .build();
+
+        eventPublisher.publishEvent(event);
         return retToken;
     }
 
