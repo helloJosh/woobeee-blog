@@ -18,7 +18,6 @@ public class Auth {
     private Long id;
 
     @Enumerated(EnumType.ORDINAL)
-    // EnumType.String -> DB에 스트링 타입 그대로
     private AuthType authType;
 
 }

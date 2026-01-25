@@ -6,8 +6,6 @@ import com.woobeee.auth.dto.response.ApiResponse;
 import com.woobeee.auth.service.OauthUserCredentialService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.kafka.annotation.KafkaListener;
-import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.web.bind.annotation.RestController;
 
 @RequiredArgsConstructor

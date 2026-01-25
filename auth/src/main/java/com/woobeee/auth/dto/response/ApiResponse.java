@@ -1,15 +1,18 @@
 package com.woobeee.auth.dto.response;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.Builder;
 import org.springframework.http.HttpStatus;
 
 import java.time.LocalDateTime;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@Builder
 public record ApiResponse<T>(
         Header header,
         T data
 ) {
-
+    @Builder
     public record Header(
             boolean isSuccessful,
             String message,

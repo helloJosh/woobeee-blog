@@ -1,10 +1,10 @@
 package com.woobeee.auth.service;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
+import com.woobeee.auth.dto.provider.MessageEvent;
 import com.woobeee.auth.entity.Auth;
 import com.woobeee.auth.entity.UserAuth;
 import com.woobeee.auth.entity.UserCredential;
@@ -13,7 +13,6 @@ import com.woobeee.auth.exception.ErrorCode;
 import com.woobeee.auth.exception.UserConflictException;
 import com.woobeee.auth.exception.UserNotFoundException;
 import com.woobeee.auth.jwt.JwtTokenProvider;
-import com.woobeee.auth.provider.MessageEvent;
 import com.woobeee.auth.repository.AuthRepository;
 import com.woobeee.auth.repository.UserAuthRepository;
 import com.woobeee.auth.repository.UserCredentialRepository;
@@ -25,6 +24,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -84,7 +84,15 @@ public class OauthUserCredentialServiceImpl implements OauthUserCredentialServic
         payload.put("loginId",
                 savedUserCredential.getLoginId());
 
-        eventPublisher.publishEvent(new MessageEvent(payload));
+
+        MessageEvent event = MessageEvent.builder()
+                .eventId(UUID.randomUUID())
+                .topic("sign-in-trigger")
+                .key(savedUserCredential.getLoginId())
+                .message(payload)
+                .build();
+
+        eventPublisher.publishEvent(event);
 
         return jwtTokenProvider.generateToken(
                 List.of(AuthType.ROLE_MEMBER),

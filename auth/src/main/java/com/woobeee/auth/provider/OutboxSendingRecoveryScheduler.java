@@ -13,16 +13,11 @@ import java.time.LocalDateTime;
 @Component
 @RequiredArgsConstructor
 public class OutboxSendingRecoveryScheduler {
-
-
     private static final Duration STUCK_THRESHOLD = Duration.ofMinutes(10);
 
     private final OutBoxCustomRepository recoveryRepository;
 
-    /**
-     * SENDING 상태 stuck 메시지 복구
-     */
-    @Scheduled(fixedDelayString = "6000") // 1분마다
+    @Scheduled(fixedDelayString = "6000")
     public void recoverStuckSending() {
         LocalDateTime now = LocalDateTime.now();
 

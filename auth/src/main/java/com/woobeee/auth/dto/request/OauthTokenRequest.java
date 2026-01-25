@@ -1,12 +1,7 @@
 package com.woobeee.auth.dto.request;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.Builder;
 
-//@Data
-//@NoArgsConstructor
-//@AllArgsConstructor
+@Builder
 public record OauthTokenRequest (String idToken){
-//    private String idToken;
 }

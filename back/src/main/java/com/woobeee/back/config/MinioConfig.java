@@ -46,15 +46,11 @@ public class MinioConfig {
     @Bean(destroyMethod = "close")
     public S3Presigner s3Presigner(MinioProperties minio) {
         return S3Presigner.builder()
-                // MinIO 엔드포인트 (예: http://localhost:9000)
                 .endpointOverride(URI.create(minio.getEndpoint()))
-                // 임의의 리전이어도 OK (MinIO는 리전을 검증하지 않음)
                 .region(Region.of(("us-east-1")))
-                // 접근키/시크릿
                 .credentialsProvider(StaticCredentialsProvider.create(
                         AwsBasicCredentials.create(minio.getAccessKey(), minio.getSecretKey())
                 ))
-                // 로컬/HTTP + MinIO는 보통 path-style 필요
                 .serviceConfiguration(S3Configuration.builder()
                         .pathStyleAccessEnabled(true)
                         .build())

@@ -2,7 +2,6 @@ package com.woobeee.back.dto.batch;
 
 
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 public record PostExportDto(
         Long id,

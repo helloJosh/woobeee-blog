@@ -1,6 +1,8 @@
 package com.woobeee.auth.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Embeddable;
+import jakarta.persistence.EmbeddedId;
+import jakarta.persistence.Entity;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -16,16 +18,6 @@ import java.util.UUID;
 public class UserAuth {
     @EmbeddedId
     private UserAuthId id;
-
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "user_id")
-//    @MapsId(value = "userId")
-//    private UserCredential userCredential;
-//
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "auth_id")
-//    @MapsId(value = "authId")
-//    private Auth auth;
 
     @CreationTimestamp
     private LocalDateTime createdAt = LocalDateTime.now();

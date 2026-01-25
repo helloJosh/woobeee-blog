@@ -11,7 +11,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 
-// ExportScheduler.java (스케줄러만 분리)
 @Slf4j
 @Configuration
 @EnableScheduling
@@ -22,7 +21,7 @@ public class ExportScheduler {
     @Qualifier("exportPostsJob")
     private final Job exportPostsJob;
 
-    @Scheduled(cron = "0 0 * * * *") // 매 정시
+    @Scheduled(cron = "0 0 * * * *")
     public void runExportJob() throws Exception {
         var params = new JobParametersBuilder()
                 .addLong("ts", System.currentTimeMillis())

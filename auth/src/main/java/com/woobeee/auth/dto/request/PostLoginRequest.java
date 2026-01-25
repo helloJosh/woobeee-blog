@@ -1,16 +1,10 @@
 package com.woobeee.auth.dto.request;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.Builder;
 
-//@Data
-//@AllArgsConstructor
-//@NoArgsConstructor
+@Builder
 public record PostLoginRequest (
         String loginId,
         String password
 ){
-//    private String loginId;
-//    private String password;
 }

@@ -37,7 +37,7 @@ public class OutboxProducerScheduler {
 
                 log.info("Outbox sent. id={}, key={}, topic={}", row.id(), row.key(), row.topic());
             } catch (Exception ex) {
-                int attempts = row.attempts(); // claim에서 이미 +1 된 값이 들어옴
+                int attempts = row.attempts();
                 long delaySeconds = Math.min(300, (long) Math.pow(2, Math.min(attempts, 6)) * 5);
                 LocalDateTime nextAttemptAt = LocalDateTime.now().plusSeconds(delaySeconds);
 

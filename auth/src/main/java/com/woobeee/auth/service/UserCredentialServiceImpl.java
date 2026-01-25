@@ -12,14 +12,12 @@ import com.woobeee.auth.entity.enums.AuthType;
 import com.woobeee.auth.exception.ErrorCode;
 import com.woobeee.auth.exception.PasswordNotMatchException;
 import com.woobeee.auth.exception.UserNotFoundException;
+import com.woobeee.auth.jwt.JwtTokenProvider;
 import com.woobeee.auth.repository.AuthRepository;
 import com.woobeee.auth.repository.UserAuthRepository;
 import com.woobeee.auth.repository.UserCredentialRepository;
-import com.woobeee.auth.jwt.JwtTokenProvider;
-import jakarta.annotation.PostConstruct;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.apache.catalina.User;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -103,7 +101,6 @@ public class UserCredentialServiceImpl implements UserCredentialService{
         ObjectNode node = objectMapper.createObjectNode();
         node.put("id", savedUserCredential.getId().toString());
         node.put("loginId", postSignInRequest.loginId());
-        node.put("nickname", postSignInRequest.nickname());
 
         MessageEvent event = MessageEvent.builder()
                 .eventId(UUID.randomUUID())
