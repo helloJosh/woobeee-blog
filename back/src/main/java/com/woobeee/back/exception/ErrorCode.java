@@ -9,5 +9,8 @@ public enum ErrorCode {
     comment_needAuthentication,
     like_needAuthentication,
     post_notFound,
-    post_imageUploadError
+    post_imageUploadError,
+
+    api_idempotencyKeyConflictFuckYouStopTryingToMessWithMyServer,
+    api_idempotencyKeyConflict
 }

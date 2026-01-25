@@ -55,6 +55,18 @@ public class AuthControllerAdvice {
                 ex.getMessage()
         );
     }
+    @ExceptionHandler({
+            CustomConflictException.class
+    })
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public ApiResponse<LocalDateTime> conflictExceptionHandler(Exception ex) {
+        log.error(ex.getMessage(), ex);
+
+        return ApiResponse.fail(
+                HttpStatus.CONFLICT,
+                ex.getMessage()
+        );
+    }
 
 //    @ExceptionHandler({
 //    })

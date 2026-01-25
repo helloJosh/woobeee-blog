@@ -71,6 +71,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<GetCommentResponse> getAllCommentsFromPost (
             Long postId,
             String loginId

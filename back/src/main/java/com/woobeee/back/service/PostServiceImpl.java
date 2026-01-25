@@ -176,6 +176,7 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public GetPostResponse getPost(Long postId, String locale, String loginId, HttpServletRequest request) {
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new CustomNotFoundException(ErrorCode.post_notFound));
@@ -265,6 +266,7 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public GetPostsResponse getAllPost(String q, String locale, Long categoryId, Pageable pageable) {
         Page<Post> posts;
 

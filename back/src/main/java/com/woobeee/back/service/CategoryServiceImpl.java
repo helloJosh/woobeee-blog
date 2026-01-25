@@ -19,9 +19,9 @@ import java.util.stream.Collectors;
 import static org.apache.commons.lang3.StringUtils.defaultIfBlank;
 
 @Service
-@Transactional
 @RequiredArgsConstructor
 @Slf4j
+@Transactional(readOnly = true)
 public class CategoryServiceImpl implements CategoryService {
     private final CategoryRepository categoryRepository;
     private final PostRepository postRepository;
