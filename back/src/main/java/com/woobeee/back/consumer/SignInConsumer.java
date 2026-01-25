@@ -20,38 +20,22 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class SignInConsumer {
     private final ObjectMapper objectMapper;
-    private final KafkaTemplate<String, String> kafkaTemplate;
-
     private final UserInfoService userInfoService;
-
-    @Value("${spring.cloud.config.profile}")
-    private String profile;
 
     @KafkaListener(
             topics = "${spring.cloud.config.profile}-sign-in-trigger",
-            groupId = "${spring.cloud.config.profile}-${spring.kafka.consumer.group-id}")
-    public void listenExtract(String message) {
-        log.info(message);
-        JsonNode requestNode = null;
-        try {
+            groupId = "${spring.cloud.config.profile}-${spring.kafka.consumer.group-id}"
+    )
+    public void listenExtract(String message) throws Exception {
 
-            Message<JsonNode> parse = objectMapper.readValue(message,
-                    new TypeReference<Message<JsonNode>>() {});
+        Message<JsonNode> parsed = objectMapper.readValue(
+                message, new TypeReference<Message<JsonNode>>() {}
+        );
 
-            requestNode = parse.data();
-            String id = requestNode.get("id").asText();
-            String loginId = requestNode.get("loginId").asText();
+        JsonNode requestNode = parsed.data();
+        String id = requestNode.get("id").asText();
+        String loginId = requestNode.get("loginId").asText();
 
-            userInfoService.signIn(id, loginId);
-
-        } catch (IOException e) {
-            kafkaTemplate.send(
-                    profile + "-signin-trigger-error",
-                    KafkaHeaders.RECEIVED_KEY,
-                    null
-            );
-
-            log.error(message, e);
-        }
+        userInfoService.signIn(id, loginId);
     }
 }
