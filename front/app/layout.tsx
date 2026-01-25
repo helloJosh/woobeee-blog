@@ -19,6 +19,9 @@ export default function RootLayout({
 }) {
   return (
       <html lang="ko">
+        <head>
+            <meta name="google-site-verification" content="2RCEa6sNCl3hSwoaqa3-kYV3B0z179VjCqtKOADZB0A" />
+        </head>
       <body className={inter.className}>
       <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
         <AuthProvider>{children}</AuthProvider>
