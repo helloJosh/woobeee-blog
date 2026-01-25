@@ -21,6 +21,7 @@ public class AuthControllerAdvice {
     @ExceptionHandler({
             PasswordNotMatchException.class,
             JwtNotValidException.class,
+            UserConflictException.class
     })
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ApiResponse<LocalDateTime> badRequestExceptionHandler(Exception ex) {
@@ -59,7 +60,7 @@ public class AuthControllerAdvice {
     }
 
     @ExceptionHandler({
-            UserConflictException.class,
+            CustomConflictException.class,
     })
     @ResponseStatus(HttpStatus.CONFLICT)
     public ApiResponse<LocalDateTime> conflictExceptionHandler(Exception ex) {

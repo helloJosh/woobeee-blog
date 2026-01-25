@@ -8,5 +8,8 @@ public enum ErrorCode {
 
     comment_needAuthentication,
     like_needAuthentication,
-    post_notFound
+    post_notFound,
+
+    api_idempotencyKeyConflictFuckYouStopTryingToMessWithMyServer,
+    api_idempotencyKeyConflict
 }
