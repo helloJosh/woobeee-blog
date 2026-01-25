@@ -12,6 +12,10 @@ export const metadata: Metadata = {
     description: "Backend developer의 개벌 배포의 기록을 남기는 기술 블로그",
     verification: {
         google: "2RCEa6sNCl3hSwoaqa3-kYV3B0z179VjCqtKOADZB0A",
+        other: {
+            "naver-site-verification":
+                "a779dbe8d6f1f31e69e41bdac8670f8ffaaf473a",
+        },
     },
     openGraph: {
         title: "Woobeee Blog",
