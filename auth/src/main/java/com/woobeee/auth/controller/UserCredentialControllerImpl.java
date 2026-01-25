@@ -1,5 +1,6 @@
 package com.woobeee.auth.controller;
 
+import com.woobeee.auth.aop.Idempotent;
 import com.woobeee.auth.dto.request.OauthTokenRequest;
 import com.woobeee.auth.dto.response.ApiResponse;
 import com.woobeee.auth.service.OauthUserCredentialService;
@@ -26,6 +27,7 @@ public class UserCredentialControllerImpl implements UserCredentialController{
 
     /// POST /api/auth/signIn
     @Override
+    @Idempotent
     public ApiResponse<String> signIn(OauthTokenRequest request) {
         log.info("sign in request");
         return ApiResponse.success(
