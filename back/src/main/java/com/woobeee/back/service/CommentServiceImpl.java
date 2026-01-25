@@ -38,9 +38,9 @@ public class CommentServiceImpl implements CommentService {
                 .orElseThrow(() -> new CustomNotFoundException(ErrorCode.login_userNotFound));
 
         Comment comment = new Comment (
-                request.getContent(),
-                request.getPostId(),
-                request.getParentId(),
+                request.content(),
+                request.postId(),
+                request.parentId(),
                 userInfo.getId()
         );
 
@@ -106,7 +106,7 @@ public class CommentServiceImpl implements CommentService {
                 // 자식 댓글 → 부모에 추가
                 GetCommentResponse parent = map.get(comment.getParentId());
                 if (parent != null) {
-                    parent.getReplies().add(map.get(comment.getId()));
+                    parent.replies().add(map.get(comment.getId()));
                 }
             }
         }

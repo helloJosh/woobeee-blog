@@ -1,14 +1,11 @@
 package com.woobeee.back.dto.request;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.Builder;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-public class PostCommentRequest {
-    private Long postId;
-    private Long parentId;
-    private String content;
+@Builder
+public record PostCommentRequest(
+        Long postId,
+        Long parentId,
+        String content
+) {
 }

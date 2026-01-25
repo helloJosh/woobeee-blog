@@ -5,14 +5,19 @@ import com.woobeee.back.config.MinioConfig;
 import com.woobeee.back.dto.request.PostPostRequest;
 import com.woobeee.back.dto.response.GetPostResponse;
 import com.woobeee.back.dto.response.GetPostsResponse;
-import com.woobeee.back.entity.*;
-import com.woobeee.back.event.MessageEvent;
+import com.woobeee.back.entity.Category;
+import com.woobeee.back.entity.Like;
+import com.woobeee.back.entity.Post;
+import com.woobeee.back.entity.UserInfo;
 import com.woobeee.back.event.MessageEventListener;
 import com.woobeee.back.exception.CustomAuthenticationException;
 import com.woobeee.back.exception.CustomInternalServerException;
 import com.woobeee.back.exception.CustomNotFoundException;
 import com.woobeee.back.exception.ErrorCode;
-import com.woobeee.back.repository.*;
+import com.woobeee.back.repository.CategoryRepository;
+import com.woobeee.back.repository.LikeRepository;
+import com.woobeee.back.repository.PostRepository;
+import com.woobeee.back.repository.UserInfoRepository;
 import com.woobeee.back.support.ProgressInputStream;
 import com.woobeee.back.support.RedisSupport;
 import jakarta.servlet.http.HttpServletRequest;
@@ -88,11 +93,11 @@ public class PostServiceImpl implements PostService {
                 : "";
 
         Post post = new Post(
-                request.getTitleKo(),
-                request.getTitleEn(),
+                request.titleKo(),
+                request.titleEn(),
                 markdownKrString,
                 markdownEnString,
-                request.getCategoryId(),
+                request.categoryId(),
                 userInfo.getId()
         );
 

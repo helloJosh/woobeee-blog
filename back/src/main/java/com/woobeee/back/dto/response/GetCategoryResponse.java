@@ -1,20 +1,16 @@
 package com.woobeee.back.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.Builder;
 
 import java.util.List;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
+@Builder
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
-public class GetCategoryResponse {
-    private Long id;
-    private String name;
-    private Integer count;
-
-    private List<GetCategoryResponse> children;
+public record GetCategoryResponse(
+        Long id,
+        String name,
+        Integer count,
+        List<GetCategoryResponse> children
+) {
 }

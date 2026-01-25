@@ -38,7 +38,7 @@ public class SignInConsumer {
             Message<JsonNode> parse = objectMapper.readValue(message,
                     new TypeReference<Message<JsonNode>>() {});
 
-            requestNode = parse.getData();
+            requestNode = parse.data();
             String id = requestNode.get("id").asText();
             String loginId = requestNode.get("loginId").asText();
 

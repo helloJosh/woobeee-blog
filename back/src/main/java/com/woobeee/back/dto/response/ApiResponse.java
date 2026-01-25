@@ -1,41 +1,33 @@
 package com.woobeee.back.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.http.HttpStatus;
 
 import java.time.LocalDateTime;
 
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import org.springframework.http.HttpStatus;
+
+import java.time.LocalDateTime;
+
+
+@Builder
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@Getter
-@Setter
-@NoArgsConstructor
-public class ApiResponse<T> {
-    private Header header;
-    private T data;
+public record ApiResponse<T>(
+        Header header,
+        T data
+) {
 
-    public ApiResponse(Header header, T data) {
-        this.header = header;
-        this.data = data;
-    }
+    @Builder
+    public record Header(
+            boolean isSuccessful,
+            String message,
+            int resultCode
+    ) {}
 
-    public ApiResponse(Header header) {
-        this.header = header;
-    }
-
-    @Setter
-    @Getter
-    @AllArgsConstructor
-    @NoArgsConstructor
-    public static class Header {
-        private boolean isSuccessful;
-        private String message;
-        private int resultCode;
-    }
+    /* ===== success ===== */
 
     public static <T> ApiResponse<T> success(T data, String message) {
         return new ApiResponse<>(
@@ -46,7 +38,8 @@ public class ApiResponse<T> {
 
     public static <T> ApiResponse<T> success(String message) {
         return new ApiResponse<>(
-                new Header(true, message, HttpStatus.OK.value())
+                new Header(true, message, HttpStatus.OK.value()),
+                null
         );
     }
 
@@ -57,18 +50,21 @@ public class ApiResponse<T> {
         );
     }
 
-    public static <T> ApiResponse<T> deleteSuccess(T data, String message) {
+    public static <T> ApiResponse<T> createSuccess(String message) {
         return new ApiResponse<>(
-                new Header(true, message, HttpStatus.NO_CONTENT.value()),
-                data
+                new Header(true, message, HttpStatus.CREATED.value()),
+                null
         );
     }
 
-    public static <T> ApiResponse<T> createSuccess(String message) {
+    public static <T> ApiResponse<T> deleteSuccess(String message) {
         return new ApiResponse<>(
-                new Header(true, message, HttpStatus.CREATED.value())
+                new Header(true, message, HttpStatus.NO_CONTENT.value()),
+                null
         );
     }
+
+    /* ===== fail ===== */
 
     public static ApiResponse<LocalDateTime> fail(HttpStatus errorCode, String message) {
         return new ApiResponse<>(

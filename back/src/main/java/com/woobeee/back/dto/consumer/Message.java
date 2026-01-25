@@ -3,50 +3,65 @@ package com.woobeee.back.dto.consumer;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 /**
  * model-trigger.dm.request
  * model-trigger.mlops.response
- * @param <T>
  */
-@Data
-@NoArgsConstructor
-public class Message<T> {
-    private Header header;
-    private T data;
-
-    public Message(Header header, T data) {
-        this.header = header;
-        this.data = data;
-    }
-
-    public Message(Header header) {
-        this.header = header;
-    }
-
-    @Data
+@Builder
+public record Message<T>(
+        Header header,
+        T data
+) {
     @Builder
-    @NoArgsConstructor
-    @AllArgsConstructor
-    public static class Header {
-        private Boolean isSuccessful;
-        private String message;
-        private String from;
-        private List<String> to;
+    public record Header(
+            Boolean isSuccessful,
+            String message,
+            String from,
+            List<String> to
+    ) {
+        public static Builder builder() {
+            return new Builder();
+        }
+
+        public static final class Builder {
+            private Boolean isSuccessful;
+            private String message;
+            private String from;
+            private List<String> to;
+
+            public Builder isSuccessful(Boolean isSuccessful) {
+                this.isSuccessful = isSuccessful;
+                return this;
+            }
+
+            public Builder message(String message) {
+                this.message = message;
+                return this;
+            }
+
+            public Builder from(String from) {
+                this.from = from;
+                return this;
+            }
+
+            public Builder to(List<String> to) {
+                this.to = to;
+                return this;
+            }
+
+            public Header build() {
+                return new Header(isSuccessful, message, from, to);
+            }
+        }
     }
 
-    @Data
-    @NoArgsConstructor
-    @AllArgsConstructor
-    public static class Body<T> {
-        private T data;
-    }
+    public record Body<T>(
+            T data
+    ) {}
 
     public static String signInAfterMessage(JsonNode jsonNode, ObjectMapper objectMapper) {
         try {
@@ -64,5 +79,4 @@ public class Message<T> {
             throw new RuntimeException("Failed to serialize signIn after message", e);
         }
     }
-
 }

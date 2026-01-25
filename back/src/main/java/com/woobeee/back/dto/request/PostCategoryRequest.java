@@ -1,13 +1,10 @@
 package com.woobeee.back.dto.request;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.Builder;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-public class PostCategoryRequest {
-    private String nameKo;
-    private String nameEn;
+@Builder
+public record PostCategoryRequest(
+        String nameKo,
+        String nameEn
+) {
 }
