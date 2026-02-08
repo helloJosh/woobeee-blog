@@ -21,6 +21,7 @@ import java.util.UUID;
 @Builder
 public class UserInfo {
     @Id
+    @UuidGenerator
     private UUID id;
 
     private String loginId;
