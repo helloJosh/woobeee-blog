@@ -1,11 +1,12 @@
 package com.woobeee.back.service;
 
+import com.woobeee.back.config.MinioConfig;
 import com.woobeee.back.dto.request.PostSignUpRequest;
+import com.woobeee.back.entity.InbodyRecord;
 import com.woobeee.back.entity.Profile;
 import com.woobeee.back.entity.RunningRecord;
 import com.woobeee.back.entity.StrengthRecord;
 import com.woobeee.back.entity.Tag;
-import com.woobeee.back.entity.InbodyRecord;
 import com.woobeee.back.entity.UserInfo;
 import com.woobeee.back.entity.UserTag;
 import com.woobeee.back.exception.CustomConflictException;
@@ -23,6 +24,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -41,8 +44,10 @@ public class UserInfoServiceImpl implements UserInfoService {
     private final InbodyRecordRepository inbodyRecordRepository;
     private final StrengthRecordRepository strengthRecordRepository;
     private final RunningRecordRepository runningRecordRepository;
+    private final MinioConfig.MinioProperties minioProperties;
 
     @Override
+    @Deprecated
     public void signIn(String id, String loginId) {
         userInfoRepository.save(new UserInfo(loginId, UUID.fromString(id)));
     }
@@ -84,7 +89,7 @@ public class UserInfoServiceImpl implements UserInfoService {
                             .visceralFat(request.inbodyRecord().visceralFat())
                             .measuredAt(request.inbodyRecord().measuredAt())
                             .isVerified(request.inbodyRecord().isVerified())
-                            .imageUrl(request.inbodyRecord().imageUrl())
+                            .imageUrl(normalizeImageKey(request.inbodyRecord().imageUrl()))
                             .profilesId(request.id())
                             .build()
             );
@@ -145,5 +150,40 @@ public class UserInfoServiceImpl implements UserInfoService {
             );
         }
         userTagRepository.saveAll(userTags);
+    }
+
+    private String normalizeImageKey(String imageRef) {
+        if (imageRef == null || imageRef.isBlank()) {
+            return imageRef;
+        }
+
+        String trimmed = imageRef.trim();
+        if (!trimmed.startsWith("http://") && !trimmed.startsWith("https://")) {
+            return stripLeadingSlash(trimmed);
+        }
+
+        try {
+            URI uri = new URI(trimmed);
+            String path = stripLeadingSlash(uri.getPath());
+            if (path == null || path.isBlank()) {
+                return trimmed;
+            }
+
+            String bucketPrefix = minioProperties.getBucket() + "/";
+            if (path.startsWith(bucketPrefix)) {
+                return path.substring(bucketPrefix.length());
+            }
+            return path;
+        } catch (URISyntaxException e) {
+            log.warn("invalid image url format. raw={}", trimmed);
+            return trimmed;
+        }
+    }
+
+    private String stripLeadingSlash(String value) {
+        if (value == null) {
+            return null;
+        }
+        return value.startsWith("/") ? value.substring(1) : value;
     }
 }

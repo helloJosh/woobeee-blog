@@ -1,6 +1,8 @@
 package com.woobeee.back.service;
 
+import com.woobeee.back.config.MinioConfig;
 import com.woobeee.back.dto.request.PostSignUpRequest;
+import com.woobeee.back.entity.InbodyRecord;
 import com.woobeee.back.entity.Tag;
 import com.woobeee.back.entity.UserInfo;
 import com.woobeee.back.entity.UserTag;
@@ -49,6 +51,8 @@ class UserInfoServiceImplTest {
     private StrengthRecordRepository strengthRecordRepository;
     @Mock
     private RunningRecordRepository runningRecordRepository;
+    @Mock
+    private MinioConfig.MinioProperties minioProperties;
 
     @InjectMocks
     private UserInfoServiceImpl service;
@@ -133,5 +137,41 @@ class UserInfoServiceImplTest {
         ArgumentCaptor<List<UserTag>> userTagsCaptor = ArgumentCaptor.forClass(List.class);
         verify(userTagRepository).saveAll(userTagsCaptor.capture());
         assertThat(userTagsCaptor.getValue()).hasSize(2);
+
+        ArgumentCaptor<InbodyRecord> inbodyCaptor = ArgumentCaptor.forClass(InbodyRecord.class);
+        verify(inbodyRecordRepository).save(inbodyCaptor.capture());
+        assertThat(inbodyCaptor.getValue().getImageUrl()).isEqualTo("img");
+    }
+
+    @Test
+    void signUp_withPresignedImageUrl_shouldStoreObjectKeyOnly() {
+        UUID userId = UUID.randomUUID();
+        String presignedUrl = "https://minio.woobeee.com/woobeee/inbody/abc.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Signature=test";
+
+        PostSignUpRequest request = new PostSignUpRequest(
+                userId,
+                "new2@test.com",
+                "nick",
+                "insta",
+                "seoul",
+                "intro",
+                "ideal",
+                2,
+                List.of(),
+                new PostSignUpRequest.InbodyRecordRequest(70, 35, 12, 6, LocalDateTime.now(), true, presignedUrl),
+                null,
+                null
+        );
+
+        given(userInfoRepository.existsById(userId)).willReturn(false);
+        given(profileRepository.existsById(userId)).willReturn(false);
+        given(userInfoRepository.existsByLoginId("new2@test.com")).willReturn(false);
+        given(minioProperties.getBucket()).willReturn("woobeee");
+
+        service.signUp(request);
+
+        ArgumentCaptor<InbodyRecord> inbodyCaptor = ArgumentCaptor.forClass(InbodyRecord.class);
+        verify(inbodyRecordRepository).save(inbodyCaptor.capture());
+        assertThat(inbodyCaptor.getValue().getImageUrl()).isEqualTo("inbody/abc.png");
     }
 }
