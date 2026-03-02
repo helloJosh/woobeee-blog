@@ -9,4 +9,5 @@ import java.util.UUID;
 
 public interface UserInfoRepository extends JpaRepository<UserInfo, UUID> {
     Optional<UserInfo> findByLoginId(String loginId);
+    boolean existsByLoginId(String loginId);
 }

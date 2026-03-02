@@ -2,6 +2,7 @@ package com.woobeee.auth.controller;
 
 import com.woobeee.auth.aop.Idempotent;
 import com.woobeee.auth.dto.request.OauthTokenRequest;
+import com.woobeee.auth.dto.request.PostOauthSignUpRequest;
 import com.woobeee.auth.dto.response.ApiResponse;
 import com.woobeee.auth.service.OauthUserCredentialService;
 import lombok.RequiredArgsConstructor;
@@ -31,6 +32,16 @@ public class UserCredentialControllerImpl implements UserCredentialController{
         return ApiResponse.success(
                 oauthUserCredentialService.signIn(request.idToken()),
                 "sign in success");
+    }
+
+    @Override
+    @Idempotent
+    public ApiResponse<String> signUp(PostOauthSignUpRequest request) {
+        log.info("sign up request");
+        return ApiResponse.success(
+                oauthUserCredentialService.signUp(request),
+                "sign up success"
+        );
     }
 
     /// GET /api/auth/logout

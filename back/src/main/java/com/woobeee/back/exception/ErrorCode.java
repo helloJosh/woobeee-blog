@@ -3,6 +3,8 @@ package com.woobeee.back.exception;
 public enum ErrorCode {
     signIn_GoogleTokenNotValid,
     signIn_userConflict,
+    signUp_userConflict,
+    signUp_tagNotFound,
     login_userNotFound,
     login_passwordNotMatch,
 

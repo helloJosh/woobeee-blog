@@ -1,10 +1,8 @@
 package com.woobeee.back.consumer;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.woobeee.back.dto.IdempotencyResult;
-import com.woobeee.back.dto.consumer.Message;
+import com.woobeee.back.dto.request.PostSignUpRequest;
 import com.woobeee.back.service.IdempotencyService;
 import com.woobeee.back.service.UserInfoService;
 import lombok.RequiredArgsConstructor;
@@ -21,39 +19,35 @@ import java.nio.charset.StandardCharsets;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-@Deprecated
-public class SignInConsumer {
+public class SignUpConsumer {
     private final ObjectMapper objectMapper;
     private final UserInfoService userInfoService;
     private final IdempotencyService idempotencyService;
 
     @KafkaListener(
-            topics = "${spring.cloud.config.profile:${spring.config.activate.on-profile:dev}}-sign-in-trigger",
+            topics = "${spring.cloud.config.profile:${spring.config.activate.on-profile:dev}}-sign-up-trigger",
             groupId = "${spring.cloud.config.profile:${spring.config.activate.on-profile:dev}}-${spring.kafka.consumer.group-id}"
     )
     public void listenExtract(
             @Payload String payload,
             @Header(KafkaHeaders.RECEIVED_KEY) String key) throws Exception {
-        log.info("sign-in message received. key={}", key);
+        log.info("sign-up message received. key={}", key);
         String eventId = key;
         String payloadHash = DigestUtils.md5DigestAsHex(payload.getBytes(StandardCharsets.UTF_8));
 
         IdempotencyResult r = idempotencyService.begin(
-                "auth-signin-consumer-event",
+                "auth-signup-consumer-event",
                 eventId,
                 payloadHash
         );
 
-        JsonNode requestNode = objectMapper.readTree(payload);
-
-        String id = requestNode.get("id").asText();
-        String loginId = requestNode.get("loginId").asText();
+        PostSignUpRequest request = objectMapper.readValue(payload, PostSignUpRequest.class);
 
         try {
-            userInfoService.signIn(id, loginId);
-            idempotencyService.complete("auth-signin-consumer-event", eventId, 200, "OK");
+            userInfoService.signUp(request);
+            idempotencyService.complete("auth-signup-consumer-event", eventId, 200, "OK");
         } catch (Exception e) {
-            idempotencyService.fail("auth-signin-consumer-event", eventId, 500, e.getMessage());
+            idempotencyService.fail("auth-signup-consumer-event", eventId, 500, e.getMessage());
             throw e;
         }
     }

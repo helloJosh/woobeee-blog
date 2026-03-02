@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 import java.util.UUID;
 
 @Entity
+@Table(name = "strength_records")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter

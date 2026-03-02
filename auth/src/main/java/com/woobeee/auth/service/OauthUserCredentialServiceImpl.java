@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
 import com.woobeee.auth.dto.provider.MessageEvent;
+import com.woobeee.auth.dto.request.PostOauthSignUpRequest;
 import com.woobeee.auth.entity.Auth;
 import com.woobeee.auth.entity.UserAuth;
 import com.woobeee.auth.entity.UserCredential;
@@ -101,6 +102,66 @@ public class OauthUserCredentialServiceImpl implements OauthUserCredentialServic
     }
 
     @Override
+    public String signUp(PostOauthSignUpRequest request) {
+        GoogleIdToken idToken = verifyIdToken(request.idToken());
+        if (idToken == null) {
+            throw new RuntimeException("signIn.googleTokenNotValid");
+        }
+
+        String email = idToken.getPayload().getEmail();
+        String userUuid = idToken.getPayload().getSubject();
+
+        if (userCredentialRepository.existsByLoginId(email)) {
+            throw new UserConflictException(ErrorCode.signIn_userConflict);
+        }
+
+        List<Auth> auths = authRepository.findAllByAuthTypeIn(List.of(AuthType.ROLE_MEMBER));
+
+        UserCredential userCredential = UserCredential.builder()
+                .loginId(email)
+                .password(passwordEncoder.encode(userUuid))
+                .build();
+
+        UserCredential savedUserCredential = userCredentialRepository.save(userCredential);
+
+        List<UserAuth> userAuths = auths.stream()
+                .map(auth -> UserAuth.builder()
+                        .id(new UserAuth.UserAuthId(savedUserCredential.getId(), auth.getId()))
+                        .build())
+                .toList();
+        userAuthRepository.saveAll(userAuths);
+
+        ObjectNode payload = objectMapper.createObjectNode();
+        payload.put("id", String.valueOf(savedUserCredential.getId()));
+        payload.put("loginId", savedUserCredential.getLoginId());
+        payload.put("nickname", request.nickname());
+        payload.put("instargramId", request.instargramId());
+        payload.put("preferredRegion", request.preferredRegion());
+        payload.put("introText", request.introText());
+        payload.put("idealTypeText", request.idealTypeText());
+        if (request.yearsOfTraining() != null) {
+            payload.put("yearsOfTraining", request.yearsOfTraining());
+        } else {
+            payload.putNull("yearsOfTraining");
+        }
+
+        payload.set("tagIds", objectMapper.valueToTree(request.tagIds()));
+        payload.set("inbodyRecord", objectMapper.valueToTree(request.inbodyRecord()));
+        payload.set("strengthRecord", objectMapper.valueToTree(request.strengthRecord()));
+        payload.set("runningRecord", objectMapper.valueToTree(request.runningRecord()));
+
+        MessageEvent event = MessageEvent.builder()
+                .eventId(UUID.randomUUID())
+                .topic("sign-up-trigger")
+                .key(savedUserCredential.getLoginId())
+                .message(payload)
+                .build();
+        eventPublisher.publishEvent(event);
+
+        return jwtTokenProvider.generateToken(List.of(AuthType.ROLE_MEMBER), email);
+    }
+
+    @Override
     public String logIn(String idTokenString) {
         GoogleIdToken idToken = verifyIdToken(idTokenString);
 
@@ -109,15 +170,8 @@ public class OauthUserCredentialServiceImpl implements OauthUserCredentialServic
         }
 
         String email = idToken.getPayload().getEmail();
-        String userUuid = idToken.getPayload().getSubject();
-
-        try {
-            UserCredential user = userCredentialRepository.findUserCredentialByLoginId(email)
-                    .orElseThrow(() -> new UserNotFoundException(ErrorCode.login_userNotFound));
-        } catch (UserNotFoundException e) {
-            log.warn("user not found redirecting to signin");
-            return signIn(idTokenString);
-        }
+        userCredentialRepository.findUserCredentialByLoginId(email)
+                .orElseThrow(() -> new UserNotFoundException(ErrorCode.login_userNotFound));
 
         return jwtTokenProvider.generateToken(
                 List.of(AuthType.ROLE_MEMBER),
