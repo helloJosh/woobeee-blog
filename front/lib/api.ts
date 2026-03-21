@@ -6,13 +6,15 @@ import {
     GetPostResponse,
     GetPostsResponse,
     PostCommentRequest,
-    PostsParams
+    PostsParams,
+    TokenResponse
 } from "./types"
 import {getFriendlyErrorMessage} from "@/lib/errors/error-utils";
 
 // API 기본 설정
 //const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8000"
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "https://woobeee.com"
+const API_BASE_URL = "https://woobeee.com"
+const REFRESH_ENDPOINT = "/api/auth/refresh"
 
 
 export class HttpError extends Error {
@@ -46,26 +48,9 @@ export const tokenManager = {
             //localStorage.removeItem("refreshToken")
         }
     },
-
-    // getRefreshToken: () => {
-    //     if (typeof window !== "undefined") {
-    //         return localStorage.getItem("refreshToken")
-    //     }
-    //     return null
-    // },
-    //
-    // setRefreshToken: (token: string) => {
-    //     if (typeof window !== "undefined") {
-    //         localStorage.setItem("refreshToken", token)
-    //     }
-    // },
 }
 
-// API 요청 함수
-export const apiRequest = async (endpoint: string, options: RequestInit = {}) => {
-    const url = `${API_BASE_URL}${endpoint}`
-    const token = tokenManager.getToken()
-    // ▼ 추가: 언어 읽기 (없으면 ko-KR 기본)
+const getLanguage = () => {
     let lang = "ko-KR"
     if (typeof window !== "undefined") {
         const stored = localStorage.getItem("lang")
@@ -73,15 +58,87 @@ export const apiRequest = async (endpoint: string, options: RequestInit = {}) =>
             lang = stored
         }
     }
+    return lang
+}
+
+const handleUnauthorized = () => {
+    tokenManager.removeToken()
+    if (typeof window !== "undefined") {
+        alert("인증만료되었습니다. 다시 로그인해주세요")
+        window.location.reload()
+    }
+}
+
+let refreshPromise: Promise<boolean> | null = null
+
+const refreshAccessToken = async (): Promise<boolean> => {
+    if (refreshPromise) {
+        return refreshPromise
+    }
+
+    refreshPromise = (async () => {
+        try {
+            const response = await fetch(`${API_BASE_URL}${REFRESH_ENDPOINT}`, {
+                method: "POST",
+                credentials: "include",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-Lang": getLanguage(),
+                },
+            })
+
+            if (!response.ok) {
+                return false
+            }
+
+            const json: ApiResponse<TokenResponse> = await response.json()
+            if (!json.header.successful || !json.data?.accessToken) {
+                return false
+            }
+
+            tokenManager.setToken(json.data.accessToken)
+            return true
+        } catch (error) {
+            console.error("Token refresh failed:", error)
+            return false
+        } finally {
+            refreshPromise = null
+        }
+    })()
+
+    return refreshPromise
+}
+
+const shouldTryRefresh = (endpoint: string) => {
+    return ![
+        "/api/auth/login",
+        "/api/auth/signIn",
+        "/api/auth/signUp",
+        "/api/auth/logout",
+        REFRESH_ENDPOINT,
+    ].includes(endpoint)
+}
+
+// API 요청 함수
+// @ts-ignore
+export const apiRequest = async (
+    endpoint: string,
+    options: RequestInit = {},
+    retryOnUnauthorized = true
+) => {
+    const url = `${API_BASE_URL}${endpoint}`
+    const token = tokenManager.getToken()
+    const lang = getLanguage()
 
     const config: RequestInit = {
+        ...options,
+        credentials: "include",
         headers: {
             "Content-Type": "application/json",
+            "X-Lang": lang,                  // ▼ 여기서 무조건 X-Lang 넣어줌
             ...(token && { Authorization: `Bearer ${token}` }),
             ...options.headers,
-            "X-Lang": lang,                  // ▼ 여기서 무조건 X-Lang 넣어줌
         },
-        ...options,
     }
 
     try {
@@ -90,9 +147,14 @@ export const apiRequest = async (endpoint: string, options: RequestInit = {}) =>
         // 응답 자체는 왔지만 HTTP 에러인 경우
         if (!response.ok) {
             if (response.status === 401) {
-                tokenManager.removeToken()
-                window.location.reload()
-                alert("인증만료되었습니다. 다시 로그인해주세요")
+                if (retryOnUnauthorized && shouldTryRefresh(endpoint)) {
+                    const refreshed = await refreshAccessToken()
+                    if (refreshed) {
+                        return apiRequest(endpoint, options, false)
+                    }
+                }
+
+                handleUnauthorized()
                 throw new Error("인증이 만료되었습니다. 다시 로그인해 주세요.")
             }
             let code = "unknown"
@@ -119,39 +181,10 @@ export const apiRequest = async (endpoint: string, options: RequestInit = {}) =>
     }
 }
 
- // 토큰 리프레시
-// const refreshAccessToken = async (): Promise<boolean> => {
-//     const refreshToken = tokenManager.getRefreshToken()
-//     if (!refreshToken) return false
-//
-//     try {
-//         const response = await fetch(`${API_BASE_URL}/auth/refresh`, {
-//             method: "POST",
-//             headers: {
-//                 "Content-Type": "application/json",
-//             },
-//             body: JSON.stringify({ refreshToken }),
-//         })
-//
-//         if (response.ok) {
-//             const data = await response.json()
-//             tokenManager.setToken(data.accessToken)
-//             if (data.refreshToken) {
-//                 tokenManager.setRefreshToken(data.refreshToken)
-//             }
-//             return true
-//         }
-//     } catch (error) {
-//         console.error("Token refresh failed:", error)
-//     }
-//
-//     return false
-// }
-
 // 인증 API
 export const authAPI = {
     // Google OAuth 로그인
-    googleLogin: async (googleToken: string) => {
+    googleLogin: async (googleToken: string): Promise<ApiResponse<TokenResponse>> => {
         try {
             const response = await apiRequest("/api/auth/login", {
                 method: "POST",
@@ -180,7 +213,7 @@ export const authAPI = {
     },
 
     // Google OAuth 회원가입
-    googleSignIn: async (googleToken: string) => {
+    googleSignIn: async (googleToken: string): Promise<ApiResponse<TokenResponse>> => {
         const response = await apiRequest("/api/auth/signIn", {
             method: "POST",
             body: JSON.stringify({ idToken: googleToken }),
@@ -196,12 +229,14 @@ export const authAPI = {
 
     // 로그아웃
     logout: async () => {
-        // const response = await apiRequest("/auth/logout", {
-        //     method: "POST",
-        // })
-
+        await fetch(`${API_BASE_URL}/api/auth/logout`, {
+            method: "GET",
+            credentials: "include",
+            headers: {
+                "X-Lang": getLanguage(),
+            },
+        })
         tokenManager.removeToken()
-        //return response.ok
     }
 }
 

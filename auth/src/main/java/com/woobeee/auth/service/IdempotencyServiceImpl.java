@@ -39,7 +39,7 @@ public class IdempotencyServiceImpl implements IdempotencyService{
                     .map(existing -> {
                         if (!existing.getRequestHash().equals(requestHash)) {
                             throw new CustomConflictException(
-                                    ErrorCode.api_idempotencyKeyConflictFuckYouStopTryingToMessWithMyServer
+                                    ErrorCode.api_idempotencyKeyConflictStopTryingToMessWithMyServer
                             );
                         }
                         if (existing.getStatus() == IdempotencyRecord.Status.COMPLETED

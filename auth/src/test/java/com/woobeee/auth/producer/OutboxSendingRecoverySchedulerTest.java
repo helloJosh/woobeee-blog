@@ -1,4 +1,4 @@
-package com.woobeee.auth.provider;
+package com.woobeee.auth.producer;
 
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.*;

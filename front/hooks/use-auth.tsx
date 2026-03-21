@@ -27,19 +27,12 @@ export function useAuth() {
 export function AuthProvider({ children }: { children: ReactNode }) {
     const [user, setUser] = useState<User | null>(null)
     const [loading, setLoading] = useState(true)
+    const [isAuthenticated, setIsAuthenticated] = useState(false)
 
     useEffect(() => {
         const initAuth = async () => {
             const token = tokenManager.getToken()
-            // if (token) {
-            //     try {
-            //         const userData = await authAPI.getProfile()
-            //         setUser(userData)
-            //     } catch (error) {
-            //         console.error("Failed to get user profile:", error)
-            //         tokenManager.removeToken()
-            //     }
-            // }
+            setIsAuthenticated(!!token)
             setLoading(false)
         }
 
@@ -49,9 +42,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const googleLogin = async (googleToken: string) => {
         try {
             const response = await authAPI.googleLogin(googleToken)
-            tokenManager.setToken(response.data)
-            //tokenManager.setRefreshToken(response.refreshToken)
-            //setUser(response.user)
+            tokenManager.setToken(response.data.accessToken)
+            setIsAuthenticated(true)
         } catch (error) {
             console.error("Google login failed:", error)
             throw error
@@ -61,10 +53,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const googleSignIn = async (googleToken: string) => {
         try {
             const response = await authAPI.googleSignIn(googleToken)
-
-            tokenManager.setToken(response.data)
-            //tokenManager.setRefreshToken(response.refreshToken)
-            setUser(response.user)
+            tokenManager.setToken(response.data.accessToken)
+            setIsAuthenticated(true)
         } catch (error) {
             console.error("Google login failed:", error)
             throw error
@@ -79,6 +69,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         } finally {
             tokenManager.removeToken()
             setUser(null)
+            setIsAuthenticated(false)
         }
     }
 
@@ -88,7 +79,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         googleLogin,
         googleSignIn,
         logout,
-        isAuthenticated: !!user,
+        isAuthenticated,
     }
 
     return <AuthContext.Provider value={value}>

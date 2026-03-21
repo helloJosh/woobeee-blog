@@ -1,4 +1,4 @@
-package com.woobeee.auth.provider;
+package com.woobeee.auth.producer;
 
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.*;
@@ -18,7 +18,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.kafka.core.KafkaTemplate;
-import org.springframework.kafka.support.SendResult;
 
 @ExtendWith(MockitoExtension.class)
 class OutboxProducerSchedulerTest {

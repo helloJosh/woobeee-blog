@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.woobeee.auth.dto.provider.MessageEvent;
 import com.woobeee.auth.dto.request.PostLoginRequest;
 import com.woobeee.auth.dto.request.PostSignInRequest;
+import com.woobeee.auth.dto.response.IssuedAuthTokens;
 import com.woobeee.auth.entity.Auth;
 import com.woobeee.auth.entity.UserAuth;
 import com.woobeee.auth.entity.UserCredential;
@@ -12,7 +13,6 @@ import com.woobeee.auth.entity.enums.AuthType;
 import com.woobeee.auth.exception.ErrorCode;
 import com.woobeee.auth.exception.PasswordNotMatchException;
 import com.woobeee.auth.exception.UserNotFoundException;
-import com.woobeee.auth.jwt.JwtTokenProvider;
 import com.woobeee.auth.repository.AuthRepository;
 import com.woobeee.auth.repository.UserAuthRepository;
 import com.woobeee.auth.repository.UserCredentialRepository;
@@ -28,8 +28,8 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @Service
 @Transactional
-public class UserCredentialServiceImpl implements UserCredentialService{
-    private final JwtTokenProvider jwtTokenProvider;
+public class UserCredentialServiceImpl implements UserCredentialService {
+    private final AuthTokenService authTokenService;
     private final PasswordEncoder passwordEncoder;
 
     private final AuthRepository authRepository;
@@ -39,50 +39,36 @@ public class UserCredentialServiceImpl implements UserCredentialService{
     private final ObjectMapper objectMapper;
     private final ApplicationEventPublisher eventPublisher;
 
-
     @Override
-    public String logIn(PostLoginRequest loginRequest) {
-        String retToken;
-
+    public IssuedAuthTokens logIn(PostLoginRequest loginRequest) {
         UserCredential userCredential = userCredentialRepository
                 .findUserCredentialByLoginId(loginRequest.loginId())
-                .orElseThrow(
-                        () -> new UserNotFoundException(ErrorCode.login_userNotFound));
+                .orElseThrow(() -> new UserNotFoundException(ErrorCode.login_userNotFound));
 
-        if ( passwordEncoder.matches(
-                userCredential.getPassword(),
-                loginRequest.password())
-        ) {
-            List<Long> userAuths = userAuthRepository
-                    .findAllById_UserId(userCredential.getId())
-                    .stream()
-                    .map(UserAuth::getAuthId)
-                    .toList();
-
-            List<AuthType> authTypes = authRepository
-                    .findAllById(userAuths)
-                    .stream()
-                    .map(Auth::getAuthType)
-                    .toList();
-
-            String loginId = userCredential.getLoginId();
-
-            retToken = jwtTokenProvider.generateToken(authTypes, loginId);
-
-            return retToken;
-        } else {
+        if (!passwordEncoder.matches(loginRequest.password(), userCredential.getPassword())) {
             throw new PasswordNotMatchException(ErrorCode.login_passwordNotMatch);
         }
+
+        List<Long> userAuths = userAuthRepository.findAllById_UserId(userCredential.getId())
+                .stream()
+                .map(UserAuth::getAuthId)
+                .toList();
+
+        List<AuthType> authTypes = authRepository.findAllById(userAuths)
+                .stream()
+                .map(Auth::getAuthType)
+                .toList();
+
+        return authTokenService.issueTokens(userCredential.getLoginId(), authTypes);
     }
 
     @Override
-    public String signIn(PostSignInRequest postSignInRequest) {
-        List<Auth> auths = authRepository
-                .findAllByAuthTypeIn(postSignInRequest.authTypes());
+    public IssuedAuthTokens signIn(PostSignInRequest postSignInRequest) {
+        List<Auth> auths = authRepository.findAllByAuthTypeIn(postSignInRequest.authTypes());
 
         UserCredential userCredential = UserCredential.builder()
                 .loginId(postSignInRequest.loginId())
-                .password(postSignInRequest.password())
+                .password(passwordEncoder.encode(postSignInRequest.password()))
                 .build();
 
         UserCredential savedUserCredential = userCredentialRepository.save(userCredential);
@@ -95,8 +81,10 @@ public class UserCredentialServiceImpl implements UserCredentialService{
 
         userAuthRepository.saveAll(userAuths);
 
-        String retToken = jwtTokenProvider.generateToken(
-                postSignInRequest.authTypes(), postSignInRequest.loginId());
+        IssuedAuthTokens issuedAuthTokens = authTokenService.issueTokens(
+                postSignInRequest.loginId(),
+                postSignInRequest.authTypes()
+        );
 
         ObjectNode node = objectMapper.createObjectNode();
         node.put("id", savedUserCredential.getId().toString());
@@ -110,12 +98,11 @@ public class UserCredentialServiceImpl implements UserCredentialService{
                 .build();
 
         eventPublisher.publishEvent(event);
-        return retToken;
+        return issuedAuthTokens;
     }
 
     @Override
-    public void signOut() {
-
+    public void signOut(String refreshToken) {
+        authTokenService.revoke(refreshToken);
     }
-
 }

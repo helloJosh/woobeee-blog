@@ -19,6 +19,8 @@ import java.util.List;
 @Component
 @Slf4j
 public class JwtTokenProvider {
+    private static final String TOKEN_TYPE_CLAIM = "type";
+    private static final String ACCESS_TOKEN_TYPE = "access";
     private final SecretKey accessTokenKey;
 
     public JwtTokenProvider (
@@ -47,6 +49,11 @@ public class JwtTokenProvider {
                     .verifyWith(accessTokenKey).build()
                     .parseSignedClaims(token)
                     .getPayload();
+
+            String tokenType = claims.get(TOKEN_TYPE_CLAIM, String.class);
+            if (!ACCESS_TOKEN_TYPE.equals(tokenType)) {
+                throw new JwtNotValidException("login_jwtInvalid");
+            }
 
             String userId = claims.getSubject();
             List<String> roles = claims.get("roles", List.class); // roles는 배열로 저장되어야 함

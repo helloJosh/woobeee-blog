@@ -52,6 +52,7 @@ front/.DS_Store
 front/*.log
 front/.idea/
 front/.vscode/
+front/node_modules
 
 # 패키지 매니저 캐시
 front/npm-debug.log*

@@ -30,6 +30,12 @@ export interface AuthResponse {
   refreshToken: string
 }
 
+export interface TokenResponse {
+  accessToken: string
+  tokenType: string
+  expiresIn: number
+}
+
 export interface LoginRequest {
   email: string
   password: string

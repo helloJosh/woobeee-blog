@@ -6,6 +6,7 @@ import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
 import com.woobeee.auth.dto.provider.MessageEvent;
 import com.woobeee.auth.dto.request.PostOauthSignUpRequest;
+import com.woobeee.auth.dto.response.IssuedAuthTokens;
 import com.woobeee.auth.entity.Auth;
 import com.woobeee.auth.entity.UserAuth;
 import com.woobeee.auth.entity.UserCredential;
@@ -13,7 +14,6 @@ import com.woobeee.auth.entity.enums.AuthType;
 import com.woobeee.auth.exception.ErrorCode;
 import com.woobeee.auth.exception.UserConflictException;
 import com.woobeee.auth.exception.UserNotFoundException;
-import com.woobeee.auth.jwt.JwtTokenProvider;
 import com.woobeee.auth.repository.AuthRepository;
 import com.woobeee.auth.repository.UserAuthRepository;
 import com.woobeee.auth.repository.UserCredentialRepository;
@@ -37,14 +37,14 @@ public class OauthUserCredentialServiceImpl implements OauthUserCredentialServic
     private final AuthRepository authRepository;
     private final UserAuthRepository userAuthRepository;
     private final UserCredentialRepository userCredentialRepository;
-    private final JwtTokenProvider jwtTokenProvider;
+    private final AuthTokenService authTokenService;
     private final PasswordEncoder passwordEncoder;
 
     private final ApplicationEventPublisher eventPublisher;
     private final ObjectMapper objectMapper;
 
     @Override
-    public String signIn(String idTokenString) {
+    public IssuedAuthTokens signIn(String idTokenString) {
         GoogleIdToken idToken = verifyIdToken(idTokenString);
         if (idToken == null) {
             throw new RuntimeException("signIn.googleTokenNotValid");
@@ -66,8 +66,6 @@ public class OauthUserCredentialServiceImpl implements OauthUserCredentialServic
                 .loginId(email)
                 .password(passwordEncoder.encode(userUuid))
                 .build();
-
-        userCredential = userCredentialRepository.save(userCredential);
 
         UserCredential savedUserCredential = userCredentialRepository.save(userCredential);
 
@@ -95,14 +93,11 @@ public class OauthUserCredentialServiceImpl implements OauthUserCredentialServic
 
         eventPublisher.publishEvent(event);
 
-        return jwtTokenProvider.generateToken(
-                List.of(AuthType.ROLE_MEMBER),
-                email
-        );
+        return authTokenService.issueTokens(email, List.of(AuthType.ROLE_MEMBER));
     }
 
     @Override
-    public String signUp(PostOauthSignUpRequest request) {
+    public IssuedAuthTokens signUp(PostOauthSignUpRequest request) {
         GoogleIdToken idToken = verifyIdToken(request.idToken());
         if (idToken == null) {
             throw new RuntimeException("signIn.googleTokenNotValid");
@@ -158,11 +153,11 @@ public class OauthUserCredentialServiceImpl implements OauthUserCredentialServic
                 .build();
         eventPublisher.publishEvent(event);
 
-        return jwtTokenProvider.generateToken(List.of(AuthType.ROLE_MEMBER), email);
+        return authTokenService.issueTokens(email, List.of(AuthType.ROLE_MEMBER));
     }
 
     @Override
-    public String logIn(String idTokenString) {
+    public IssuedAuthTokens logIn(String idTokenString) {
         GoogleIdToken idToken = verifyIdToken(idTokenString);
 
         if (idToken == null) {
@@ -173,10 +168,17 @@ public class OauthUserCredentialServiceImpl implements OauthUserCredentialServic
         userCredentialRepository.findUserCredentialByLoginId(email)
                 .orElseThrow(() -> new UserNotFoundException(ErrorCode.login_userNotFound));
 
-        return jwtTokenProvider.generateToken(
-                List.of(AuthType.ROLE_MEMBER),
-                email
-        );
+        return authTokenService.issueTokens(email, List.of(AuthType.ROLE_MEMBER));
+    }
+
+    @Override
+    public IssuedAuthTokens refresh(String refreshToken) {
+        return authTokenService.refresh(refreshToken);
+    }
+
+    @Override
+    public void logout(String refreshToken) {
+        authTokenService.revoke(refreshToken);
     }
 
 

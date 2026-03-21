@@ -6,12 +6,13 @@ import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
 import com.woobeee.auth.dto.provider.MessageEvent;
 import com.woobeee.auth.dto.request.PostOauthSignUpRequest;
+import com.woobeee.auth.dto.response.AuthTokenResponse;
+import com.woobeee.auth.dto.response.IssuedAuthTokens;
 import com.woobeee.auth.entity.Auth;
 import com.woobeee.auth.entity.UserCredential;
 import com.woobeee.auth.entity.enums.AuthType;
 import com.woobeee.auth.exception.UserConflictException;
 import com.woobeee.auth.exception.UserNotFoundException;
-import com.woobeee.auth.jwt.JwtTokenProvider;
 import com.woobeee.auth.repository.AuthRepository;
 import com.woobeee.auth.repository.UserAuthRepository;
 import com.woobeee.auth.repository.UserCredentialRepository;
@@ -50,7 +51,7 @@ class OauthUserCredentialServiceImplTest {
     @Mock
     private UserCredentialRepository userCredentialRepository;
     @Mock
-    private JwtTokenProvider jwtTokenProvider;
+    private AuthTokenService authTokenService;
     @Mock
     private PasswordEncoder passwordEncoder;
     @Mock
@@ -67,7 +68,7 @@ class OauthUserCredentialServiceImplTest {
                 authRepository,
                 userAuthRepository,
                 userCredentialRepository,
-                jwtTokenProvider,
+                authTokenService,
                 passwordEncoder,
                 eventPublisher,
                 objectMapper
@@ -111,7 +112,9 @@ class OauthUserCredentialServiceImplTest {
         UUID userId = UUID.randomUUID();
 
         GoogleIdToken idToken = org.mockito.Mockito.mock(GoogleIdToken.class);
-        GoogleIdToken.Payload payload = org.mockito.Mockito.mock(GoogleIdToken.Payload.class);
+        GoogleIdToken.Payload payload = new GoogleIdToken.Payload();
+        payload.setEmail("new@test.com");
+        payload.setSubject("google-sub");
 
         PostOauthSignUpRequest request = new PostOauthSignUpRequest(
                 "token",
@@ -136,17 +139,20 @@ class OauthUserCredentialServiceImplTest {
 
         doReturn(idToken).when(service).verifyIdToken("token");
         given(idToken.getPayload()).willReturn(payload);
-        given(payload.getEmail()).willReturn("new@test.com");
-        given(payload.getSubject()).willReturn("google-sub");
         given(userCredentialRepository.existsByLoginId("new@test.com")).willReturn(false);
         given(authRepository.findAllByAuthTypeIn(List.of(AuthType.ROLE_MEMBER))).willReturn(List.of(memberAuth));
         given(passwordEncoder.encode("google-sub")).willReturn("enc");
         given(userCredentialRepository.save(any(UserCredential.class))).willReturn(saved);
-        given(jwtTokenProvider.generateToken(List.of(AuthType.ROLE_MEMBER), "new@test.com")).willReturn("jwt-token");
+        IssuedAuthTokens issuedAuthTokens = new IssuedAuthTokens(
+                new AuthTokenResponse("jwt-token", "Bearer", 3600000L),
+                "refresh-token"
+        );
+        given(authTokenService.issueTokens("new@test.com", List.of(AuthType.ROLE_MEMBER)))
+                .willReturn(issuedAuthTokens);
 
-        String token = service.signUp(request);
+        IssuedAuthTokens token = service.signUp(request);
 
-        assertThat(token).isEqualTo("jwt-token");
+        assertThat(token.response().accessToken()).isEqualTo("jwt-token");
 
         ArgumentCaptor<MessageEvent> eventCaptor = ArgumentCaptor.forClass(MessageEvent.class);
         verify(eventPublisher).publishEvent(eventCaptor.capture());

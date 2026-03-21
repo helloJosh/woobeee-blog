@@ -20,7 +20,6 @@ public class AuthControllerAdvice {
      */
     @ExceptionHandler({
             PasswordNotMatchException.class,
-            JwtNotValidException.class,
             UserConflictException.class
     })
     @ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -34,6 +33,7 @@ public class AuthControllerAdvice {
     }
 
     @ExceptionHandler({
+            JwtNotValidException.class,
             JwtExpiredException.class
     })
     @ResponseStatus(HttpStatus.UNAUTHORIZED)

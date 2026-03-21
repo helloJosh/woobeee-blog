@@ -120,7 +120,7 @@ export default function Header({
             </Button>
 
             <Button variant="ghost" asChild className="flex items-center gap-2 font-semibold">
-              <Link href="/">
+              <Link href="/blog">
                 <Home className="h-5 w-5" />
                 <span className="hidden sm:inline">HOME</span>
               </Link>

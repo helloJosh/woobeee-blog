@@ -154,7 +154,7 @@ export default function Sidebar({
             className="w-full justify-start mb-2"
             asChild
           >
-            <Link href="/" onClick={handleAllClick}>
+            <Link href="/blog" onClick={handleAllClick}>
               전체 글
             </Link>
           </Button>

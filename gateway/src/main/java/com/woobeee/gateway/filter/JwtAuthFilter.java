@@ -24,6 +24,7 @@ import reactor.core.publisher.Mono;
 @Slf4j
 @RequiredArgsConstructor
 public class JwtAuthFilter implements WebFilter {
+    private static final String AUTH_API_PREFIX = "/api/auth";
 
     private final JwtTokenProvider jwtTokenProvider;
 
@@ -32,6 +33,11 @@ public class JwtAuthFilter implements WebFilter {
         log.info("JwtAuthFilter message receive: {}", exchange.getRequest().getURI());
         // 1) Preflight 는 패스
         if (HttpMethod.OPTIONS.equals(exchange.getRequest().getMethod())) {
+            return chain.filter(exchange);
+        }
+
+        String path = exchange.getRequest().getURI().getPath();
+        if (path.startsWith(AUTH_API_PREFIX)) {
             return chain.filter(exchange);
         }
 

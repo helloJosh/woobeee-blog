@@ -1,4 +1,4 @@
-package com.woobeee.auth.provider;
+package com.woobeee.auth.producer;
 
 import com.woobeee.auth.repository.OutBoxCustomRepository;
 import lombok.RequiredArgsConstructor;
